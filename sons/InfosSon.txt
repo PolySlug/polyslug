@@ -1,0 +1,25 @@
+INFOS son
+
+lib mixer 
+
+TOUJOURS commencer par pygame.mixer.init()
+arguments pris : init(frequency=22050, size=-16, channels=2, buffer=4096)
+frequence (d'échantillonnage) : aucune info de plus / ne pas changer
+size : nombre de bits pour chaque echantillon
+channels : 1 mono, 2 stereo
+buffer : ne pas changer
+
+pygame.mixer.pre_init()
+Utilisé une fois : change les param par defaut de init()
+
+8 canaux par défaut // pygame.mixer.set_num_channels
+Si on passe de 8 à 6, canaux 8 et 6 seront stopes
+
+pygame.mixer.stop() / pause() - unpause()
+=> fonctionne sur tous les canaux de son : ecran de pause / arrêt du jeu
+
+http://www.pygame.org/docs/ref/mixer.html
+
+music playback : mixer.music
+
+http://www.pygame.org/docs/ref/music.html
