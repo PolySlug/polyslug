@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 import pygame
 
 '''
@@ -12,7 +13,7 @@ class Sprites(object):
     @param {String} file    La path vers l'image
     '''
     def __init__(self, file) :
-        self.image = pygame.image.load(file).convert()
+        self.image = pygame.image.load(file)
 
     '''
     sprite
