@@ -8,4 +8,5 @@ class Arme1(Arme) :
 	
 	def tirer(self, position, vecteur) :
 		nombre = 3 # Nombre de projectiles envoyes a la suite 
-		return (nombre,position, vecteur)
+
+		return (Projectile1(position, vecteur), nombre)

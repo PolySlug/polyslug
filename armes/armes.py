@@ -5,5 +5,6 @@ class Arme(object) :
 		pass
 
 	def tirer(self, position, vecteur) :
-		'''cree et envoie un projectile dans une direction'''
+		'''cree un projectile qui herite de sa direction et position'''
 		pass
+
