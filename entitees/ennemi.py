@@ -1,2 +1,6 @@
-''' ennemi.py
-Fichier relatif a la classe ennemis uniquement'''
+#-*- coding: utf-8 -*-
+
+from entitee import Entite
+
+class Ennemi(Entite):
+
