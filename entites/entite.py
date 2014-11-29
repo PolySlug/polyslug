@@ -22,7 +22,7 @@ class Entite(pygame.sprite.Sprite) :
     @type {pygame.Rect} Les deux premiers int sont pour la position x, y
                         Les deux derniers sont pour width, height
     '''
-    rect = pygame.Rect(0, 0, 10, 10)
+    #rect =
 
     '''
     @constructor
@@ -32,10 +32,14 @@ class Entite(pygame.sprite.Sprite) :
     def __init__(self, position) :
         pygame.sprite.Sprite.__init__(self)
 
+        #On récupère le rectangle de l'image
+        self.rect = self.image.get_rect()
+
         #Prise en compte de la position
         x, y = position
-        self.rect[0] = x
-        self.rect[0] = y
+        self.rect.x = x
+        self.rect.y = y
+
 
     def update(self) :
         pass
