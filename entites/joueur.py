@@ -1,6 +1,6 @@
 
 from entite import Entite
 
-class Joueur(Entitee):
+class Joueur(Entite):
 
     pass
