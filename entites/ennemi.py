@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 
-from entitee import Entite
+from entite import Entite
 
 class Ennemi(Entite):
 
+    pass

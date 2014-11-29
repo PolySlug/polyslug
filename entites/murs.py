@@ -1,6 +1,6 @@
 #-*- coding: utf-8 -*-
 
-from entitee import Entitee
+from entite import Entite
 
 class Murs(Entite):
 

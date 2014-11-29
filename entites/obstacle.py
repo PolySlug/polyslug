@@ -1,5 +1,5 @@
 
-from entitee import Entite
+from entite import Entite
 
 class Obstacle(Entite) :
 
