@@ -1,11 +1,12 @@
 #-*- coding: utf-8 -*-
 
-from entite import Entite
+from entite      import Entite
+from lib.sprites import Sprites
 
 class Murs(Entite):
 
     sprites = Sprites('img/tiles_spritesheet.png')
-    self.image = self.sprites.sprite((216, 0), (72,72))
+    image   = sprites.sprite((216, 0), (72,72))
 
     '''
     blessure
