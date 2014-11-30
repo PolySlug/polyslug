@@ -41,6 +41,10 @@ def gestionJeu(fenetre, niveau):
 
         for event in pygame.event.get() :
 
+            #Fermeture fenêtre
+            if event.type == pygame.QUIT :
+                pygame.quit()
+
             if systeme == "Windows" : #pygame sur windows est en Qwerty ...
                 if event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_a :
@@ -66,7 +70,7 @@ def gestionJeu(fenetre, niveau):
 
         #On insère le calque dans le fenêtre en fonction de decalageX
         fenetre.fill((0, 0, 0))
-        fenetre.blit(calque, (-decalageX * 3, 0))
+        fenetre.blit(calque, (-decalageX * 3, 0)) #on multiplie par 3, on a pas que ça à faire
         pygame.display.flip()
 
         clock.tick(60)
