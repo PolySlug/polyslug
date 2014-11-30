@@ -25,7 +25,7 @@ def gestionJeu(fenetre, niveau):
 
     #Création d'un calque
     calque = pygame.Surface((1000, fenetre.get_height()))
-    decalageX = 0
+    decalageX = 0 #TODO : ne pas utiliser de déplacement, mais la position du joueur
 
     done = False
 
@@ -45,6 +45,7 @@ def gestionJeu(fenetre, niveau):
             if event.type == pygame.QUIT :
                 pygame.quit()
 
+            #Écoute déplacement
             if systeme == "Windows" : #pygame sur windows est en Qwerty ...
                 if event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_a :
