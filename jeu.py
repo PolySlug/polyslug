@@ -12,6 +12,8 @@ gestionJeu
 @param {Liste}          niveau.obstacles    Une liste d'instances d'obstacles
 @param {Liste}          niveau.ennemis      Une liste d'instances d'ennemis
 @param {Liste}          niveau.joueur       Une instance joueur
+
+@return {?}                                 Le score de la partie
 '''
 def gestionJeu(fenetre, niveau):
 
