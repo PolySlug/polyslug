@@ -45,7 +45,7 @@ def gestionJeu(fenetre, niveau):
 
             #Fermeture fenêtre
             if event.type == pygame.QUIT :
-                pygame.quit()
+                pygame.quit() #TODO : ne pas quitter ici mais dans main
 
             #Écoute déplacement
             if systeme == "Windows" : #pygame sur windows est en Qwerty ...
@@ -78,7 +78,7 @@ def gestionJeu(fenetre, niveau):
 
         clock.tick(60)
 
-    return
+    return #TODO
 
 '''
 creationGroupe
