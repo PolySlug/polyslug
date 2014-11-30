@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 
 from entites.murs          import Murs
 from entites.obstacleTest  import ObstacleTest
