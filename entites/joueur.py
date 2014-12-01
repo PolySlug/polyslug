@@ -17,22 +17,20 @@ class Joueur(Entite):
     def __init__(self, position) :
 
         #Test images mouvement
-        image = self.sprites.sprite((0, 0), (66, 90))
-        self.frames.append(image)
-        image = self.sprites.sprite((66, 0), (66, 90))
-        self.frames.append(image)
-        image = self.sprites.sprite((132, 0), (67, 90))
-        self.frames.append(image)
-        image = self.sprites.sprite((0, 93), (66, 90))
-        self.frames.append(image)
-        image = self.sprites.sprite((66, 93), (66, 90))
-        self.frames.append(image)
-        image = self.sprites.sprite((132, 93), (72, 90))
-        self.frames.append(image)
-        image = self.sprites.sprite((0, 186), (70, 90))
-        self.frames.append(image)
+        images = [
+                [(0, 0), (66, 90)],
+                [(66, 0), (66, 90)],
+                [(132, 0), (67, 90)],
+                [(0, 93), (66, 90)],
+                [(66, 93), (66, 90)],
+                [(132, 93), (72, 90)],
+                [(0, 186), (70, 90)]
+                ]
 
-        self.image = self.frames[0]
+        self.framesDroites = self.sprites.sprites(images)
+        self.framesGauches = self.sprites.sprites(images, flip = True)
+
+        self.image = self.framesDroites[0]
 
         super(Joueur, self).__init__(position)
 
@@ -40,10 +38,12 @@ class Joueur(Entite):
 
         self.rect.x += self.vitesse_x
 
-        if self.vitesse_x :
-            self.image = self.frames[(self.rect.x // 30) % len(self.frames)]
+        if self.vitesse_x > 0 :
+            self.image = self.framesDroites[(self.rect.x // 30) % len(self.framesDroites)]
+        elif self.vitesse_x < 0 :
+            self.image = self.framesGauches[(self.rect.x // 30) % len(self.framesGauches)]
         else :
-            self.image = self.frames[0]
+            self.image = self.framesDroites[0]
 
 
     def deplacementX(self, vitesse) :
