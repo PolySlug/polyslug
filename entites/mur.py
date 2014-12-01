@@ -3,7 +3,7 @@
 from entite      import Entite
 from lib.sprites import Sprites
 
-class Murs(Entite):
+class Mur(Entite):
 
     sprites = Sprites('img/tiles_spritesheet.png')
     image   = sprites.sprite((216, 0), (72,72))
