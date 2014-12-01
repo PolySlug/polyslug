@@ -9,7 +9,7 @@ from entites.joueur        import Joueur
 Touts les éléments du niveau
 '''
 
-murs = [Mur((200, 50))]
+murs = [Mur((200, 50)), Mur((400, 550))]
 
 obstacles = [ObstacleTest((0,0)), ObstacleTest((100, 0))]
 
