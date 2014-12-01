@@ -17,17 +17,18 @@ gestionJeu
 '''
 def gestionJeu(fenetre, niveau):
 
+    joueur = niveau['joueur']
+
     #Création des groupes de sprites
     groupeMurs      = creationGroupe(niveau['murs'])
     groupeObstacles = creationGroupe(niveau['obstacles'])
     groupeEnnemis   = creationGroupe(niveau['ennemis'])
 
     groupeJeu       = creationGroupe(niveau['murs'] + niveau['obstacles'] + \
-            niveau['ennemis'] + niveau['joueur'])
+            niveau['ennemis'] + [joueur])
 
     #Création d'un calque
     calque = pygame.Surface((1000, fenetre.get_height()))
-    decalageX = 0 #TODO : ne pas utiliser de déplacement, mais la position du joueur
 
     done = False
 
@@ -38,6 +39,8 @@ def gestionJeu(fenetre, niveau):
     systeme = platform.system()
 
     while not done :
+
+        calque.fill((0, 20, 50))
 
         #Écoute des touches clavier
 
@@ -51,19 +54,22 @@ def gestionJeu(fenetre, niveau):
             if systeme == "Windows" : #pygame sur windows est en Qwerty ...
                 if event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_a :
-                        decalageX -= 1
+                        joueur.deplacementX(-3)
                     if event.key == pygame.K_d :
-                        decalageX += 1
+                        joueur.deplacementX(3)
+                if event.type == pygame.KEYUP :
+                    if event.key == pygame.K_a or event.key == pygame.K_d :
+                        joueur.deplacementX(0)
 
             else :
                 if event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_q :
-                        decalageX -= 1
+                        joueur.deplacementX(-3)
                     if event.key == pygame.K_d :
-                        decalageX += 1
-
-        #Contrôle
-        decalageX = decalageX if decalageX > -1 else 0
+                        joueur.deplacementX(3)
+                if event.type == pygame.KEYUP :
+                    if event.key == pygame.K_q or event.key == pygame.K_d :
+                        joueur.deplacementX(0)
 
         #On update tout le petit monde
         groupeJeu.update()
@@ -73,7 +79,7 @@ def gestionJeu(fenetre, niveau):
 
         #On insère le calque dans le fenêtre en fonction de decalageX
         fenetre.fill((0, 0, 0))
-        fenetre.blit(calque, (-decalageX * 3, 0)) #on multiplie par 3, on a pas que ça à faire
+        fenetre.blit(calque, (-joueur.rect.x, 0)) #on multiplie par 3, on a pas que ça à faire
         pygame.display.flip()
 
         clock.tick(60)
