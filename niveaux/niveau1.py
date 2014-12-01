@@ -29,5 +29,6 @@ niveau = {
     'murs':      murs,
     'obstacles': obstacles,
     'ennemis':   ennemis,
-    'joueur':    joueur
+    'joueur':    joueur,
+    'taille':    2000   #longueur du niveau en px
 }
