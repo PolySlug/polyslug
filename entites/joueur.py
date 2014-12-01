@@ -28,7 +28,7 @@ class Joueur(Entite):
                 ]
 
         self.framesDroites = self.sprites.sprites(images)
-        self.framesGauches = self.sprites.sprites(images, flip = True)
+        self.framesGauches = self.sprites.sprites(images, flipX = True)
 
         self.image = self.framesDroites[0]
 

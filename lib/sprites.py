@@ -46,8 +46,10 @@ class Sprites(object):
 
         for sprite in sprites :
             img = self.sprite(sprite[0], sprite[1])
-            if flip :
+            if flipX :
                 img = pygame.transform.flip(img, True, False)
+            if flipY :
+                img = pygame.transform.flip(img, False, True)
             images.append(img)
 
         return images
