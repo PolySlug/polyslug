@@ -42,6 +42,8 @@ class Joueur(Entite):
 
         if self.vitesse_x :
             self.image = self.frames[(self.rect.x // 30) % len(self.frames)]
+        else :
+            self.image = self.frames[0]
 
 
     def deplacementX(self, vitesse) :
