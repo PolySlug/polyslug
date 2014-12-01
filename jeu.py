@@ -17,6 +17,8 @@ gestionJeu
 '''
 def gestionJeu(fenetre, niveau):
 
+    f_width, f_height = fenetre.get_width(), fenetre.get_height() #racourcis
+
     joueur = niveau['joueur']
 
     #Création des groupes de sprites
@@ -28,7 +30,7 @@ def gestionJeu(fenetre, niveau):
             niveau['ennemis'] + [joueur])
 
     #Création d'un calque
-    calque = pygame.Surface((niveau['taille'], fenetre.get_height()))
+    calque = pygame.Surface((niveau['taille'], f_height))
 
     done   = False
     course = 1      #gestion de la vitesse de deplacement (marcher : 1, courir : 3)
@@ -93,7 +95,8 @@ def gestionJeu(fenetre, niveau):
 
         #On insère le calque dans le fenêtre en fonction de decalageX
         fenetre.fill((0, 0, 0))
-        fenetre.blit(calque, (-joueur.rect.x, 0)) #on multiplie par 3, on a pas que ça à faire
+        decalageX = -joueur.rect.x + f_width / 2 if joueur.rect.x > f_width / 2 else 0
+        fenetre.blit(calque, (decalageX, 0)) #on multiplie par 3, on a pas que ça à faire
         pygame.display.flip()
 
         clock.tick(60)
