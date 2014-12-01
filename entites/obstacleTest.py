@@ -8,7 +8,6 @@ class ObstacleTest(Obstacle):
 
     sprites = Sprites('img/tiles_spritesheet.png')
     image   = sprites.sprite((648, 144), (72, 72))
-    rect    = image.get_rect()
 
     '''
     update
