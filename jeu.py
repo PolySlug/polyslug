@@ -28,9 +28,10 @@ def gestionJeu(fenetre, niveau):
             niveau['ennemis'] + [joueur])
 
     #Création d'un calque
-    calque = pygame.Surface((1000, fenetre.get_height()))
+    calque = pygame.Surface((niveau['taille'], fenetre.get_height()))
 
-    done = False
+    done   = False
+    course = 1      #gestion de la vitesse de deplacement (marcher : 1, courir : 3)
 
     #Init du temps
     clock = pygame.time.Clock()
@@ -40,7 +41,7 @@ def gestionJeu(fenetre, niveau):
 
     while not done :
 
-        calque.fill((0, 20, 50))
+        calque.fill((0, 20, 50)) #un nouveau calque tout beau tout propre
 
         #Écoute des touches clavier
 
@@ -50,26 +51,39 @@ def gestionJeu(fenetre, niveau):
             if event.type == pygame.QUIT :
                 pygame.quit() #TODO : ne pas quitter ici mais dans main
 
+            #Gestion de la vitesse de course
+            if event.type == pygame.KEYDOWN and  \
+                (event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT) :
+                course = 3
+            if event.type == pygame.KEYUP and  \
+                (event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT) :
+                course = 1
+
             #Écoute déplacement
             if systeme == "Windows" : #pygame sur windows est en Qwerty ...
+                #Demande de mouvement
                 if event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_a :
-                        joueur.deplacementX(-3)
+                        joueur.deplacementX(-3 * course)
                     if event.key == pygame.K_d :
-                        joueur.deplacementX(3)
+                        joueur.deplacementX(3 * course)
+                #Fin de mouvement
                 if event.type == pygame.KEYUP :
                     if event.key == pygame.K_a or event.key == pygame.K_d :
                         joueur.deplacementX(0)
 
             else :
+                #Demande de mouvement
                 if event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_q :
-                        joueur.deplacementX(-3)
+                        joueur.deplacementX(-3 * course)
                     if event.key == pygame.K_d :
-                        joueur.deplacementX(3)
+                        joueur.deplacementX(3 * course)
+                #Fin de mouvement
                 if event.type == pygame.KEYUP :
                     if event.key == pygame.K_q or event.key == pygame.K_d :
                         joueur.deplacementX(0)
+
 
         #On update tout le petit monde
         groupeJeu.update()
