@@ -15,7 +15,7 @@ obstacles = [ObstacleTest((0,0)), ObstacleTest((100, 0))]
 
 ennemis = []
 
-joueur = []
+joueur = Joueur((0, 200))
 
 
 '''
