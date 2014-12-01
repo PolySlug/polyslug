@@ -12,6 +12,7 @@ gestionJeu
 @param {Liste}          niveau.obstacles    Une liste d'instances d'obstacles
 @param {Liste}          niveau.ennemis      Une liste d'instances d'ennemis
 @param {Liste}          niveau.joueur       Une instance joueur
+@param {Int}            niveau.taille       Longueur du niveau en px
 
 @return {?}                                 Le score de la partie
 '''
@@ -88,7 +89,18 @@ def gestionJeu(fenetre, niveau):
 
 
         #On update tout le petit monde
-        groupeJeu.update()
+
+        #On commence par construire un object représentant l'état actuel du jeu
+        etat = {
+            'murs' :     groupeMurs,
+            'obstacles': groupeObstacles,
+            'ennemis':   groupeEnnemis,
+            'width':     niveau['taille'],
+            'height':    f_height
+            }
+
+        #On update en passant les infos
+        groupeJeu.update(etat)
 
         #On dessine dans le calque
         groupeJeu.draw(calque)
