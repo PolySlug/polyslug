@@ -68,6 +68,15 @@ class Joueur(Entite):
 
         self.rect.y += self.vitesse_y
 
+        #si on touche quelque chose en chemin
+        for collision in collisions(self, niveau) :
+            if self.vitesse_y > 0 : #si on se déplace en bas, on force le contact avec le haut
+                self.rect.bottom = collision.rect.top
+            if self.vitesse_y < 0 : #si on se déplace vers le haut, on force le contact avec le bas
+                self.rect.top = collision.rect.bottom
+            self.vitesse_y = 0 #on prend en compte la vitesse 0 pour calcul gravité
+
+
     def calcul_X(self, niveau) :
 
         #si on touche un bord du niveau
@@ -79,10 +88,12 @@ class Joueur(Entite):
 
         #si on touche quelque chose en chemin
         for collision in collisions(self, niveau) :
-            if self.vitesse_x > 0 :
+            if self.vitesse_x > 0 : #si on se déplace à droite, on force le contact avec le côté gauche
                 self.rect.right = collision.rect.left
-            if self.vitesse_x < 0 :
+            if self.vitesse_x < 0 : #si on se déplace à gauche, on force le côté droit
                 self.rect.left = collision.rect.right
+            #on ne force pas la vitesse_x à 0 si jamais l'obstacle disparaît de lui même
+            #pas besoin de relancer le keydown clavier
 
 
         #Gestion de l'image
