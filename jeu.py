@@ -62,6 +62,13 @@ def gestionJeu(fenetre, niveau):
                 (event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT) :
                 course = 1
 
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE :
+                joueur.sauter()
+                #TODO : le perso à des difficultés à sauter quand il marche déjà
+                #pb lié au keydown de 2 touches simultané ?
+                #ou joueur.vitesse_y qui n'est pas prit en compte ?
+                #printer dans joueur.saut() pour voir ce qui se passe
+
             #Écoute déplacement
             if systeme == "Windows" : #pygame sur windows est en Qwerty ...
                 #Demande de mouvement

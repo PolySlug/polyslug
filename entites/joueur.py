@@ -27,6 +27,7 @@ class Joueur(Entite):
 
     vitesse_x = 0
     vitesse_y = 0
+    contact_sol = False #utile pour savoir si on peut sauter ou pas
 
     vie     = 100
 
@@ -65,6 +66,7 @@ class Joueur(Entite):
         if self.rect.y + self.rect.height > niveau['height'] :
             self.vitesse_y = 0
             self.rect.y = niveau['height'] - self.rect.height #on force à ne pas dépasser le sol
+            self.contact_sol = True
 
         self.rect.y += self.vitesse_y
 
@@ -72,8 +74,10 @@ class Joueur(Entite):
         for collision in collisions(self, niveau) :
             if self.vitesse_y > 0 : #si on se déplace en bas, on force le contact avec le haut
                 self.rect.bottom = collision.rect.top
+                self.contact_sol = True
             if self.vitesse_y < 0 : #si on se déplace vers le haut, on force le contact avec le bas
                 self.rect.top = collision.rect.bottom
+                self.contact_sol = False
             self.vitesse_y = 0 #on prend en compte la vitesse 0 pour calcul gravité
 
 
@@ -109,8 +113,12 @@ class Joueur(Entite):
         self.calcul_X(niveau)
         self.calcul_Y(niveau)
 
-
-
     def deplacementX(self, vitesse) :
         self.vitesse_x = vitesse
+
+    def sauter(self) :
+        if self.contact_sol : #on ne peut pas sauter que si on est en contact avec le sol
+            self.vitesse_y = -6
+            self.contact_sol = False
+
 
