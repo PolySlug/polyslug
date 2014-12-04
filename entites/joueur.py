@@ -64,7 +64,10 @@ class Joueur(Entite):
 
         #Si on touche le sol
         if self.rect.y + self.rect.height > niveau['height'] :
-            self.vitesse_y = 0
+
+            if self.vitesse_y > 0 :   # on ne peut pas descendre plus bas
+                self.vitesse_y = 0
+
             self.rect.y = niveau['height'] - self.rect.height #on force à ne pas dépasser le sol
             self.contact_sol = True
 
@@ -118,7 +121,7 @@ class Joueur(Entite):
 
     def sauter(self) :
         if self.contact_sol : #on ne peut pas sauter que si on est en contact avec le sol
-            self.vitesse_y = -6
+            self.vitesse_y = -10
             self.contact_sol = False
 
 
