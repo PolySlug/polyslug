@@ -35,8 +35,6 @@ class Projectile(pygame.sprite.Sprite):
 		else:
 		  self.vitesse = [float(vx) / norme, float(vy) / norme]
 
-		print(self.vitesse)
-
 	'''
 	Update la position du projectile grace au tuple vitesse
 	'''
