@@ -4,8 +4,7 @@ import pygame
 
 from entite      import Entite
 from lib.sprites import Sprites
-#TODO import armes
-
+from armes.arme1 import Arme1
 
 '''
 collisions
@@ -33,6 +32,8 @@ class Joueur(Entite):
 
     sprites = Sprites('img/p1_walk.png')
     frames  = []
+
+    arme = Arme1()
 
     def __init__(self, position) :
 
