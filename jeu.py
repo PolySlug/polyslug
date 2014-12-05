@@ -27,8 +27,8 @@ def gestionJeu(fenetre, niveau):
     decalageX = 0
     
     #creation des bords
-    bords = [Bord((-1,0), (1, f_height)), Bord((f_width, 0), (1, f_height)),\
-                 Bord((0,-1), (f_width, 1)), Bord((0, f_height), (f_width, 1))]
+    bords = [Bord((0,0), (1, f_height)), Bord((f_width-1, 0), (1, f_height)),\
+                 Bord((0,0), (f_width, 1)), Bord((0, f_height-1), (f_width, 1))]
         
     joueur = niveau['joueur']
 
@@ -82,7 +82,7 @@ def gestionJeu(fenetre, niveau):
                 position = (joueur.rect.x, joueur.rect.y)
                 positionSouris = ecouteSouris()
                 vecteur = (positionSouris[0] - position[0], positionSouris[1] - position[1])
-                groupeProjectilesEnnemis.add(joueur.arme.tirer(position, vecteur))
+                groupeProjectilesJoueur.add(joueur.arme.tirer(position, vecteur))
 
 
             #Écoute déplacement
@@ -130,7 +130,7 @@ def gestionJeu(fenetre, niveau):
             'ennemis':              groupeEnnemis,
             'width':                niveau['taille'],
             'height':               f_height,
-            'projectilesEnnemies':  groupeProjectilesEnnemis,
+            'projectilesEnnemis':  groupeProjectilesEnnemis,
             'projectilesJoueur':    groupeProjectilesJoueur,
             'joueur':               joueur,
             'bords':                bords
@@ -141,11 +141,13 @@ def gestionJeu(fenetre, niveau):
         groupeProjectilesEnnemis.update(etat)
         groupeProjectilesJoueur.update(etat)
         groupeBords.update(decalageX)
-
+        testCollision(etat)
         #On dessine dans le calque
         groupeJeu.draw(calque)
         groupeProjectilesEnnemis.draw(calque)
+        groupeProjectilesJoueur.draw(calque)
         viseur.draw(calque)
+        groupeBords.draw(calque)
 
         #On insère le calque dans le fenêtre en fonction de decalageX
         fenetre.fill((0, 0, 0))
@@ -181,24 +183,28 @@ testCollision
 
 def testCollision(etat):
     #collision des projectiles ennemis vers joueur
-    projectilesContactJ = pygame.sprite.spritecollide(etat.joueur, etat.ProjectilesEnnemis, True)
+    projectilesContactJ = pygame.sprite.spritecollide(etat['joueur'], etat['projectilesEnnemis'], True)
     for projectile in projectilesContactJ :
         etat.joueur.blessure(projectile.dommage)
     
     #collsion des projectiles joueur vers obstacles
-    projectilesContactO = pygame.sprite.groupcollide(etat.projectilesJoueur, etat.obstacles, True, False)
+    test = projectilesContactO = pygame.sprite.groupcollide(etat['projectilesJoueur'], etat['obstacles'], True, False)
     for projectile in projectilesContactO:
-        etat.obstacles.blessure(projectile.dommage)
+        obstaclesTouches = test[projectile]
+        for obstacle in obstaclesTouches :     
+            obstacle.blessure(projectile.dommage)
     
     #collision des projectiles joueur vers ennemis
-    projectilesContactE = pygame.sprite.groupcollide(etat.projectilesJoueur, etat.ennemis, True, False)
+    projectilesContactE = pygame.sprite.groupcollide(etat['projectilesJoueur'], etat['ennemis'], True, False)
     for projectile in projectilesContactE:
-        etat.ennemis.blessure(projectile.dommage)
+        ennemisTouches = test[projectile]
+        for ennemi in ennemisTouches :     
+            ennemi.blessure(projectile.dommage)
         
     
     #destruction des projectiles du joueur et des ennemis en contact avec les bords
-    pygame.sprite.spritecollide(etat.projectilesJoueur, etat.bords, True)
-    pygame.sprite.spritecollide(etat.projectilesEnnemis, etat.bords, True)
+    pygame.sprite.groupcollide(etat['projectilesJoueur'], etat['bords'], True, False)
+    pygame.sprite.groupcollide(etat['projectilesEnnemis'], etat['bords'], True, False)
     
     return
     
