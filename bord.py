@@ -6,8 +6,11 @@ class Bord(pygame.sprite.Sprite):
             pygame.sprite.Sprite.__init__(self)
             self.image = pygame.Surface(taille)
             self.image.fill((255, 0, 0))
-            self.rect = pygame.Rect(position, taille)
+            self.rect = self.image.get_rect()
+            
+            self.position = position
+            self.rect.x, self.rect.y = position
             
         def update(self, decalageX):
-            self.rect.x = -decalageX
+            self.rect.x = self.position[0] - decalageX
         

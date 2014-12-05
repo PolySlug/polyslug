@@ -25,10 +25,12 @@ def gestionJeu(fenetre, niveau):
 
     f_width, f_height = fenetre.get_width(), fenetre.get_height() #racourcis
     decalageX = 0
+    print f_width
     
     #creation des bords
-    bords = [Bord((0,0), (1, f_height)), Bord((-(f_width)/2-1, 0), (1, f_height)),\
-             Bord((0,0), (f_width, 1)), Bord((0, f_height-1), (f_width, 1))]
+    bords = [Bord((-50,-50), (1, f_height+100)),Bord((f_width+50,-50),(1,f_height+100)), \
+             Bord((-50,-50), (f_width-100, 1)), Bord((-50, f_height+50), (f_width+100, 1))]
+    print bords
         
     joueur = niveau['joueur']
 
