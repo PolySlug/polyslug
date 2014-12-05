@@ -8,7 +8,13 @@ class Viseur():
 		#Recupere la position (x, y) de la souris
 		return pygame.mouse.get_pos()
 		
+	'''
+	draw
 
+	Dessine le viseur dans fen
+
+	@param {Surface} fen
+	'''
 	def draw(self, fen):
 		#Dessine 4 traits de longueur l=20px
 		pygame.draw.line(fen, (0, 0, 0), (self.recupCoor()[0], self.recupCoor()[1]), (self.recupCoor()[0], self.recupCoor()[1]-20), 2)
