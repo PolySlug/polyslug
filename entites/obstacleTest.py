@@ -8,14 +8,13 @@ class ObstacleTest(Obstacle):
 
     sprites = Sprites('img/tiles_spritesheet.png')
     image   = sprites.sprite((648, 144), (72, 72))
-    rect    = image.get_rect()
 
     '''
     update
 
     2 images différentes selon le niveau de vie
     '''
-    def update(self):
+    def update(self, *args):
         if self.vie > 5 :
             self.image = self.sprites.sprite((504, 144), (72, 72))
         else :

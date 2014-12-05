@@ -41,7 +41,7 @@ class Entite(pygame.sprite.Sprite) :
         self.rect.y = y
 
 
-    def update(self) :
+    def update(self, *args) :
         pass
 
     '''

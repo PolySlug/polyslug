@@ -9,13 +9,13 @@ from entites.joueur        import Joueur
 Touts les éléments du niveau
 '''
 
-murs = [Mur((200, 50))]
+murs = [Mur((0, 400)), Mur((71, 400)), Mur((400, 550))]
 
 obstacles = [ObstacleTest((0,0)), ObstacleTest((100, 0))]
 
 ennemis = []
 
-joueur = []
+joueur = Joueur((0, 200))
 
 
 '''
@@ -29,5 +29,6 @@ niveau = {
     'murs':      murs,
     'obstacles': obstacles,
     'ennemis':   ennemis,
-    'joueur':    joueur
+    'joueur':    joueur,
+    'taille':    2000   #longueur du niveau en px
 }

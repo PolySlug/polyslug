@@ -12,10 +12,15 @@ gestionJeu
 @param {Liste}          niveau.obstacles    Une liste d'instances d'obstacles
 @param {Liste}          niveau.ennemis      Une liste d'instances d'ennemis
 @param {Liste}          niveau.joueur       Une instance joueur
+@param {Int}            niveau.taille       Longueur du niveau en px
 
 @return {?}                                 Le score de la partie
 '''
 def gestionJeu(fenetre, niveau):
+
+    f_width, f_height = fenetre.get_width(), fenetre.get_height() #racourcis
+
+    joueur = niveau['joueur']
 
     #Création des groupes de sprites
     groupeMurs      = creationGroupe(niveau['murs'])
@@ -23,13 +28,13 @@ def gestionJeu(fenetre, niveau):
     groupeEnnemis   = creationGroupe(niveau['ennemis'])
 
     groupeJeu       = creationGroupe(niveau['murs'] + niveau['obstacles'] + \
-            niveau['ennemis'] + niveau['joueur'])
+            niveau['ennemis'] + [joueur])
 
     #Création d'un calque
-    calque = pygame.Surface((1000, fenetre.get_height()))
-    decalageX = 0 #TODO : ne pas utiliser de déplacement, mais la position du joueur
+    calque = pygame.Surface((niveau['taille'], f_height))
 
-    done = False
+    done   = False
+    course = 1      #gestion de la vitesse de deplacement (marcher : 1, courir : 3)
 
     #Init du temps
     clock = pygame.time.Clock()
@@ -39,6 +44,8 @@ def gestionJeu(fenetre, niveau):
 
     while not done :
 
+        calque.fill((0, 20, 50)) #un nouveau calque tout beau tout propre
+
         #Écoute des touches clavier
 
         for event in pygame.event.get() :
@@ -47,33 +54,68 @@ def gestionJeu(fenetre, niveau):
             if event.type == pygame.QUIT :
                 pygame.quit() #TODO : ne pas quitter ici mais dans main
 
+            #Gestion de la vitesse de course
+            if event.type == pygame.KEYDOWN and  \
+                (event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT) :
+                course = 3
+            if event.type == pygame.KEYUP and  \
+                (event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT) :
+                course = 1
+
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE :
+                joueur.sauter()
+                #TODO : le perso à des difficultés à sauter quand il marche déjà
+                #pb lié au keydown de 2 touches simultané ?
+                #ou joueur.vitesse_y qui n'est pas prit en compte ?
+                #printer dans joueur.saut() pour voir ce qui se passe
+
             #Écoute déplacement
             if systeme == "Windows" : #pygame sur windows est en Qwerty ...
+                #Demande de mouvement
                 if event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_a :
-                        decalageX -= 1
+                        joueur.deplacementX(-3 * course)
                     if event.key == pygame.K_d :
-                        decalageX += 1
+                        joueur.deplacementX(3 * course)
+                #Fin de mouvement
+                if event.type == pygame.KEYUP :
+                    if event.key == pygame.K_a or event.key == pygame.K_d :
+                        joueur.deplacementX(0)
 
             else :
+                #Demande de mouvement
                 if event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_q :
-                        decalageX -= 1
+                        joueur.deplacementX(-3 * course)
                     if event.key == pygame.K_d :
-                        decalageX += 1
+                        joueur.deplacementX(3 * course)
+                #Fin de mouvement
+                if event.type == pygame.KEYUP :
+                    if event.key == pygame.K_q or event.key == pygame.K_d :
+                        joueur.deplacementX(0)
 
-        #Contrôle
-        decalageX = decalageX if decalageX > -1 else 0
 
         #On update tout le petit monde
-        groupeJeu.update()
+
+        #On commence par construire un object représentant l'état actuel du jeu
+        etat = {
+            'murs' :     groupeMurs,
+            'obstacles': groupeObstacles,
+            'ennemis':   groupeEnnemis,
+            'width':     niveau['taille'],
+            'height':    f_height
+            }
+
+        #On update en passant les infos
+        groupeJeu.update(etat)
 
         #On dessine dans le calque
         groupeJeu.draw(calque)
 
         #On insère le calque dans le fenêtre en fonction de decalageX
         fenetre.fill((0, 0, 0))
-        fenetre.blit(calque, (-decalageX * 3, 0)) #on multiplie par 3, on a pas que ça à faire
+        decalageX = -joueur.rect.x + f_width / 2 if joueur.rect.x > f_width / 2 else 0
+        fenetre.blit(calque, (decalageX, 0)) #on multiplie par 3, on a pas que ça à faire
         pygame.display.flip()
 
         clock.tick(60)
