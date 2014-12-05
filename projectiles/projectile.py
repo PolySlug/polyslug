@@ -6,8 +6,6 @@ import math
 
 class Projectile(pygame.sprite.Sprite):
 
-	rect =  (0, 0)
-        image = None
 	sprite = None
 	dommage = 10
 
@@ -25,14 +23,17 @@ class Projectile(pygame.sprite.Sprite):
                 #On récupère le rectangle de l'image
                 self.rect = self.image.get_rect()
 
-		self.rect.x, self.rect.y = position
+		self.rect.x, self.rect.y = position[0], position[1]
 
 		vx, vy = vecteur
-
+		
 		#Calcul norme
 		norme = math.sqrt(vx*vx + vy*vy)
-
-		self.vitesse = (vx / norme, vy / norme)
+		
+		if norme == 0 :
+		  self.vitesse = [2, 2]
+		else:
+		  self.vitesse = [float(vx) / norme, float(vy) / norme]
 
 	'''
 	Update la position du projectile grace au tuple vitesse
