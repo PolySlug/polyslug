@@ -4,8 +4,11 @@ import Projectile2
 class Arme2(Arme) :
 
 	def __init__(self):
+
 		self.sprite = Sprite('...') #/!\ check le nom du sprite
-	
+
+		#self.imageDefaut = self.sprites.sprite((0,0), ())
+
 	def tirer(self, position, vecteur) :
-		nombre = 1
-		return (Projectile2(position, vecteur), nombre)
+		
+		return Projectile2(position, vecteur)
