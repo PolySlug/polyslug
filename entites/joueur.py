@@ -64,12 +64,13 @@ class Joueur(Entite):
             self.vitesse_y += 0.35 #PFD
 
         #Si on touche le sol
-        if self.rect.y + self.rect.height > niveau['height'] :
+        if self.rect.bottom >= niveau['height'] :
 
             if self.vitesse_y > 0 :   # on ne peut pas descendre plus bas
                 self.vitesse_y = 0
 
-            self.rect.y = niveau['height'] - self.rect.height #on force à ne pas dépasser le sol
+            #self.rect.y = niveau['height'] - self.rect.height #on force à ne pas dépasser le sol
+            self.rect.bottom = niveau['height'] 
             self.contact_sol = True
 
         self.rect.y += self.vitesse_y
