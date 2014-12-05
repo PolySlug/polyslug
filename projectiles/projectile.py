@@ -4,7 +4,7 @@ import pygame
 class Projectile(pygame.sprite.Sprite):
 
 	self.rect =  (0, 0)
-        self.image = None
+    self.image = None
 	self.sprite = None
 	self.dommage = 10
 
