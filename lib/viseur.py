@@ -1,10 +1,9 @@
 #test de pygame.mouse
 import pygame.display
-from pygame.locals import *
 from ecouteSouris import ecouteSouris
 
 class Viseur():
-		
+
 	'''
 	draw
 
