@@ -9,5 +9,5 @@ class Bord(pygame.sprite.Sprite):
             self.rect = pygame.Rect(position, taille)
             
         def update(self, decalageX):
-            self.rect.x += decalageX
+            self.rect.x = -decalageX
         

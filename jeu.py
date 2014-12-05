@@ -27,8 +27,8 @@ def gestionJeu(fenetre, niveau):
     decalageX = 0
     
     #creation des bords
-    bords = [Bord((0,0), (1, f_height)), Bord((f_width-1, 0), (1, f_height)),\
-                 Bord((0,0), (f_width, 1)), Bord((0, f_height-1), (f_width, 1))]
+    bords = [Bord((0,0), (1, f_height)), Bord((-(f_width)/2-1, 0), (1, f_height)),\
+             Bord((0,0), (f_width, 1)), Bord((0, f_height-1), (f_width, 1))]
         
     joueur = niveau['joueur']
 
@@ -58,7 +58,9 @@ def gestionJeu(fenetre, niveau):
     #On récupère le système (Win/Mac/etc) pour les touches
     systeme = platform.system()
 
+    
     while not done :
+        decalageX = -joueur.rect.x + f_width / 2 if joueur.rect.x > f_width / 2 else 0
 
         calque.fill((0, 20, 50)) #un nouveau calque tout beau tout propre
 
@@ -142,19 +144,19 @@ def gestionJeu(fenetre, niveau):
         groupeProjectilesJoueur.update(etat)
         groupeBords.update(decalageX)
         testCollision(etat)
+        
         #On dessine dans le calque
         groupeJeu.draw(calque)
         groupeProjectilesEnnemis.draw(calque)
         groupeProjectilesJoueur.draw(calque)
-        viseur.draw(calque)
+        viseur.draw(calque,decalageX)
         groupeBords.draw(calque)
 
         #On insère le calque dans le fenêtre en fonction de decalageX
         fenetre.fill((0, 0, 0))
-        decalageX = -joueur.rect.x + f_width / 2 if joueur.rect.x > f_width / 2 else 0
+        
         fenetre.blit(calque, (decalageX, 0)) #on multiplie par 3, on a pas que ça à faire
         pygame.display.flip()
-
         clock.tick(60)
 
     return #TODO
