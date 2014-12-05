@@ -1,10 +1,11 @@
+#-*- coding: utf-8 -*-
 #test de projectiles
 import pygame
 
 class Projectile(pygame.sprite.Sprite):
 
 	self.rect =  (0, 0)
-    self.image = None
+        self.image = None
 	self.sprite = None
 	self.dommage = 10
 
@@ -29,7 +30,7 @@ class Projectile(pygame.sprite.Sprite):
 		#Calcul norme
 		norme = math.sqrt(vx*vx + vy*vy)
 
-		self.vitesse = (vx / norme, vy / norme)
+		self.vitesse = (vx / norme, vy)
 
 	'''
 	Update la position du projectile grace au tuple vitesse
