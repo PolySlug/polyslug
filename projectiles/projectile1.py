@@ -14,8 +14,12 @@ class Projectile1(Projectile):
 
 	def __init__(self, position, vecteur):
 		Projectile.__init__(self, position, vecteur)
+		self.posx, self.posy = (float(position[0]), float(position[1]))
 
 
 	def update(self, *args) :
-		self.rect.x += self.vitesse[0]
-		self.rect.y += self.vitesse[1]
+  
+		self.posx += self.vitesse[0]
+		self.posy += self.vitesse[1]
+		self.rect.x = int(self.posx)
+		self.rect.y = int(self.posy)
