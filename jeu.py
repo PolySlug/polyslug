@@ -2,6 +2,8 @@
 
 import pygame
 import platform
+from lib.viseur         import Viseur
+from lib.ecouteSouris   import ecouteSouris
 
 '''
 gestionJeu
@@ -35,6 +37,7 @@ def gestionJeu(fenetre, niveau):
 
     done   = False
     course = 1      #gestion de la vitesse de deplacement (marcher : 1, courir : 3)
+    viseur = Viseur()
 
     #Init du temps
     clock = pygame.time.Clock()
@@ -115,6 +118,8 @@ def gestionJeu(fenetre, niveau):
 
         #On dessine dans le calque
         groupeJeu.draw(calque)
+
+        viseur.draw(calque)
 
         #On insère le calque dans le fenêtre en fonction de decalageX
         fenetre.fill((0, 0, 0))
