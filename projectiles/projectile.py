@@ -1,12 +1,15 @@
+#-*- coding: utf-8 -*-
+
 #test de projectiles
 import pygame
+import math
 
 class Projectile(pygame.sprite.Sprite):
 
-	self.rect =  (0, 0)
-        self.image = None
-	self.sprite = None
-	self.dommage = 10
+	rect =  (0, 0)
+        image = None
+	sprite = None
+	dommage = 10
 
 	'''
 	__init__
@@ -17,11 +20,11 @@ class Projectile(pygame.sprite.Sprite):
 	'''
 	def __init__(self, position, vecteur):
 
- 		pygame.sprite.Sprite.__init__(self)
+                pygame.sprite.Sprite.__init__(self)
 
-        	#On récupère le rectangle de l'image
-	        self.rect = self.image.get_rect()
-		
+                #On récupère le rectangle de l'image
+                self.rect = self.image.get_rect()
+
 		self.rect.x, self.rect.y = position
 
 		vx, vy = vecteur

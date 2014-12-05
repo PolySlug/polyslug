@@ -29,6 +29,8 @@ def gestionJeu(fenetre, niveau):
     groupeObstacles = creationGroupe(niveau['obstacles'])
     groupeEnnemis   = creationGroupe(niveau['ennemis'])
 
+    groupeProjectilesEnnemis = pygame.sprite.Group()
+
     groupeJeu       = creationGroupe(niveau['murs'] + niveau['obstacles'] + \
             niveau['ennemis'] + [joueur])
 
@@ -64,6 +66,12 @@ def gestionJeu(fenetre, niveau):
             if event.type == pygame.KEYUP and  \
                 (event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT) :
                 course = 1
+
+            if event.type == pygame.MOUSEBUTTONDOWN :
+                position = (joueur.rect.x, joueur.rect.y)
+                positionSouris = ecouteSouris()
+                vecteur = (positionSouris[0] - position[0], positionSouris[1] - position[1])
+                groupeProjectilesEnnemis.add(joueur.arme.tirer(position, vecteur))
 
 
             #Écoute déplacement
@@ -115,10 +123,11 @@ def gestionJeu(fenetre, niveau):
 
         #On update en passant les infos
         groupeJeu.update(etat)
+        groupeProjectilesEnnemis.update(etat)
 
         #On dessine dans le calque
         groupeJeu.draw(calque)
-
+        groupeProjectilesEnnemis.draw(calque)
         viseur.draw(calque)
 
         #On insère le calque dans le fenêtre en fonction de decalageX
