@@ -43,6 +43,9 @@ class Entite(pygame.sprite.Sprite) :
     def update(self, *args) :
         pass
 
+    def position(self) :
+        return (self.rect.x, self.rect.y)
+
     '''
     blessure
 
