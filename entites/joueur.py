@@ -26,8 +26,10 @@ class Joueur(Entite):
 
     vitesse_x = 0
     vitesse_y = 0
-    course    = False   #True si le joueur cours
+    courir    = False   #True si le joueur cours
     accroupi  = False
+
+    multiCourse = 3     #vitesse de deplacementX (marcher/courir)
 
     contact_sol = False #utile pour savoir si on peut sauter ou pas
 
@@ -133,7 +135,7 @@ class Joueur(Entite):
 
         #si on est accroupi, on ne peut plus bouger
         if not self.accroupi :
-            self.rect.x += self.vitesse_x
+            self.rect.x += self.vitesse_x * self.multiCourse # * multi pour fluidité du jeu
 
         #si on touche quelque chose en chemin
         for collision in collisions(self, niveau) :
@@ -182,7 +184,7 @@ class Joueur(Entite):
                                         -1 : vers la gauche
     '''
     def deplacementX(self, vitesse) :
-        self.vitesse_x = vitesse * 3 # * 3 pour fluidité du jeu
+        self.vitesse_x = vitesse
 
     '''
     vitesseCourse
@@ -194,7 +196,7 @@ class Joueur(Entite):
     def vitesseCourse(self, courir) :
 
         self.courir = courir
-        self.vitesse_x *= 3 if self.courir else 0.333
+        self.multiCourse = 3 if not self.courir else 6
 
     '''
     seBaisser

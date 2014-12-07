@@ -81,6 +81,7 @@ def gestionJeu(fenetre, niveau):
                 (event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT) :
                 joueur.vitesseCourse(courir = False)
 
+            #Le joueur se baisse
             if event.type == pygame.KEYDOWN and event.key == pygame.K_s :
                 joueur.seBaisser(accroupi = True)
             if event.type == pygame.KEYUP and event.key == pygame.K_s :
