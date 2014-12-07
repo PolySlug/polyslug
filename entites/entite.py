@@ -40,7 +40,6 @@ class Entite(pygame.sprite.Sprite) :
         self.rect.x = x
         self.rect.y = y
 
-
     def update(self, *args) :
         pass
 
@@ -52,5 +51,9 @@ class Entite(pygame.sprite.Sprite) :
     '''
     def blessure(self, vie):
         self.vie -= vie
+
+        if self.vie <= 0 :
+            self.kill()     #supprime la sprite de tous les groupes
+
         return self.vie
 
