@@ -2,13 +2,15 @@
 
 from ennemi      import Ennemi
 from lib.sprites import Sprites
-from armes.arme1 import Arme1
+from armes.arme2 import Arme2
 
 class Ennemi1(Ennemi):
 
     sprites = Sprites('img/p2_spritesheet.png')
 
-    arme = Arme1()
+    arme = Arme2()
+
+    vie = 20
 
     '''
     construireSprites

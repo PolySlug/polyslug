@@ -7,7 +7,7 @@ from lib.sprites             import Sprites
 
 class Arme1(Arme) :
 
-    delai = 500
+    delai = 200
 
     def __init__(self):
 
