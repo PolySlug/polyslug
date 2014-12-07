@@ -6,6 +6,15 @@ from personnage import Personnage
 
 class Ennemi(Personnage):
 
+    multiCourse = 3/2     #vitesse de deplacementX (marcher/courir)
+
+    def __init__(self, position) :
+
+        #Sauvegarde de la position initiale
+        self.pivot = position
+
+        super(Ennemi, self).__init__(position)
+
     def ia_directionJoueur(self, joueur) :
         x, y   = self.position()
         jx, jy = joueur.position()
@@ -25,12 +34,24 @@ class Ennemi(Personnage):
         joueur              = niveau['joueur']
         projectilesEnnemis  = niveau['projectilesEnnemis']
 
-        enVue = self.ia_joueurEnVue(joueur, niveau['f_width'])
+        enVue = self.ia_joueurEnVue(joueur, niveau['f_width'] * 0.8)
 
         if enVue :
-            projectile = self.arme.tirer(self.position(), self.ia_directionJoueur(joueur))
+            directionJoueur = self.ia_directionJoueur(joueur)
+
+            #tirer
+            projectile = self.arme.tirer(self.position(), directionJoueur)
             if projectile :
                 projectilesEnnemis.add(projectile)
+
+            #se rapprocher du joueur
+            self.deplacementX(-1 if directionJoueur[0] < 0 else 1)
+
+        else : #retour à la position pivot
+
+            position = self.position()
+            if not position == self.pivot :
+                self.deplacementX(-1 if self.pivot[0] - position[0] < 0 else 1)
 
 
     def update(self, niveau, *args) :
