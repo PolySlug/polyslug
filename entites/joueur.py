@@ -1,8 +1,8 @@
 
 from personnage     import Personnage
-from armes.arme1    import Arme1
+from armes.arme2    import Arme2
 
 class Joueur(Personnage):
 
-    arme = Arme1()
+    arme = Arme2()
 
