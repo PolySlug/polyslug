@@ -102,9 +102,9 @@ def gestionJeu(fenetre, niveau):
                 #Demande de mouvement
                 if event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_a :
-                        joueur.deplacementX(-3 * course)
+                        joueur.deplacementX(-3)
                     if event.key == pygame.K_d :
-                        joueur.deplacementX(3 * course)
+                        joueur.deplacementX(3)
                 #Fin de mouvement
                 if event.type == pygame.KEYUP :
                     if event.key == pygame.K_a or event.key == pygame.K_d :
@@ -119,9 +119,9 @@ def gestionJeu(fenetre, niveau):
                 #Demande de mouvement
                 if event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_q :
-                        joueur.deplacementX(-3 * course)
+                        joueur.deplacementX(-3)
                     if event.key == pygame.K_d :
-                        joueur.deplacementX(3 * course)
+                        joueur.deplacementX(3)
                 #Fin de mouvement
                 if event.type == pygame.KEYUP :
                     if event.key == pygame.K_q or event.key == pygame.K_d :
