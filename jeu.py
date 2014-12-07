@@ -4,13 +4,13 @@ import pygame
 import platform
 from lib.viseur         import Viseur
 from lib.ecouteSouris   import ecouteSouris
-from bord import Bord
+from bord               import Bord
 
 
 '''
 gestionJeu
 
-@param {pygame.Surface} fenetre             La fenetre principale du jeu
+@param {pygame.Surface} fenetre                         La fenetre principale du jeu
 @param {Dictionnaire}   niveau
 @param {Liste}          niveau.murs                     Une liste d'instances de murs
 @param {Liste}          niveau.obstacles                Une liste d'instances d'obstacles
@@ -18,7 +18,7 @@ gestionJeu
 @param {Liste}          niveau.joueur                   Une instance joueur
 @param {Int}            niveau.taille                   Longueur du niveau en px
 
-@return {?}                                 Le score de la partie
+@return {?}                                             Le score de la partie
 '''
 def gestionJeu(fenetre, niveau):
 
@@ -46,7 +46,6 @@ def gestionJeu(fenetre, niveau):
     calque = pygame.Surface((niveau['taille'], f_height))
 
     done      = False
-    course    = 1      #gestion de la vitesse de deplacement (marcher : 1, courir : 3)
     decalageX = 0
 
     viseur = Viseur()
@@ -77,14 +76,14 @@ def gestionJeu(fenetre, niveau):
             #Gestion de la vitesse de course
             if event.type == pygame.KEYDOWN and  \
                 (event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT) :
-                course = 3
+                joueur.vitesseCourse(courir = True)
             if event.type == pygame.KEYUP and  \
                 (event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT) :
-                course = 1
+                joueur.vitesseCourse(courir = False)
 
             #Le joueur tire
             if event.type == pygame.MOUSEBUTTONDOWN :
-                #Calcul de la direction du tire
+                #Calcul de la direction du tir
                 positionJoueur = (joueur.rect.x, joueur.rect.y)
                 positionSouris = ecouteSouris()
                 vecteur = (positionSouris[0] - decalageX - positionJoueur[0], \

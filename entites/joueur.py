@@ -26,6 +26,8 @@ class Joueur(Entite):
 
     vitesse_x = 0
     vitesse_y = 0
+    course    = False   #True si le joueur cours
+
     contact_sol = False #utile pour savoir si on peut sauter ou pas
 
     vie     = 100
@@ -70,7 +72,7 @@ class Joueur(Entite):
                 self.vitesse_y = 0
 
             #self.rect.y = niveau['height'] - self.rect.height #on force à ne pas dépasser le sol
-            self.rect.bottom = niveau['height'] 
+            self.rect.bottom = niveau['height']
             self.contact_sol = True
 
         self.rect.y += self.vitesse_y
@@ -120,6 +122,11 @@ class Joueur(Entite):
 
     def deplacementX(self, vitesse) :
         self.vitesse_x = vitesse
+
+    def vitesseCourse(self, courir) :
+
+        self.courir = courir
+        self.vitesse_x *= 3 if self.courir else 0.333
 
     def sauter(self) :
         if self.contact_sol : #on ne peut pas sauter que si on est en contact avec le sol
