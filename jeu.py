@@ -210,10 +210,10 @@ creationBords
 '''
 def creationBords(f_width, f_height) :
     return [
-            Bord((-50,-50), (1, f_height+100)),
-            Bord((f_width+50,-50),(1,f_height+100)),
-            Bord((-50,-50), (f_width-100, 1)),
-            Bord((-50, f_height+50), (f_width+100, 1))
+            Bord((-f_width / 2, -f_height / 2), (1, f_height * 2)),
+            Bord((f_width * 3/2, -f_height / 2), (1, f_height * 2)),
+            Bord((-f_width / 2, -f_height / 2), (f_width * 2, 1)),
+            Bord((-f_width / 2, f_height * 3/2), (f_width * 2, 1))
         ]
 
 '''
