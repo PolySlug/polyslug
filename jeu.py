@@ -205,9 +205,9 @@ def creationBords(f_width, f_height) :
 '''
 testCollision
 
-1 teste des differentes collision entre les projectiles des ennemis vers le joueur et
+1 test des differentes collision entre les projectiles des ennemis vers le joueur et
     les bords de la fenetre
-2 teste des differentes collision entre les projectiles du joueur  vers les obstacles,
+2 test des differentes collision entre les projectiles du joueur  vers les obstacles,
     les ennemis et les bords de la fenetre
 
 -> destruction des projectiles en collision, soustraction des PV
@@ -231,7 +231,7 @@ def testCollision(etat):
     #collision des projectiles joueur vers ennemis
     projectilesContactE = pygame.sprite.groupcollide(etat['projectilesJoueur'], etat['ennemis'], True, False)
     for projectile in projectilesContactE: #récup des ennemis touchés et soustraction PV
-        ennemisTouches = test[projectile]
+        ennemisTouches = projectilesContactE[projectile]
         for ennemi in ennemisTouches :
             ennemi.blessure(projectile.dommage)
 
