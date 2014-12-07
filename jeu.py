@@ -96,7 +96,9 @@ def gestionJeu(fenetre, niveau):
                 vecteur = (positionSouris[0] - decalageX - positionJoueur[0], \
                         positionSouris[1] - positionJoueur[1])
                 #Feu !
-                groupeProjectilesJoueur.add(joueur.arme.tirer(positionJoueur, vecteur))
+                projectile = joueur.arme.tirer(positionJoueur, vecteur)
+                if projectile :
+                    groupeProjectilesJoueur.add(projectile)
 
 
             #Écoute déplacement
@@ -231,7 +233,7 @@ def testCollision(etat):
     #collision des projectiles ennemis vers joueur
     projectilesContactJ = pygame.sprite.spritecollide(etat['joueur'], etat['projectilesEnnemis'], True)
     for projectile in projectilesContactJ :
-        etat.joueur.blessure(projectile.dommage) #on prend en compte les dommages
+        etat['joueur'].blessure(projectile.dommage) #on prend en compte les dommages
 
     #collsion des projectiles joueur vers obstacles
     projectilesContactO = pygame.sprite.groupcollide(etat['projectilesJoueur'], etat['obstacles'], True, False)

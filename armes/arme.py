@@ -8,6 +8,8 @@ class Arme(pygame.sprite.Sprite) :
     #image
     #rect
 
+    dernierTir = 0 #delai entre 2 tires
+
     def __init__(self):
 
         pygame.sprite.Sprite.__init__(self)
@@ -21,6 +23,4 @@ class Arme(pygame.sprite.Sprite) :
         self.image = pygame.transform.rotate(self.imageDefaut, angle)
 
     def tirer(self, position, vecteur) :
-            '''cree un projectile et passant direction et position'''
-            pass
-
+        self.dernierTir = pygame.time.get_ticks()
