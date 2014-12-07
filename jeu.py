@@ -138,14 +138,25 @@ def gestionJeu(fenetre, niveau):
 
         #On commence par construire un object représentant l'état actuel du jeu
         etat = {
+            #Entités
             'murs' :                groupeMurs,
             'obstacles':            groupeObstacles,
             'ennemis':              groupeEnnemis,
-            'width':                niveau['taille'],
-            'height':               f_height,
+            'joueur':               joueur,
+
+            #Projectiles
             'projectilesEnnemis':   groupeProjectilesEnnemis,
             'projectilesJoueur':    groupeProjectilesJoueur,
-            'joueur':               joueur,
+
+            #taille niveau
+            'width':                niveau['taille'],
+            'height':               f_height,
+
+            #taille fenêtre
+            'f_width':              f_width,
+            'f_height':             f_height, #idem height niveau
+
+            #Bords de la fenêtre
             'bords':                bords
             }
 
