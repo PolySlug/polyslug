@@ -81,6 +81,12 @@ def gestionJeu(fenetre, niveau):
                 (event.key == pygame.K_RSHIFT or event.key == pygame.K_LSHIFT) :
                 joueur.vitesseCourse(courir = False)
 
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_s :
+                joueur.seBaisser(accroupi = True)
+            if event.type == pygame.KEYUP and event.key == pygame.K_s :
+                joueur.seBaisser(accroupi = False)
+
+
             #Le joueur tire
             if event.type == pygame.MOUSEBUTTONDOWN :
                 #Calcul de la direction du tir
@@ -102,9 +108,9 @@ def gestionJeu(fenetre, niveau):
                 #Demande de mouvement
                 if event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_a :
-                        joueur.deplacementX(-3)
+                        joueur.deplacementX(-1)
                     if event.key == pygame.K_d :
-                        joueur.deplacementX(3)
+                        joueur.deplacementX(1)
                 #Fin de mouvement
                 if event.type == pygame.KEYUP :
                     if event.key == pygame.K_a or event.key == pygame.K_d :
@@ -119,9 +125,9 @@ def gestionJeu(fenetre, niveau):
                 #Demande de mouvement
                 if event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_q :
-                        joueur.deplacementX(-3)
+                        joueur.deplacementX(-1)
                     if event.key == pygame.K_d :
-                        joueur.deplacementX(3)
+                        joueur.deplacementX(1)
                 #Fin de mouvement
                 if event.type == pygame.KEYUP :
                     if event.key == pygame.K_q or event.key == pygame.K_d :

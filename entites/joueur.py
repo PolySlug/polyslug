@@ -11,7 +11,7 @@ collisions
 
 @param  {pygame.sprite.Sprite}  item        Typiquement, le joueur
 @param  {Dictionnaire}          niveau
-@return {Liste}     Liste des sprites de Mur et Obstalce en collision avec l'item
+@return {Liste}                             Liste des sprites de Mur et Obstacle en collision avec l'item
 '''
 def collisions(item, niveau) :
     collisions = []
@@ -27,36 +27,63 @@ class Joueur(Entite):
     vitesse_x = 0
     vitesse_y = 0
     course    = False   #True si le joueur cours
+    accroupi  = False
 
     contact_sol = False #utile pour savoir si on peut sauter ou pas
 
     vie     = 100
 
-    sprites = Sprites('img/p1_walk.png')
-    frames  = []
+    sprites = Sprites('img/p1_spritesheet.png')
+
+    framesGauches = []
+    framesDroites = []
 
     arme = Arme1()
 
     def __init__(self, position) :
 
-        #Test images mouvement
+        #Découpe des sprites
+        self.contruireSprites()
+
+        super(Joueur, self).__init__(position)
+
+    '''
+    construireSprites
+    '''
+    def contruireSprites(self) :
+
+        #images mouvement
         images = [
-                [(0, 0), (66, 90)],
-                [(66, 0), (66, 90)],
-                [(132, 0), (67, 90)],
-                [(0, 93), (66, 90)],
-                [(66, 93), (66, 90)],
-                [(132, 93), (72, 90)],
-                [(0, 186), (70, 90)]
-                ]
+            [(0, 0), (72, 97)],
+            [(73, 0), (72, 97)],
+            [(146, 0), (72, 97)],
+            [(73, 98), (72, 97)],
+            [(146, 93), (72, 97)],
+            [(219, 0), (72, 97)],
+            [(292, 0), (70, 97)],
+            [(219, 98), (72, 97)],
+            [(365, 0), (72, 97)],
+            [(292, 98), (72, 97)],
+        ]
 
         self.framesDroites = self.sprites.sprites(images)
         self.framesGauches = self.sprites.sprites(images, flipX = True)
 
-        self.image = self.framesDroites[0]
+        self.image = self.imageRepos = self.sprites.sprite((0, 196), (66, 92))
 
-        super(Joueur, self).__init__(position)
+        self.imageAccroupi = [
+            self.sprites.sprite((365, 98), (69, 71)),
+            self.sprites.sprite((365, 98), (69, 71), flipX = True)
+        ]
 
+    '''
+    calculY
+
+    Calcul de la position verticale
+    Avec gestion des collisions bords, des collisions murs
+
+    @param {dic}    niveau      L'état du niveau
+    '''
     def calcul_Y(self, niveau) :
 
         #Calcul vitesse verticale due à la gravité
@@ -88,6 +115,15 @@ class Joueur(Entite):
             self.vitesse_y = 0 #on prend en compte la vitesse 0 pour calcul gravité
 
 
+    '''
+    calculX
+
+    Calcul de la position horizontale
+    Avec gestion des collisions bords, des collisions murs et de l'accroupissement
+    Et calcul de l'image courante
+
+    @param {dic}    niveau      L'état du niveau
+    '''
     def calcul_X(self, niveau) :
 
         #si on touche un bord du niveau
@@ -95,7 +131,9 @@ class Joueur(Entite):
             or (self.rect.x + self.rect.width > niveau['width'] and self.vitesse_x > 0):
             self.vitesse_x = 0
 
-        self.rect.x += self.vitesse_x
+        #si on est accroupi, on ne peut plus bouger
+        if not self.accroupi :
+            self.rect.x += self.vitesse_x
 
         #si on touche quelque chose en chemin
         for collision in collisions(self, niveau) :
@@ -106,28 +144,80 @@ class Joueur(Entite):
             #on ne force pas la vitesse_x à 0 si jamais l'obstacle disparaît de lui même
             #pas besoin de relancer le keydown clavier
 
-
         #Gestion de l'image
+        #on prend soin de regarder dans la bonne direction
         if self.vitesse_x > 0 : #image si déplacement vers la droite
-            self.image = self.framesDroites[(self.rect.x // 30) % len(self.framesDroites)]
+            if self.accroupi :
+                self.image = self.imageAccroupi[0]
+            else :
+                self.image = self.framesDroites[(self.rect.x // 30) % len(self.framesDroites)]
         elif self.vitesse_x < 0 : #image si déplacement vers la gauche
-            self.image = self.framesGauches[(self.rect.x // 30) % len(self.framesGauches)]
+            if self.accroupi :
+                self.image = self.imageAccroupi[1]
+            else :
+                self.image = self.framesGauches[(self.rect.x // 30) % len(self.framesGauches)]
         else : #image si perso à l'arrêt
-            self.image = self.framesDroites[0]
+            if self.accroupi :
+                self.image = self.imageAccroupi[0]
+            else :
+                self.image = self.imageRepos
 
+    '''
+    update
+
+    Calcul de la position du joueur
+
+    @param {dic}    niveau      l'état du niveau
+    '''
     def update(self, niveau, *args) :
 
         self.calcul_X(niveau)
         self.calcul_Y(niveau)
 
-    def deplacementX(self, vitesse) :
-        self.vitesse_x = vitesse
+    '''
+    deplacementX
 
+    @param {int : 1 | -1}    vitesse     Vitesse de déplacement.
+                                         1 : déplacement vers la droite
+                                        -1 : vers la gauche
+    '''
+    def deplacementX(self, vitesse) :
+        self.vitesse_x = vitesse * 3 # * 3 pour fluidité du jeu
+
+    '''
+    vitesseCourse
+
+    Switch entre marche/course
+
+    @param {Boolean}    courir      True : on court
+    '''
     def vitesseCourse(self, courir) :
 
         self.courir = courir
         self.vitesse_x *= 3 if self.courir else 0.333
 
+    '''
+    seBaisser
+
+    Le joueur s'accroupi, son rect retrécie en hauteur
+    On ne peut plus bouger une fois accroupi
+
+    @param {Boolean}    accroupi    True : joueur accroupi
+    '''
+    def seBaisser(self, accroupi) :
+        self.accroupi = accroupi
+
+        #le rect accroupi est plus petit en hauteur de 21 px
+        if self.accroupi :
+            self.rect.y += 21
+            self.rect.height -= 21
+        else :
+            self.rect.y -= 21
+            self.rect.height += 21
+
+    '''
+    sauter
+    '''
     def sauter(self) :
         if self.contact_sol : #on ne peut pas sauter que si on est en contact avec le sol
             self.vitesse_y = -10
