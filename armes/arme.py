@@ -21,6 +21,6 @@ class Arme(pygame.sprite.Sprite) :
         self.image = pygame.transform.rotate(self.imageDefaut, angle)
 
     def tirer(self, position, vecteur) :
-            '''cree un projectile qui herite de sa direction et position'''
+            '''cree un projectile et passant direction et position'''
             pass
 
