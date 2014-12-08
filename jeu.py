@@ -197,7 +197,8 @@ def gestionJeu(fenetre, niveau):
         testCollision(etat)
         check = testCheckpoints(etat)
         if check :
-            dernierCheckPoint = check
+            if dernierCheckPoint[0]<check[0]:
+                dernierCheckPoint = check
 
         #On dessine dans le calque
         groupeJeu.draw(calque)
