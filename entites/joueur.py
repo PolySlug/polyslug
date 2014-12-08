@@ -1,8 +1,8 @@
 
 from personnage     import Personnage
-from armes.arme2    import Arme2
+from armes.fusilPompe    import FusilPompe
 
 class Joueur(Personnage):
 
-    arme = Arme2()
+    arme = FusilPompe()
 

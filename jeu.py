@@ -8,6 +8,7 @@ import datetime
 from lib.viseur         import Viseur
 from lib.ecouteSouris   import ecouteSouris
 from bord               import Bord
+from entites.joueur     import Joueur
 
 pygame.font.init()
 font = pygame.font.Font(None, 28)
@@ -22,7 +23,7 @@ gestionJeu
 @param {Liste}          niveau.obstacles                Une liste d'instances d'obstacles
 @param {Liste}          niveau.ennemis                  Une liste d'instances d'ennemis
 @param {Liste}          niveau.checkpoints              Une liste d'instances de checkpoints
-@param {Joueur}         niveau.joueur                   Une instance joueur
+@param {tuple}          niveau.joueur                   La position initiale du joueur
 @param {Int}            niveau.taille                   Longueur du niveau en px
 
 @return {?}                                             Le score de la partie
@@ -35,7 +36,7 @@ def gestionJeu(fenetre, niveau):
     bords = creationBords(f_width, f_height)
 
     #le joueur
-    joueur = niveau['joueur']
+    joueur = Joueur(niveau['joueur'])
 
     #Création des groupes de sprites
 
@@ -55,7 +56,7 @@ def gestionJeu(fenetre, niveau):
 
     done              = False
     decalageX         = 0
-    dernierCheckPoint = (0, 0)  #la position du dernier checkpoint validé
+    dernierCheckPoint = niveau['joueur']  #la position du dernier checkpoint validé
     tempsStart        = time.time() #timestamp
 
     viseur = Viseur()
@@ -73,7 +74,14 @@ def gestionJeu(fenetre, niveau):
         #Le scroll horizontal du niveau
         decalageX = -joueur.rect.x + f_width / 2 if joueur.rect.x > f_width / 2 else 0
 
-        calque.fill((0, 20, 50)) #un nouveau calque tout beau tout propre
+        #un nouveau calque tout beau tout propre
+        calque.fill((0, 20, 50))
+
+        #Si le joueur est mort, on le ressuscite au dernier checkpoint validé
+        if joueur.vie <= 0 :
+            joueur = Joueur(dernierCheckPoint)
+            groupeJeu.add(joueur)
+
 
         #Écoute des touches clavier
 
@@ -106,8 +114,8 @@ def gestionJeu(fenetre, niveau):
                 vecteur = (positionSouris[0] - decalageX - positionJoueur[0], \
                         positionSouris[1] - positionJoueur[1])
                 #Feu !
-                projectile = joueur.arme.tirer(positionJoueur, vecteur)
-                if projectile :
+                projectiles = joueur.arme.tirer(positionJoueur, vecteur)
+                for projectile in projectiles :
                     groupeProjectilesJoueur.add(projectile)
 
 

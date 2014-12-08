@@ -68,8 +68,8 @@ class Ennemi(Personnage):
             directionJoueur = self.ia_directionJoueur(joueur)
 
             #tirer
-            projectile = self.arme.tirer(self.position(), directionJoueur)
-            if projectile :
+            projectiles = self.arme.tirer(self.position(), directionJoueur)
+            for projectile in projectiles :
                 projectilesEnnemis.add(projectile)
 
             #se rapprocher du joueur
