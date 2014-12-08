@@ -62,9 +62,9 @@ class Ennemi(Personnage):
         joueur              = niveau['joueur']
         projectilesEnnemis  = niveau['projectilesEnnemis']
 
-        enVue = self.ia_joueurEnVue(joueur, niveau['f_width'] * 0.8)
-
-        if enVue :
+        #si il y a bien un joueur et qu'il est en vue
+        #on tire et on se rapproche
+        if joueur and self.ia_joueurEnVue(joueur, niveau['f_width'] * 0.8) : #vision = 80% largeur écran
             directionJoueur = self.ia_directionJoueur(joueur)
 
             #tirer
@@ -73,13 +73,18 @@ class Ennemi(Personnage):
                 projectilesEnnemis.add(projectile)
 
             #se rapprocher du joueur
-            self.deplacementX(-1 if directionJoueur[0] < 0 else 1)
+            if (abs(directionJoueur[0]) > 100) : #on reste à petite distance pour pas empiler les sprites
+                self.deplacementX(-1 if directionJoueur[0] < 0 else 1)
+            else :
+                self.deplacementX(0)
 
         else : #retour à la position pivot
 
             position = self.position()
             if not position == self.pivot :
                 self.deplacementX(-1 if self.pivot[0] - position[0] < 0 else 1)
+            else :
+                self.deplacementX(0)
 
 
     def update(self, niveau, *args) :
