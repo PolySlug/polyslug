@@ -1,10 +1,27 @@
 #-*- coding: utf-8 -*-
 
 import pygame
+import math
 
 from arme           import Arme
 from lib.sprites    import Sprites
 from projectiles.projectileDroitRouge import ProjectileDroitRouge
+
+
+'''
+rotation
+
+@param  {tuple}  tup    Le vecteur à faire tourner
+@param  {number} angle  L'angle en degrés
+@return {tuple}         Rotation d'un angle `angle` de `tup`
+'''
+def rotation(tup, angle) :
+    x, y = tup
+    angle = math.radians(angle)
+    return (
+        x * math.cos(angle) - y * math.sin(angle),
+        x * math.sin(angle) + y * math.cos(angle)
+    )
 
 '''
 calculTirs
@@ -21,8 +38,7 @@ def calculTirs(tup) :
     angles = [-20, 0, 20]
 
     for angle in angles :
-        v = pygame.math.Vector2(tup).rotate(angle)
-        result.append((v.x, v.y))
+        result.append(rotation(tup, angle))
 
     return result
 
