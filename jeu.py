@@ -196,7 +196,7 @@ def gestionJeu(fenetre, niveau):
         viseur.draw(calque,decalageX)
         groupeBords.draw(calque) #il semblerait qu'on ait besoin de les dessiner pour le calcul des collisions
 
-        afficherTemps(calque, time.time() - tempsStart, (f_width + decalageX - 70, 10))
+        afficherTemps(calque, time.time() - tempsStart, (f_width - decalageX - 70, 10))
 
         #On insère le calque dans le fenêtre en fonction de decalageX
         fenetre.fill((0, 0, 0))
