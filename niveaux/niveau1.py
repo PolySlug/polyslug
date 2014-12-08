@@ -4,7 +4,6 @@ from entites.mur           import Mur
 from entites.obstacleTest  import ObstacleTest
 from entites.ennemi1       import Ennemi1
 from entites.ennemi2       import Ennemi2
-from entites.joueur        import Joueur
 from checkpoint            import Checkpoint
 
 '''
@@ -24,7 +23,7 @@ checkpoints = [
     Checkpoint("yellow", (500, 530))
 ]
 
-joueur = Joueur((0, 200))
+joueur = (0, 200)
 
 
 '''
