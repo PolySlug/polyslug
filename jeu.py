@@ -15,7 +15,8 @@ gestionJeu
 @param {Liste}          niveau.murs                     Une liste d'instances de murs
 @param {Liste}          niveau.obstacles                Une liste d'instances d'obstacles
 @param {Liste}          niveau.ennemis                  Une liste d'instances d'ennemis
-@param {Liste}          niveau.joueur                   Une instance joueur
+@param {Liste}          niveau.checkpoints              Une liste d'instances de checkpoints
+@param {Joueur}         niveau.joueur                   Une instance joueur
 @param {Int}            niveau.taille                   Longueur du niveau en px
 
 @return {?}                                             Le score de la partie
@@ -261,6 +262,13 @@ def testCollision(etat):
 
     return
 
+'''
+testCheckpoints
+
+Test si le joueur est sur un checkpoint
+
+@return {tuple | None}  Position du checkpoint ou None
+'''
 def testCheckpoints(etat) :
     check = pygame.sprite.spritecollide(etat['joueur'], etat['checkpoints'], False)
     if len(check) > 0 :
