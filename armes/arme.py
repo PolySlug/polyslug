@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 
 import pygame
+from sons import son
 
 class Arme(pygame.sprite.Sprite) :
 
@@ -24,5 +25,6 @@ class Arme(pygame.sprite.Sprite) :
 
     def tirer(self, position, vecteur) :
         self.dernierTir = pygame.time.get_ticks()
+        son.sonTire()
 
         #chaque arme doit implémenter une façon de renvoyer une liste de projectiles
