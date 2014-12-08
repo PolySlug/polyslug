@@ -208,6 +208,7 @@ def gestionJeu(fenetre, niveau):
         groupeBords.draw(calque) #il semblerait qu'on ait besoin de les dessiner pour le calcul des collisions
 
         afficherTemps(calque, time.time() - tempsStart, (f_width - decalageX - 70, 10))
+        afficherVie(calque, joueur.vie, -decalageX)
 
         #On insère le calque dans le fenêtre en fonction de decalageX
         fenetre.fill((0, 0, 0))
@@ -314,4 +315,20 @@ def afficherTemps(calque, milli, position) :
 
     label = font.render(st, 1, (255, 255, 255))
     calque.blit(label, position)
+
+
+'''
+afficherVie
+
+Affiche la vie du joueur en haut à gauche de l'écran
+
+@param  {pygame.Surface}    surface     La surface sur laquelle on blit
+@param  {int}               vie         La vie du joueur (max = `max`)
+@param  {int}               decalageX   Scroll du niveau en px
+@param  {int}               max
+'''
+def afficherVie(calque, vie, decalageX, max = 100) :
+
+    pygame.draw.rect(calque, (255, 0, 0), (10 + decalageX, 10, 1.5 * max, 8), 1)
+    pygame.draw.rect(calque, (255, 0, 0), (10 + decalageX, 10, 1.5 * vie, 8))
 
