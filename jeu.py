@@ -2,9 +2,15 @@
 
 import pygame
 import platform
+import time
+import datetime
+
 from lib.viseur         import Viseur
 from lib.ecouteSouris   import ecouteSouris
 from bord               import Bord
+
+pygame.font.init()
+font = pygame.font.Font(None, 28)
 
 
 '''
@@ -50,6 +56,7 @@ def gestionJeu(fenetre, niveau):
     done              = False
     decalageX         = 0
     dernierCheckPoint = (0, 0)  #la position du dernier checkpoint validé
+    tempsStart        = time.time() #timestamp
 
     viseur = Viseur()
 
@@ -178,7 +185,8 @@ def gestionJeu(fenetre, niveau):
         #Test des collisions
         testCollision(etat)
         check = testCheckpoints(etat)
-        dernierCheckPoint = check if check else dernierCheckPoint
+        if check :
+            dernierCheckPoint = check
 
         #On dessine dans le calque
         groupeJeu.draw(calque)
@@ -187,6 +195,8 @@ def gestionJeu(fenetre, niveau):
 
         viseur.draw(calque,decalageX)
         groupeBords.draw(calque) #il semblerait qu'on ait besoin de les dessiner pour le calcul des collisions
+
+        afficherTemps(calque, time.time() - tempsStart, (f_width + decalageX - 70, 10))
 
         #On insère le calque dans le fenêtre en fonction de decalageX
         fenetre.fill((0, 0, 0))
@@ -277,3 +287,20 @@ def testCheckpoints(etat) :
             return point.position()
     else :
         return None
+
+'''
+afficherTemps
+
+Affiche le temps passé en paramètre sous format minute:seconde
+@param {pygame.Surface} calque
+@param {milli}          milli       temps à afficher en millisecondes
+@param {tuple}          position    position du texte sur calque
+'''
+def afficherTemps(calque, milli, position) :
+
+    #on covertit le timestamp
+    st = datetime.datetime.fromtimestamp(milli).strftime('%M:%S')
+
+    label = font.render(st, 1, (255, 255, 255))
+    calque.blit(label, position)
+
