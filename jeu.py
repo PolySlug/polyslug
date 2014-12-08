@@ -209,7 +209,8 @@ def gestionJeu(fenetre, niveau):
         testCollision(etat)
         check = testCheckpoints(etat)
         if check :
-            if dernierCheckPoint[0]<check[0]:
+            #ne changer le checkpoint sauvegardé que si le nouveau est plus avancé
+            if dernierCheckPoint[0] < check[0] :
                 dernierCheckPoint = check
 
         #On dessine dans le calque
