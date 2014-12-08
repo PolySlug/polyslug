@@ -105,6 +105,9 @@ def gestionJeu(fenetre, niveau):
             if event.type == pygame.KEYUP and event.key == pygame.K_s :
                 joueur.seBaisser(accroupi = False)
 
+            #Le joueur change d'arme
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_r :
+                joueur.changerArme()
 
             #Le joueur tire
             if event.type == pygame.MOUSEBUTTONDOWN :
@@ -114,7 +117,7 @@ def gestionJeu(fenetre, niveau):
                 vecteur = (positionSouris[0] - decalageX - positionJoueur[0], \
                         positionSouris[1] - positionJoueur[1])
                 #Feu !
-                projectiles = joueur.arme.tirer(positionJoueur, vecteur)
+                projectiles = joueur.tirer(vecteur)
                 for projectile in projectiles :
                     groupeProjectilesJoueur.add(projectile)
 
