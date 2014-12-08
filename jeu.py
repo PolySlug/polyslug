@@ -9,6 +9,7 @@ from lib.viseur         import Viseur
 from lib.ecouteSouris   import ecouteSouris
 from bord               import Bord
 from entites.joueur     import Joueur
+from sons import son
 
 
 #Init de la font pygame
@@ -89,6 +90,8 @@ def gestionJeu(fenetre, niveau):
 
         #Si le boss est mort, c'est fini
         if niveau['boss'].vie <= 0 :
+            son.sonVictoire()
+            pygame.time.wait(3500)
             done = True
 
 
@@ -137,7 +140,7 @@ def gestionJeu(fenetre, niveau):
                 #Demande de saut
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_w :
                     joueur.sauter()
-
+                             
                 #Demande de mouvement
                 if event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_a :

@@ -4,6 +4,7 @@ import pygame
 
 from entite      import Entite
 from lib.sprites import Sprites
+from sons import son
 
 '''
 collisions
@@ -223,5 +224,6 @@ class Personnage(Entite):
         if self.contact_sol : #on ne peut pas sauter que si on est en contact avec le sol
             self.vitesse_y = -10
             self.contact_sol = False
+            son.sonSaut()
 
 
