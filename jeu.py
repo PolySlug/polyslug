@@ -35,18 +35,20 @@ def gestionJeu(fenetre, niveau):
     groupeMurs                  = creationGroupe(niveau['murs'])
     groupeObstacles             = creationGroupe(niveau['obstacles'])
     groupeEnnemis               = creationGroupe(niveau['ennemis'])
+    groupeCheckpoints           = creationGroupe(niveau['checkpoints'])
     groupeProjectilesJoueur     = pygame.sprite.Group() #les projectiles envoyés par le joueur
     groupeProjectilesEnnemis    = pygame.sprite.Group() #les projectiles envoyés par les ennemis
     groupeBords                 = creationGroupe(bords) #les bords de l'écran
 
     groupeJeu                   = creationGroupe(niveau['murs'] + niveau['obstacles'] + \
-                                    niveau['ennemis'] + [joueur])
+                                    niveau['ennemis'] + niveau['checkpoints'] + [joueur])
 
     #Création d'un calque dans lequel on va dessiner tout le niveau
     calque = pygame.Surface((niveau['taille'], f_height))
 
-    done      = False
-    decalageX = 0
+    done              = False
+    decalageX         = 0
+    dernierCheckPoint = (0, 0)  #la position du dernier checkpoint validé
 
     viseur = Viseur()
 
@@ -145,6 +147,7 @@ def gestionJeu(fenetre, niveau):
             'murs' :                groupeMurs,
             'obstacles':            groupeObstacles,
             'ennemis':              groupeEnnemis,
+            'checkpoints':          groupeCheckpoints,
             'joueur':               joueur,
 
             #Projectiles
@@ -173,6 +176,8 @@ def gestionJeu(fenetre, niveau):
 
         #Test des collisions
         testCollision(etat)
+        check = testCheckpoints(etat)
+        dernierCheckPoint = check if check else dernierCheckPoint
 
         #On dessine dans le calque
         groupeJeu.draw(calque)
@@ -256,3 +261,11 @@ def testCollision(etat):
 
     return
 
+def testCheckpoints(etat) :
+    check = pygame.sprite.spritecollide(etat['joueur'], etat['checkpoints'], False)
+    if len(check) > 0 :
+        for point in check :
+            point.check = True
+            return point.position()
+    else :
+        return None
