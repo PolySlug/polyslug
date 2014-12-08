@@ -10,8 +10,10 @@ from lib.ecouteSouris   import ecouteSouris
 from bord               import Bord
 from entites.joueur     import Joueur
 
+
+#Init de la font pygame
 pygame.font.init()
-font = pygame.font.Font(None, 28)
+font = pygame.font.Font(None, 28) #defaut
 
 
 '''
@@ -22,11 +24,13 @@ gestionJeu
 @param {Liste}          niveau.murs                     Une liste d'instances de murs
 @param {Liste}          niveau.obstacles                Une liste d'instances d'obstacles
 @param {Liste}          niveau.ennemis                  Une liste d'instances d'ennemis
+@param {Ennemi}         niveau.boss                     Le boss (une instance d'ennemi).
+                                                        Quand il meurt la partie est finie
 @param {Liste}          niveau.checkpoints              Une liste d'instances de checkpoints
 @param {tuple}          niveau.joueur                   La position initiale du joueur
 @param {Int}            niveau.taille                   Longueur du niveau en px
 
-@return {?}                                             Le score de la partie
+@return {int}                                           Le score de la partie (timestamp)
 '''
 def gestionJeu(fenetre, niveau):
 
@@ -38,8 +42,9 @@ def gestionJeu(fenetre, niveau):
     #le joueur
     joueur = Joueur(niveau['joueur'])
 
-    #Création des groupes de sprites
+    niveau['ennemis'].append(niveau['boss'])
 
+    #Création des groupes de sprites
     groupeMurs                  = creationGroupe(niveau['murs'])
     groupeObstacles             = creationGroupe(niveau['obstacles'])
     groupeEnnemis               = creationGroupe(niveau['ennemis'])
@@ -81,6 +86,10 @@ def gestionJeu(fenetre, niveau):
         if joueur.vie <= 0 :
             joueur = Joueur(dernierCheckPoint)
             groupeJeu.add(joueur)
+
+        #Si le boss est mort, c'est fini
+        if niveau['boss'].vie <= 0 :
+            done = True
 
 
         #Écoute des touches clavier

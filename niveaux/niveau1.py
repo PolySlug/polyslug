@@ -16,6 +16,8 @@ obstacles = [ObstacleTest((0,0)), ObstacleTest((100, 0))]
 
 ennemis = [Ennemi1((1000, 200)), Ennemi2((1200, 200))]
 
+boss = Ennemi1((1800, 0))
+
 checkpoints = [
     Checkpoint("red", (200, 530)),
     Checkpoint("blue", (300, 530)),
@@ -37,6 +39,7 @@ niveau = {
     'murs':        murs,
     'obstacles':   obstacles,
     'ennemis':     ennemis,
+    'boss':        boss,
     'checkpoints': checkpoints,
     'joueur':      joueur,
     'taille':      2000   #longueur du niveau en px
