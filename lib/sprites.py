@@ -18,14 +18,21 @@ class Sprites(object):
     '''
     sprite
 
-    @param {Tupple} ref     Le point haut gauche
-    @param {Tupple} taille  width et height de l'image à récupérer
+    @param {Tupple}     ref     Le point haut gauche
+    @param {Tupple}     taille  width et height de l'image à récupérer
+    @param {Boolean}    flipX       Miroir vertical ? Defaut : False
+    @param {Boolean}    flipY       Miroir horizontal ? Defaut : False
     '''
-    def sprite(self, ref, taille) :
+    def sprite(self, ref, taille, flipX = False, flipY = False) :
 
         image = pygame.Surface(taille)
         image.blit(self.image, (0,0), (ref[0], ref[1], taille[0], taille[1]))
         image.set_colorkey((0,0,0))
+
+        if flipX :
+            image = pygame.transform.flip(image, True, False)
+        if flipY :
+            image = pygame.transform.flip(image, False, True)
 
         return image
 
@@ -45,11 +52,7 @@ class Sprites(object):
         images = []
 
         for sprite in sprites :
-            img = self.sprite(sprite[0], sprite[1])
-            if flipX :
-                img = pygame.transform.flip(img, True, False)
-            if flipY :
-                img = pygame.transform.flip(img, False, True)
+            img = self.sprite(sprite[0], sprite[1], flipX, flipY)
             images.append(img)
 
         return images

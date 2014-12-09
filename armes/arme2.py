@@ -1,14 +1,25 @@
-import Arme
-import Projectile2
+
+import pygame
+
+from arme           import Arme
+from lib.sprites    import Sprites
+from projectiles.projectileDroitVert import ProjectileDroitVert
 
 class Arme2(Arme) :
 
-	def __init__(self):
+    delai = 200
 
-		self.sprite = Sprite('...') #/!\ check le nom du sprite
+    def __init__(self):
 
-		#self.imageDefaut = self.sprites.sprite((0,0), ())
+        self.sprites = Sprites('img/tiles_spritesheet.png')
+        self.imageDefaut = self.sprites.sprite((432,0), (72, 72))
 
-	def tirer(self, position, vecteur) :
-		
-		return Projectile2(position, vecteur)
+    def tirer(self, position, vecteur) :
+
+        if pygame.time.get_ticks() - self.dernierTir > self.delai :
+
+            super(Arme2, self).tirer(position, vecteur)
+            return [ProjectileDroitVert(position, vecteur)]
+
+        else :
+            return []

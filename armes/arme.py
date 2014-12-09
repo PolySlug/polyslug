@@ -1,12 +1,15 @@
 #-*- coding: utf-8 -*-
 
 import pygame
+from sons import son
 
 class Arme(pygame.sprite.Sprite) :
 
     #imageDefaut : l'image de l'arme sans rotation
     #image
     #rect
+
+    dernierTir = 0 #delai entre 2 tires
 
     def __init__(self):
 
@@ -21,6 +24,7 @@ class Arme(pygame.sprite.Sprite) :
         self.image = pygame.transform.rotate(self.imageDefaut, angle)
 
     def tirer(self, position, vecteur) :
-            '''cree un projectile qui herite de sa direction et position'''
-            pass
+        self.dernierTir = pygame.time.get_ticks()
+        son.sonTir()
 
+        #chaque arme doit implémenter une façon de renvoyer une liste de projectiles

@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 
 import pygame
+from sons import son
 
 '''
 Entite
@@ -40,9 +41,11 @@ class Entite(pygame.sprite.Sprite) :
         self.rect.x = x
         self.rect.y = y
 
-
     def update(self, *args) :
         pass
+
+    def position(self) :
+        return (self.rect.x, self.rect.y)
 
     '''
     blessure
@@ -52,5 +55,6 @@ class Entite(pygame.sprite.Sprite) :
     '''
     def blessure(self, vie):
         self.vie -= vie
-        return self.vie
+        if self.vie <= 0 :
+            self.kill()     #supprime la sprite de tous les groupes
 
