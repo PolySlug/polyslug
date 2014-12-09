@@ -1,4 +1,5 @@
 #-*- coding: utf-8 -*-
+import pygame
 
 from ennemi      import Ennemi
 from lib.sprites import Sprites
@@ -31,8 +32,10 @@ class Boss(Ennemi):
             [(355, 0), (70, 94)],
             [(284, 95), (70, 94)],
         ]
-
+        
         self.framesDroites = self.sprites.sprites(images)
+        #self.sizeFD = self.framesDroitesPetites.get_size() Idee : recuperer taille et mult par ce qu'on veut
+        #self.framesDroites = pygame.transform.scale(self.image, (int(self.size[0]*2), int(self.size[1]*2)))  
         self.framesGauches = self.sprites.sprites(images, flipX = True)
 
         self.image = self.imageRepos = self.sprites.sprite((0, 190), (66, 92))
