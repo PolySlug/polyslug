@@ -5,4 +5,5 @@ class Obstacle(Entite) :
 
     vie = 10
     sprites = None
+    plateforme = False
 

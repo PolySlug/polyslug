@@ -110,9 +110,17 @@ class Personnage(Entite):
         for collision in collisions(self, niveau) :
 
             if self.vitesse_y > 0 : #si on se déplace en bas, on force le contact avec le haut
-                self.rect.bottom = collision.rect.top
-                self.contact_sol = True
-                self.vitesse_y = 0 #on prend en compte la vitesse 0 pour calcul gravité
+                if collision.plateforme == False:# pour les elements qui ne sont pas des plateformes
+                    self.rect.bottom = collision.rect.top
+                    self.contact_sol = True
+                    self.vitesse_y = 0 #on prend en compte la vitesse 0 pour calcul gravité
+                elif collision.plateforme == True and self.rect.bottom <= collision.rect.bottom:
+                    #pour les plateformes ou les pieds du joueur son au moins au dessus du bas de la plateforme
+                    self.rect.bottom = collision.rect.top
+                    self.contact_sol = True
+                    self.vitesse_y = 0 #on prend en compte la vitesse 0 pour calcul gravité
+                #sinon on ne prend pas en compte la collison du joueur avec la plateforme
+                    
 
             if self.vitesse_y < 0 : #si on se déplace vers le haut, on force le contact avec le bas
 
@@ -148,9 +156,11 @@ class Personnage(Entite):
         #si on touche quelque chose en chemin
         for collision in collisions(self, niveau) :
             if self.vitesse_x > 0 : #si on se déplace à droite, on force le contact avec le côté gauche
-                self.rect.right = collision.rect.left
+                if collision.plateforme == False:# pour les plateformes on ne le fait pas
+                    self.rect.right = collision.rect.left
             if self.vitesse_x < 0 : #si on se déplace à gauche, on force le côté droit
-                self.rect.left = collision.rect.right
+                if collision.plateforme == False:# pour les plateformes on ne le fait pas
+                    self.rect.left = collision.rect.right
             #on ne force pas la vitesse_x à 0 si jamais l'obstacle disparaît de lui même
             #pas besoin de relancer le keydown clavier
 
