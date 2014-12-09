@@ -140,7 +140,7 @@ def gestionJeu(fenetre, niveau):
                 #Demande de saut
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_w :
                     joueur.sauter()
-                             
+
                 #Demande de mouvement
                 if event.type == pygame.KEYDOWN :
                     if event.key == pygame.K_a :
@@ -232,7 +232,7 @@ def gestionJeu(fenetre, niveau):
 
         clock.tick(60)
 
-    return #TODO
+    return time.time() - tempsStart
 
 '''
 creationGroupe
