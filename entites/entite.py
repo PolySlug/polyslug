@@ -55,7 +55,7 @@ class Entite(pygame.sprite.Sprite) :
     '''
     def blessure(self, vie):
         self.vie -= vie
-        son.sonBlessureEnnemie()
+        son.sonBlessureEnnemi()
         if self.vie <= 0 :
             self.kill()     #supprime la sprite de tous les groupes
             son.sonMort()
