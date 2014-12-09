@@ -71,10 +71,11 @@ def lireScores() :
 
     print("SCORES")
 
+    tousScores = scores.lireScores()
     lesNiveaux = recupererSousModules(niveaux)
 
     for n in lesNiveaux :
-        scoresNiveau = [s for s in scores.lireScores() if s['niveau'] == n]
+        scoresNiveau = [s for s in tousScores if s['niveau'] == n]
 
         print('Niveau : ' + n)
 
