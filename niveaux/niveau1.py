@@ -13,7 +13,7 @@ Touts les éléments du niveau
 
 murs = [Mur((0, 400)), Mur((71, 400)), Mur((400, 550))]
 
-plateformes = [Plateforme ((142,400))]
+plateformes = [Plateforme ((142,450))]
 
 obstacles = [ObstacleTest((0,0)), ObstacleTest((100, 0))]
 
