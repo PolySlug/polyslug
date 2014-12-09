@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
 
 from entites.mur           import Mur
+from entites.plateforme    import Plateforme
 from entites.obstacleTest  import ObstacleTest
 from entites.ennemi1       import Ennemi1
 from entites.ennemi2       import Ennemi2
@@ -11,6 +12,8 @@ Touts les éléments du niveau
 '''
 
 murs = [Mur((0, 400)), Mur((71, 400)), Mur((400, 550))]
+
+plateformes = [Plateforme ((142,400))]
 
 obstacles = [ObstacleTest((0,0)), ObstacleTest((100, 0))]
 
@@ -38,6 +41,7 @@ La structure d'un niveau
 niveau = {
     'murs':        murs,
     'obstacles':   obstacles,
+    'plateformes': plateformes,
     'ennemis':     ennemis,
     'boss':        boss,
     'checkpoints': checkpoints,
