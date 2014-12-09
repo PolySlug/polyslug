@@ -6,7 +6,7 @@ from lib.sprites import Sprites
 class Plateforme (Entite):
 
     sprites = Sprites('img/bridge.png')
-    image   = sprites.sprite((0, 0), (72,72))
+    image   = sprites.sprite((0, 50), (72,30))
     plateforme = True
 
     '''
