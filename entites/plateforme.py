@@ -3,11 +3,11 @@
 from entite      import Entite
 from lib.sprites import Sprites
 
-class Mur(Entite):
+class Plateforme (Entite):
 
-    sprites = Sprites('img/tiles_spritesheet.png')
-    image   = sprites.sprite((216, 0), (72,72))
-    plateforme = False
+    sprites = Sprites('img/bridge.png')
+    image   = sprites.sprite((0, 50), (72,30))
+    plateforme = True
 
     '''
     blessure
