@@ -5,6 +5,7 @@ from entites.plateforme    import Plateforme
 from entites.obstacleTest  import ObstacleTest
 from entites.ennemi1       import Ennemi1
 from entites.ennemi2       import Ennemi2
+from entites.boss          import Boss
 from checkpoint            import Checkpoint
 
 '''
@@ -19,7 +20,7 @@ obstacles = [ObstacleTest((0,0)), ObstacleTest((100, 0))]
 
 ennemis = [Ennemi1((1000, 200)), Ennemi2((1200, 200))]
 
-boss = Ennemi1((1800, 0))
+boss = Boss((1800, 0))
 
 checkpoints = [
     Checkpoint("red", (200, 530)),
