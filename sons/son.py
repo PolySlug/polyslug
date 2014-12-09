@@ -1,33 +1,36 @@
 import pygame
 
+pygame.mixer.init()
+
+sons = []
+
 #Initialisation
 def sonSaut():
-    pygame.mixer_music.load('sons/saut.ogg')
-    pygame.mixer.music.stop()
-    pygame.mixer.music.play()
+    son = pygame.mixer.Sound('sons/saut.ogg')
+    son.play()
+    sons.append(sons)
 
 def sonMort():
-    pygame.mixer_music.load('sons/mort.ogg')
-    pygame.mixer.music.stop()
-    pygame.mixer.music.play()
+    son = pygame.mixer.Sound('sons/mort.ogg')
+    son.play()
+    sons.append(sons)
 
 def sonBlessureEnnemi():
-    pygame.mixer_music.load('sons/blessureEnnemi.ogg')
-    pygame.mixer.music.stop()
-    pygame.mixer.music.play()
+    son = pygame.mixer.Sound('sons/blessureEnnemi.ogg')
+    son.play()
+    sons.append(sons)
 
 def sonBlessureJoueur():
-    pygame.mixer_music.load('sons/blessureJoueur.ogg')
-    pygame.mixer.music.stop()
-    pygame.mixer.music.play()
+    son = pygame.mixer.Sound('sons/blessureJoueur.ogg')
+    son.play()
+    sons.append(sons)
 
 def sonTir():
-    pygame.mixer_music.load('sons/tir.ogg')
-    pygame.mixer.music.stop()
-    pygame.mixer.music.play()
+    son = pygame.mixer.Sound('sons/tir.ogg')
+    son.play()
+    sons.append(sons)
 
 def sonVictoire():
-    pygame.mixer_music.load('sons/victory.ogg')
-    pygame.mixer.music.stop()
-    pygame.mixer.music.play()
-
+    son = pygame.mixer.Sound('sons/victory.ogg')
+    son.play()
+    sons.append(sons)
