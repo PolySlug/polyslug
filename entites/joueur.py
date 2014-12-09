@@ -2,6 +2,7 @@
 from personnage          import Personnage
 from armes.arme2         import Arme2
 from armes.fusilPompe    import FusilPompe
+from sons import son
 
 class Joueur(Personnage):
 
@@ -29,3 +30,7 @@ class Joueur(Personnage):
     '''
     def tirer(self, vecteur) :
         return self.armes[self.arme].tirer(self.position(), vecteur)
+    
+    def blessure(self, vie):
+        son.sonBlessureJoueur()
+        super(Joueur, self).blessure(vie)

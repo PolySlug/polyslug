@@ -225,5 +225,11 @@ class Personnage(Entite):
             self.vitesse_y = -10
             self.contact_sol = False
             son.sonSaut()
+    
+    def blessure(self, vie):
+        super(Personnage, self).blessure(vie)
+        
+        if self.vie <= 0 :
+            son.sonMort()
 
 
