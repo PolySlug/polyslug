@@ -16,7 +16,7 @@ collisions
 def collisions(item, niveau) :
     collisions = []
 
-    for test in ['murs', 'obstacles'] :
+    for test in ['murs', 'obstacles','plateformes'] :
         collisions += pygame.sprite.spritecollide(item, niveau[test], False)
 
     return collisions
@@ -26,7 +26,6 @@ class Personnage(Entite):
 
     vitesse_x = 0
     vitesse_y = 0
-    plateforme = False
     courir    = False   #True si le joueur cours
     accroupi  = False
 
@@ -113,7 +112,7 @@ class Personnage(Entite):
                 self.rect.bottom = collision.rect.top
                 self.contact_sol = True
             if self.vitesse_y < 0 : #si on se déplace vers le haut, on force le contact avec le bas
-                if self.plateforme == False : #si c'est une plateforme on passe a travers
+                if collision.plateforme == False : #si c'est une plateforme on passe a travers
                     self.rect.top = collision.rect.bottom
                 self.contact_sol = False
             self.vitesse_y = 0 #on prend en compte la vitesse 0 pour calcul gravité
