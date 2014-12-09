@@ -51,9 +51,9 @@ def enregisterScore(score, nomNiveau) :
         nom = raw_input("Pseudo :")
 
         scores.ajoutScore({
-            'nom'       : nom,
-            'temps'     : score,
-            'nomNiveau' : nomNiveau
+            'nom'    : nom,
+            'temps'  : score,
+            'niveau' : nomNiveau
             })
 
         lireScores()
@@ -71,9 +71,19 @@ def lireScores() :
 
     print("SCORES")
 
-    for score in sorted(scores.lireScores(), key = lambda score: score['temps']) : #On tri les scores
-        temps = datetime.datetime.fromtimestamp(score['temps']).strftime('%M:%S')
-        print(score['nom'] + ' : ' + temps)
+    lesNiveaux = recupererSousModules(niveaux)
+
+    for n in lesNiveaux :
+        scoresNiveau = [s for s in scores.lireScores() if s['niveau'] == n]
+
+        print('Niveau : ' + n)
+
+        if len(scoresNiveau) == 0 :
+            print("Pas de scores")
+        else :
+            for score in sorted(scoresNiveau, key = lambda score: score['temps']) : #On tri les scores
+                temps = datetime.datetime.fromtimestamp(score['temps']).strftime('%M:%S')
+                print(score['nom'] + ' : ' + temps)
 
 
 '''
@@ -89,9 +99,10 @@ def main() :
     if 'scores' in argv : #l'utilisateur veut simplement consulter les scores
         lireScores()
 
-    if 'niveaux' in argv : #l'utilisateur veut la liste des niveaux
+    elif 'niveaux' in argv : #l'utilisateur veut la liste des niveaux
 
         print("NIVEAUX")
+
         for n in recupererSousModules(niveaux):
             print("- " + n)
 
