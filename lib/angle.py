@@ -8,5 +8,11 @@ def angleVecteurs (v1, v2) :
 
     proj = x1*x2 + y1*y2
 
-    t = math.acos(proj / math.hypot(x2, y2) )
+    hypo = math.hypot(x2, y2)
+
+    if hypo == 0 :
+        t = 0
+    else :
+        t = math.acos(proj / hypo)
+
     return math.degrees(t)
