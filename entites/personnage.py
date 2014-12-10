@@ -239,8 +239,16 @@ class Personnage(Entite):
             self.contact_sol = False
             son.sonSaut()
 
+    '''
+    blessure
+
+    Supprimer l'arme des groupes auxquels elle appartient
+    Appeler super
+
+    @param {int}    vie
+    '''
     def blessure(self, vie):
-        if vie <= 0 :
+        super(Personnage, self).blessure(vie)
+        if self.vie <= 0 :
             self.arme.kill()
 
-        super(Personnage, self).blessure(vie)
