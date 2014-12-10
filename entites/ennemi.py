@@ -67,6 +67,9 @@ class Ennemi(Personnage):
         if joueur and self.ia_joueurEnVue(joueur, niveau['f_width'] * 0.8) : #vision = 80% largeur écran
             directionJoueur = self.ia_directionJoueur(joueur)
 
+            #pointer le joueur
+            self.arme.direction(directionJoueur)
+
             #tirer
             projectiles = self.arme.tirer(self.position(), directionJoueur)
             for projectile in projectiles :

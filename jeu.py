@@ -52,6 +52,7 @@ def gestionJeu(fenetre, niveau):
     groupeCheckpoints           = creationGroupe(niveau['checkpoints'])
     groupeProjectilesJoueur     = pygame.sprite.Group() #les projectiles envoyés par le joueur
     groupeProjectilesEnnemis    = pygame.sprite.Group() #les projectiles envoyés par les ennemis
+    groupeArmes                 = creationGroupeArmes(niveau, joueur) #toutes les armes
     groupeBords                 = creationGroupe(bords) #les bords de l'écran
 
     groupeJeu                   = creationGroupe(niveau['murs'] + niveau['obstacles'] + \
@@ -94,6 +95,13 @@ def gestionJeu(fenetre, niveau):
             pygame.time.wait(3500)
             done = True
 
+        #Calcul de la direction du tir
+        positionJoueur = (joueur.rect.x, joueur.rect.y)
+        positionSouris = ecouteSouris()
+        vecteur = (positionSouris[0] - decalageX - positionJoueur[0], \
+                positionSouris[1] - positionJoueur[1])
+
+        joueur.bougerArme(vecteur)
 
         #Écoute des touches clavier
 
@@ -119,15 +127,10 @@ def gestionJeu(fenetre, niveau):
 
             #Le joueur change d'arme
             if event.type == pygame.KEYDOWN and event.key == pygame.K_r :
-                joueur.changerArme()
+                groupeArmes.add(joueur.changerArme())
 
             #Le joueur tire
             if event.type == pygame.MOUSEBUTTONDOWN :
-                #Calcul de la direction du tir
-                positionJoueur = (joueur.rect.x, joueur.rect.y)
-                positionSouris = ecouteSouris()
-                vecteur = (positionSouris[0] - decalageX - positionJoueur[0], \
-                        positionSouris[1] - positionJoueur[1])
                 #Feu !
                 projectiles = joueur.tirer(vecteur)
                 for projectile in projectiles :
@@ -185,6 +188,9 @@ def gestionJeu(fenetre, niveau):
             'projectilesEnnemis':   groupeProjectilesEnnemis,
             'projectilesJoueur':    groupeProjectilesJoueur,
 
+            #armes
+            'armes' :               groupeArmes,
+
             #taille niveau
             'width':                niveau['taille'],
             'height':               f_height,
@@ -201,6 +207,7 @@ def gestionJeu(fenetre, niveau):
         groupeJeu.update(etat)
         groupeProjectilesEnnemis.update(etat)
         groupeProjectilesJoueur.update(etat)
+        groupeArmes.update(etat)
 
         #On décale les bords comme il faut bien
         groupeBords.update(decalageX)
@@ -217,6 +224,7 @@ def gestionJeu(fenetre, niveau):
         groupeJeu.draw(calque)
         groupeProjectilesEnnemis.draw(calque)
         groupeProjectilesJoueur.draw(calque)
+        groupeArmes.draw(calque)
 
         viseur.draw(calque,decalageX)
         groupeBords.draw(calque) #il semblerait qu'on ait besoin de les dessiner pour le calcul des collisions
@@ -242,6 +250,26 @@ creationGroupe
 '''
 def creationGroupe(items):
     return pygame.sprite.Group(*items)
+
+
+'''
+creationGroupeArmes
+
+Crée un groupe de sprite pygame contenant toutes les armes du jeu
+Elles doivent être indépendante car dessinées par dessus les personnages
+et n'ayant pas le même mouvement
+
+@param  {dic}                 niveau      La config du niveau
+@param  {Joueur}              joueur
+@return {pygame.sprite.Group}
+'''
+def creationGroupeArmes(niveau, joueur) :
+    groupe = pygame.sprite.Group()
+
+    for item in niveau['ennemis'] + [niveau['boss']] + [joueur] :
+        groupe.add(item.arme)
+
+    return groupe
 
 '''
 creationBords
