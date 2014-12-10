@@ -32,15 +32,45 @@ class Boss(Ennemi):
             [(355, 0), (70, 94)],
             [(284, 95), (70, 94)],
         ]
-        
-        self.framesDroites = self.sprites.sprites(images)
-        #self.sizeFD = self.framesDroitesPetites.get_size() Idee : recuperer taille et mult par ce qu'on veut
-        #self.framesDroites = pygame.transform.scale(self.image, (int(self.size[0]*2), int(self.size[1]*2)))  
-        self.framesGauches = self.sprites.sprites(images, flipX = True)
 
-        self.image = self.imageRepos = self.sprites.sprite((0, 190), (66, 92))
+        # Idee : recuperer taille et mult par ce qu'on veut, ici par 2
+        j = 0
 
-        self.imageAccroupi = [
+        self.framesDroitesNonDim = self.sprites.sprites(images)
+        self.framesDroites = []
+        for i in self.framesDroitesNonDim :
+            tailleFD = self.framesDroitesNonDim[j].get_size()
+            redim = pygame.transform.scale(self.framesDroitesNonDim[j], (tailleFD[0]*2, tailleFD[1]*2))
+            self.framesDroites.append(redim)
+            j = j+1
+
+        j = 0
+
+        self.framesGauchesNonDim = self.sprites.sprites(images, flipX = True)
+        self.framesGauches = []
+        for i in self.framesGauchesNonDim :
+            tailleFG = self.framesGauchesNonDim[j].get_size()
+            redim = pygame.transform.scale(self.framesGauchesNonDim[j], (tailleFG[0]*2, tailleFG[1]*2))
+            self.framesGauches.append(redim)
+            j = j+1
+
+
+        self.imageNonDim = self.imageReposNonDim = self.sprites.sprite((0, 190), (66, 92))
+        tailleImage = self.imageNonDim.get_size()
+        self.image = self.imageRepos = pygame.transform.scale(self.imageNonDim, (tailleImage[0]*2, tailleImage[1]*2))
+
+        self.imageAccroupiNonDim = [
             self.sprites.sprite((355, 95), (67, 72)),
             self.sprites.sprite((355, 95), (67, 72), flipX = True)
         ]
+
+        j = 0
+
+        self.imageAccroupi= []
+
+        for i in self.imageAccroupiNonDim :
+            tailleA = self.imageAccroupiNonDim[j].get_size()
+            redim = pygame.transform.scale(self.imageAccroupiNonDim[j], (tailleA[0]*2, tailleA[1]*2))
+            self.imageAccroupi.append(redim)
+            j = j+1
+
