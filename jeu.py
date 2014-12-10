@@ -267,6 +267,7 @@ def creationGroupeArmes(niveau, joueur) :
     groupe = pygame.sprite.Group()
 
     for item in niveau['ennemis'] + [niveau['boss']] + [joueur] :
+        print item.arme
         groupe.add(item.arme)
 
     return groupe
