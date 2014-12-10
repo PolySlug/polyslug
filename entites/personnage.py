@@ -164,6 +164,17 @@ class Personnage(Entite):
             else :
                 self.image = self.imageRepos
 
+    def positionMain(self) :
+
+        position = self.position()
+
+        main = [0, 0]
+        main[0], main[1] = position[0], position[1]
+        main[1] += 70 if not self.accroupi else 50
+        main[0] += 6
+
+        return main
+
     '''
     update
 
@@ -176,14 +187,7 @@ class Personnage(Entite):
         self.calcul_X(niveau)
         self.calcul_Y(niveau)
 
-        position = self.position()
-
-        positionArme = [0, 0]
-        positionArme[0], positionArme[1] = position[0], position[1]
-        positionArme[1] += 70 if not self.accroupi else 50
-        positionArme[0] += 6
-
-        self.arme.position(positionArme)
+        self.arme.position(self.positionMain())
 
     '''
     deplacementX
@@ -235,4 +239,8 @@ class Personnage(Entite):
             self.contact_sol = False
             son.sonSaut()
 
+    def blessure(self, vie):
+        if vie <= 0 :
+            self.arme.kill()
 
+        super(Personnage, self).blessure(vie)
