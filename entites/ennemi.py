@@ -96,3 +96,5 @@ class Ennemi(Personnage):
 
         self.calcul_Y(niveau)
         self.calcul_X(niveau)
+
+        super(Ennemi, self).update(niveau, *args)
