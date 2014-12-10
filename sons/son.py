@@ -27,6 +27,7 @@ def sonBlessureJoueur():
 
 def sonTir():
     son = pygame.mixer.Sound('sons/tir.ogg')
+    son.set_volume(0.5)
     son.play()
     sons.append(sons)
 

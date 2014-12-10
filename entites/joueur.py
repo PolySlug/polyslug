@@ -3,6 +3,7 @@
 from personnage          import Personnage
 from armes.arme2         import Arme2
 from armes.fusilPompe    import FusilPompe
+from sons import son
 
 class Joueur(Personnage):
 
@@ -41,5 +42,11 @@ class Joueur(Personnage):
         self.arme.direction(direction)
 
 
-    #def update(self, niveau, *args) :
-    #    super(Joueur, self).update(niveau, *args)
+    '''
+    blessure
+
+    Aie
+    '''
+    def blessure(self, vie):
+        son.sonBlessureJoueur()
+        super(Joueur, self).blessure(vie)

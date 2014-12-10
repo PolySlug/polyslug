@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+#-*- coding:utf-8-*-
 
 #test de projectiles
 import pygame
@@ -45,3 +45,4 @@ class Projectile(pygame.sprite.Sprite):
     '''
     def update(self, *args):
         pass
+

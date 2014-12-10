@@ -1,9 +1,11 @@
 #-*- coding: utf-8 -*-
 
 from entites.mur           import Mur
+from entites.plateforme    import Plateforme
 from entites.obstacleTest  import ObstacleTest
 from entites.ennemi1       import Ennemi1
 from entites.ennemi2       import Ennemi2
+from entites.boss          import Boss
 from checkpoint            import Checkpoint
 
 '''
@@ -12,11 +14,13 @@ Touts les éléments du niveau
 
 murs = [Mur((0, 400)), Mur((71, 400)), Mur((400, 550))]
 
+plateformes = [Plateforme ((142,450)),Plateforme((142,250))]
+
 obstacles = [ObstacleTest((0,0)), ObstacleTest((100, 0))]
 
 ennemis = [Ennemi1((1000, 200)), Ennemi2((1200, 200))]
 
-boss = Ennemi1((1800, 0))
+boss = Boss((1800, 0))
 
 checkpoints = [
     Checkpoint("red", (200, 530)),
@@ -38,6 +42,7 @@ La structure d'un niveau
 niveau = {
     'murs':        murs,
     'obstacles':   obstacles,
+    'plateformes': plateformes,
     'ennemis':     ennemis,
     'boss':        boss,
     'checkpoints': checkpoints,

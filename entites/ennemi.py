@@ -3,6 +3,7 @@
 import math
 
 from personnage import Personnage
+from sons import son
 
 class Ennemi(Personnage):
 
@@ -98,3 +99,12 @@ class Ennemi(Personnage):
         self.calcul_X(niveau)
 
         super(Ennemi, self).update(niveau, *args)
+
+    '''
+    blessure
+
+    Aie
+    '''
+    def blessure(self, vie):
+        son.sonBlessureEnnemi()
+        super(Ennemi, self).blessure(vie)
