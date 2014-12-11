@@ -33,7 +33,9 @@ gestionJeu
 
 @return {int}                                           Le score de la partie (timestamp)
 '''
-def gestionJeu(fenetre, niveau):
+def gestionJeu(fenetre, niveau): #TODO : update doc
+
+    print(niveau)
 
     f_width, f_height = fenetre.get_width(), fenetre.get_height() #racourcis dimension fenêtre
 
@@ -41,9 +43,9 @@ def gestionJeu(fenetre, niveau):
     bords = creationBords(f_width, f_height)
 
     #le joueur
-    joueur = Joueur(niveau['joueur'])
+    joueur = Joueur(niveau['joueur'][0])
 
-    niveau['ennemis'].append(niveau['boss'])
+    niveau['ennemi'] = niveau['ennemis'] + niveau['boss']
 
     #Création des groupes de sprites
     groupeMurs                  = creationGroupe(niveau['murs'])
@@ -61,7 +63,7 @@ def gestionJeu(fenetre, niveau):
                                    + [joueur])
 
     #Création d'un calque dans lequel on va dessiner tout le niveau
-    calque = pygame.Surface((niveau['taille'], f_height))
+    calque = pygame.Surface((niveau['width'], niveau['height']))
 
     done              = False
     decalageX         = 0
@@ -194,7 +196,7 @@ def gestionJeu(fenetre, niveau):
             'armes' :               groupeArmes,
 
             #taille niveau
-            'width':                niveau['taille'],
+            'width':                niveau['width'],
             'height':               f_height,
 
             #taille fenêtre
@@ -268,7 +270,11 @@ et n'ayant pas le même mouvement
 def creationGroupeArmes(niveau, joueur) :
     groupe = pygame.sprite.Group()
 
-    for item in niveau['ennemis'] + [niveau['boss']] + [joueur] :
+    ent = niveau['ennemis'] + [joueur]
+    if len(niveau['boss']) > 0 :
+        ent += niveau['boss']
+
+    for item in ent :
         groupe.add(item.arme)
 
     return groupe
@@ -325,7 +331,7 @@ def testCollision(etat):
     #le jeu est trop facile sinon
     pygame.sprite.groupcollide(etat['projectilesJoueur'], etat['bords'], True, False)
     pygame.sprite.groupcollide(etat['projectilesEnnemis'], etat['bords'], True, False)
-    
+
     #destruction des projectiles du joueur et des ennemis en contact avec les murs
     pygame.sprite.groupcollide(etat['projectilesJoueur'], etat['murs'], True, False)
     pygame.sprite.groupcollide(etat['projectilesEnnemis'], etat['murs'], True, False)
