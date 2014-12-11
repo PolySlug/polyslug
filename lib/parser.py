@@ -123,7 +123,7 @@ def construction(calque, tiles, tileWidth, tileHeight):
             classe = tile['classe']
 
             i = (index % layerWidth) * tileWidth
-            j = (index // layerHeight) * tileHeight
+            j = (index // layerWidth) * tileHeight
 
             if groupe in niveau :
 
