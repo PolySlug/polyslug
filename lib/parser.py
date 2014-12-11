@@ -133,6 +133,8 @@ def construction(calque, tiles, tileWidth, tileHeight):
 
                 if classe == "Joueur" :
                     instance = (i,j)
+                elif classe == "Portail" :
+                    instance = importClass(groupe, classe)((i,j), tile['suivant'])
                 elif groupe in dynamiques :
                     instance = importClass(groupe, classe)((i,j))
                 else :
