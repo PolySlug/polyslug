@@ -118,7 +118,7 @@ def main() :
                 print("Pas de niveau " + argv[1] + ". Essayer la commande `niveaux`")
                 n = None
         else : #defaut : premier niveau
-            n = lesNiveaux[0]
+            n = 'niveau1' #TODO : temp
 
         if n :
             niveau = importlib.import_module('niveaux.' + n)

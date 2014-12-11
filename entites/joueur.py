@@ -2,12 +2,13 @@
 
 from personnage          import Personnage
 from armes.arme2         import Arme2
+from armes.armeSinus     import ArmeSinus
 from armes.fusilPompe    import FusilPompe
 from sons import son
 
 class Joueur(Personnage):
 
-    _armes = [Arme2(), FusilPompe()]
+    _armes = [Arme2(), FusilPompe(), ArmeSinus()]
     _arme  = 0
     arme   = _armes[0]
 
@@ -36,7 +37,7 @@ class Joueur(Personnage):
     @return {Liste}             Liste de projectiles renvoyés par l'arme
     '''
     def tirer(self, vecteur) :
-        return self.arme.tirer(self.position(), vecteur)
+        return self.arme.tirer(self.positionMain(), vecteur)
 
     def bougerArme(self, direction) :
         self.arme.direction(direction)
