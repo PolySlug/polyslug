@@ -45,6 +45,10 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
     #le joueur
     joueur = Joueur(niveau['joueur'][0])
 
+    boss = None
+    if len(niveau['boss']) > 0 :
+        boss = niveau['boss']
+
     niveau['ennemi'] = niveau['ennemis'] + niveau['boss']
 
     #Création des groupes de sprites
@@ -94,7 +98,7 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
             groupeJeu.add(joueur)
 
         #Si le boss est mort, c'est fini
-        if niveau['boss'].vie <= 0 :
+        if boss and boss.vie <= 0 :
             son.sonVictoire()
             done = True
 
