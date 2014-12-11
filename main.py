@@ -9,8 +9,9 @@ from jeu         import gestionJeu
 from lib.scores  import Scores
 from lib.inspect import recupererSousModules
 
-import niveaux
+from niveaux.niveau import construireNiveau
 
+lesNiveaux = ['niveau1']
 
 #Notre DB de scores (veiller à ce que le fichier existe, même vide)
 scores = Scores('scores.json')
@@ -28,7 +29,7 @@ def lancerJeu(niveau, nomNiveau) :
     pygame.init()
     fenetre = pygame.display.set_mode((800, 600))
 
-    score = gestionJeu(fenetre, niveau.niveau)
+    score, suivant = gestionJeu(fenetre, niveau)
 
     enregisterScore(score, nomNiveau)
 
@@ -72,7 +73,6 @@ def lireScores() :
     print("SCORES")
 
     tousScores = scores.lireScores()
-    lesNiveaux = recupererSousModules(niveaux)
 
     for n in lesNiveaux :
         scoresNiveau = [s for s in tousScores if s['niveau'] == n]
@@ -109,8 +109,6 @@ def main() :
 
     else : #l'utilisateur veut jouer
 
-        lesNiveaux = recupererSousModules(niveaux)
-
         if len(argv) > 1 :              #on veut un niveau en particulier
             if argv[1] in lesNiveaux :
                 n = argv[1]
@@ -121,7 +119,7 @@ def main() :
             n = 'niveau1' #TODO : temp
 
         if n :
-            niveau = importlib.import_module('niveaux.' + n)
+            niveau = construireNiveau('niveaux/' + n)
             lancerJeu(niveau, n)
 
 main()

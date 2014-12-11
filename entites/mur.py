@@ -5,9 +5,18 @@ from lib.sprites import Sprites
 
 class Mur(Entite):
 
-    sprites = Sprites('img/tiles_spritesheet.png')
-    image   = sprites.sprite((216, 0), (72,72))
     plateforme = False
+
+    '''
+    __init__
+
+    Découpe de l'image
+    '''
+    def __init__(self, position, image, rect) :
+        self.sprites = Sprites(image)
+        self.image   = self.sprites.sprite(rect = rect)
+
+        super(Mur, self).__init__(position)
 
     '''
     blessure
