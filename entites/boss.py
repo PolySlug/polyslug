@@ -83,7 +83,7 @@ class Boss(Ennemi):
         main = [0, 0]
         main[0], main[1] = position[0], position[1]
         main[1] += 150
-        main[0] += 12
+        main[0] += 24
 
         return main
 
