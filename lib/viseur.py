@@ -11,9 +11,10 @@ class Viseur():
 
 	@param {Surface} fen
 	'''
-	def draw(self, fen,decalageX):
+	def draw(self, fen, decalageX, decalageY):
 
-            position = (ecouteSouris()[0]-int(decalageX),ecouteSouris()[1])
+            souris = ecouteSouris()
+            position = (souris[0] - int(decalageX), souris[1] - int(decalageY))
 
             #Dessine 4 traits de longueur l=20px
             pygame.draw.line(fen, (0, 0, 0), (position[0],position[1]), (position[0],position[1]-20), 2)

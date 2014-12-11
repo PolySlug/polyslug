@@ -111,7 +111,7 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
         positionJoueur = (joueur.rect.x, joueur.rect.y)
         positionSouris = ecouteSouris()
         vecteur = (positionSouris[0] - decalageX - positionJoueur[0], \
-                positionSouris[1] - positionJoueur[1])
+                positionSouris[1] - decalageY - positionJoueur[1])
 
         joueur.bougerArme(vecteur)
 
@@ -239,7 +239,7 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
         groupeProjectilesJoueur.draw(calque)
         groupeArmes.draw(calque)
 
-        viseur.draw(calque,decalageX)
+        viseur.draw(calque, decalageX, decalageY)
         groupeBords.draw(calque) #il semblerait qu'on ait besoin de les dessiner pour le calcul des collisions
 
         afficherTemps(calque, time.time() - tempsStart, (f_width - decalageX - 70, 10))
