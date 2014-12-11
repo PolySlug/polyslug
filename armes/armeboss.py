@@ -5,6 +5,7 @@ from arme           import Arme
 from lib.sprites    import Sprites
 from projectiles.projectileDroitRouge import ProjectileDroitRouge
 
+
 class ArmeBoss(Arme) :
 
     delai = 1000
@@ -14,10 +15,10 @@ class ArmeBoss(Arme) :
         self.sprites = Sprites('img/raygunPurple.png')
         self.imageNonDim = self.imageDefautNonDim = self.sprites.sprite((0,12), (56, 56))
         tailleimage = self.imageNonDim.get_size()
-        self.image = self.imageNonDim = pygame.transform.scale(self.imageNonDim, (tailleimage[0]*2, tailleimage[1]*2))
+        self.image = self.imageDefaut = pygame.transform.scale(self.imageNonDim, (tailleimage[0]*2, tailleimage[1]*2))
 
+        super(ArmeBoss, self).__init__()
 
-        super(Arme1, self).__init__()
 
     def tirer(self, position, vecteur) :
 

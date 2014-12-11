@@ -33,6 +33,7 @@ class Boss(Ennemi):
             [(284, 95), (70, 94)],
         ]
 
+        #REDIMENSIONNEMENT DES FRAMES DU BOSS
         # Idee : recuperer taille et mult par ce qu'on veut, ici par 2
         j = 0
 
@@ -74,3 +75,12 @@ class Boss(Ennemi):
             self.imageAccroupi.append(redim)
             j = j+1
 
+
+        #On récupère la position de la main des entitées de base pour la modifier pour le boss
+        def positionMain(self) :
+
+            main = super(Boss, self).positionMain()
+
+            main[1] += 100
+            
+            return main
