@@ -35,3 +35,8 @@ def sonVictoire():
     son = pygame.mixer.Sound('sons/victory.ogg')
     son.play()
     sons.append(sons)
+
+def sonCheckpoint():
+    son = pygame.mixer.Sound('sons/checkpoint.ogg')
+    son.play()
+    sons.append(sons)
