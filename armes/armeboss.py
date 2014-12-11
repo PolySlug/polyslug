@@ -23,7 +23,7 @@ class ArmeBoss(Arme) :
 
         if pygame.time.get_ticks() - self.dernierTir > self.delai :
 
-            super(Arme1, self).tirer(position, vecteur)
+            super(ArmeBoss, self).tirer(position, vecteur)
             return [ProjectileDroitRouge(position, vecteur)]
 
         else :
