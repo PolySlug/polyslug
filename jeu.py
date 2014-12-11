@@ -80,7 +80,7 @@ def gestionJeu(fenetre, niveau, tempsStart = time.time()): #TODO : update doc
     done              = False
     decalageX         = 0
     decalageY         = 0
-    dernierCheckPoint = niveau['joueur']  #la position du dernier checkpoint validé
+    dernierCheckPoint = niveau['joueur'][0]  #la position du dernier checkpoint validé
 
     viseur = Viseur()
 
@@ -112,6 +112,7 @@ def gestionJeu(fenetre, niveau, tempsStart = time.time()): #TODO : update doc
         if joueur.vie <= 0 :
             joueur = Joueur(dernierCheckPoint)
             groupeJeu.add(joueur)
+            groupeArmes.add(joueur.arme)
 
         #Si le boss est mort, c'est fini
         if boss and boss.vie <= 0 :
