@@ -15,7 +15,7 @@ class Checkpoint(pygame.sprite.Sprite) :
     imagesCheck = []
     imageNonCheck = None
 
-    def __init__(self, couleur, position) :
+    def __init__(self, position, couleur = 'red') :
 
         pygame.sprite.Sprite.__init__(self)
 

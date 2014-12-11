@@ -33,17 +33,21 @@ gestionJeu
 
 @return {int}                                           Le score de la partie (timestamp)
 '''
-def gestionJeu(fenetre, niveau):
+def gestionJeu(fenetre, niveau): #TODO : update doc
 
     f_width, f_height = fenetre.get_width(), fenetre.get_height() #racourcis dimension fenêtre
 
     #creation des bords
-    bords = creationBords(f_width, f_height)
+    bords = creationBords(f_width, niveau['height'])
 
     #le joueur
-    joueur = Joueur(niveau['joueur'])
+    joueur = Joueur(niveau['joueur'][0])
 
-    niveau['ennemis'].append(niveau['boss'])
+    boss = None
+    if len(niveau['boss']) > 0 :
+        boss = niveau['boss']
+
+    niveau['ennemi'] = niveau['ennemis'] + niveau['boss']
 
     #Création des groupes de sprites
     groupeMurs                  = creationGroupe(niveau['murs'])
@@ -61,10 +65,11 @@ def gestionJeu(fenetre, niveau):
                                    + [joueur])
 
     #Création d'un calque dans lequel on va dessiner tout le niveau
-    calque = pygame.Surface((niveau['taille'], f_height))
+    calque = pygame.Surface((niveau['width'], niveau['height']))
 
     done              = False
     decalageX         = 0
+    decalageY         = 0
     dernierCheckPoint = niveau['joueur']  #la position du dernier checkpoint validé
     tempsStart        = time.time() #timestamp
 
@@ -83,6 +88,12 @@ def gestionJeu(fenetre, niveau):
         #Le scroll horizontal du niveau
         decalageX = -joueur.rect.x + f_width / 2 if joueur.rect.x > f_width / 2 else 0
 
+        #Scroll vertical
+        decalageY = -1 * (niveau['height'] - f_height)
+
+        if joueur.rect.y < -decalageY + f_height / 2 :
+            decalageY = f_height / 2 - joueur.rect.y
+
         #un nouveau calque tout beau tout propre
         calque.fill((0, 20, 50))
 
@@ -92,7 +103,7 @@ def gestionJeu(fenetre, niveau):
             groupeJeu.add(joueur)
 
         #Si le boss est mort, c'est fini
-        if niveau['boss'].vie <= 0 :
+        if boss and boss.vie <= 0 :
             son.sonVictoire()
             done = True
 
@@ -100,7 +111,9 @@ def gestionJeu(fenetre, niveau):
         positionSouris = ecouteSouris()
         positionmain = joueur.positionMain()
         vecteur = (positionSouris[0] - decalageX - positionmain[0]-15, \
-                positionSouris[1] - positionmain[1]+10) #-15 et +10 viennent du fait que l'on a décalé les projectiles (de +15 et -10) à leur création pour qu'ils sortent de l'arme
+                positionSouris[1] - decalageY - positionmain[1]+10)
+        #-15 et +10 viennent du fait que l'on a décalé les projectiles
+        #(de +15 et -10) à leur création pour qu'ils sortent de l'arme
 
         joueur.bougerArme(vecteur)
 
@@ -194,8 +207,8 @@ def gestionJeu(fenetre, niveau):
             'armes' :               groupeArmes,
 
             #taille niveau
-            'width':                niveau['taille'],
-            'height':               f_height,
+            'width':                niveau['width'],
+            'height':               niveau['height'],
 
             #taille fenêtre
             'f_width':              f_width,
@@ -228,15 +241,15 @@ def gestionJeu(fenetre, niveau):
         groupeProjectilesJoueur.draw(calque)
         groupeArmes.draw(calque)
 
-        viseur.draw(calque,decalageX)
+        viseur.draw(calque, decalageX, decalageY)
         groupeBords.draw(calque) #il semblerait qu'on ait besoin de les dessiner pour le calcul des collisions
 
-        afficherTemps(calque, time.time() - tempsStart, (f_width - decalageX - 70, 10))
-        afficherVie(calque, joueur.vie, -decalageX)
+        afficherTemps(calque, time.time() - tempsStart, (f_width - decalageX - 70, 10 - decalageY))
+        afficherVie(calque, joueur.vie, -decalageX, -decalageY)
 
         #On insère le calque dans le fenêtre en fonction de decalageX
         fenetre.fill((0, 0, 0))
-        fenetre.blit(calque, (decalageX, 0)) #on multiplie par 3, on a pas que ça à faire
+        fenetre.blit(calque, (decalageX, decalageY)) #on multiplie par 3, on a pas que ça à faire
 
         pygame.display.flip()
 
@@ -268,7 +281,11 @@ et n'ayant pas le même mouvement
 def creationGroupeArmes(niveau, joueur) :
     groupe = pygame.sprite.Group()
 
-    for item in niveau['ennemis'] + [niveau['boss']] + [joueur] :
+    ent = niveau['ennemis'] + [joueur]
+    if len(niveau['boss']) > 0 :
+        ent += niveau['boss']
+
+    for item in ent :
         groupe.add(item.arme)
 
     return groupe
@@ -325,7 +342,7 @@ def testCollision(etat):
     #le jeu est trop facile sinon
     pygame.sprite.groupcollide(etat['projectilesJoueur'], etat['bords'], True, False)
     pygame.sprite.groupcollide(etat['projectilesEnnemis'], etat['bords'], True, False)
-    
+
     #destruction des projectiles du joueur et des ennemis en contact avec les murs
     pygame.sprite.groupcollide(etat['projectilesJoueur'], etat['murs'], True, False)
     pygame.sprite.groupcollide(etat['projectilesEnnemis'], etat['murs'], True, False)
@@ -375,8 +392,8 @@ Affiche la vie du joueur en haut à gauche de l'écran
 @param  {int}               decalageX   Scroll du niveau en px
 @param  {int}               max
 '''
-def afficherVie(calque, vie, decalageX, max = 100) :
+def afficherVie(calque, vie, decalageX, decalageY, max = 100) :
 
-    pygame.draw.rect(calque, (255, 0, 0), (10 + decalageX, 10, 1.5 * max, 8), 1)
-    pygame.draw.rect(calque, (255, 0, 0), (10 + decalageX, 10, 1.5 * vie, 8))
+    pygame.draw.rect(calque, (255, 0, 0), (10 + decalageX, 10 + decalageY, 1.5 * max, 8), 1)
+    pygame.draw.rect(calque, (255, 0, 0), (10 + decalageX, 10 + decalageY, 1.5 * vie, 8))
 

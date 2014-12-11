@@ -18,12 +18,17 @@ class Sprites(object):
     '''
     sprite
 
-    @param {Tupple}     ref     Le point haut gauche
-    @param {Tupple}     taille  width et height de l'image à récupérer
+    @param {Tupple}     ref         Le point haut gauche
+    @param {Tupple}     taille      width et height de l'image à récupérer
     @param {Boolean}    flipX       Miroir vertical ? Defaut : False
     @param {Boolean}    flipY       Miroir horizontal ? Defaut : False
+    @param {dic}        rect        Remplace ref et taille par rect.x, rect.y, rect.width, rect.height
     '''
-    def sprite(self, ref, taille, flipX = False, flipY = False) :
+    def sprite(self, ref = None, taille = None, flipX = False, flipY = False, rect = None) :
+
+        if rect :
+            ref    = (rect['x'], rect['y'])
+            taille = (rect['width'], rect['height'])
 
         image = pygame.Surface(taille)
         image.blit(self.image, (0,0), (ref[0], ref[1], taille[0], taille[1]))
