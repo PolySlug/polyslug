@@ -91,8 +91,8 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
         #Scroll vertical
         decalageY = -1 * (niveau['height'] - f_height)
 
-        if joueur.rect.y < f_height / 2 :
-            decalageY += f_height / 2 - joueur.rect.y
+        if joueur.rect.y < -decalageY + f_height / 2 :
+            decalageY = f_height / 2 - joueur.rect.y
 
         #un nouveau calque tout beau tout propre
         calque.fill((0, 20, 50))
@@ -242,8 +242,8 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
         viseur.draw(calque, decalageX, decalageY)
         groupeBords.draw(calque) #il semblerait qu'on ait besoin de les dessiner pour le calcul des collisions
 
-        afficherTemps(calque, time.time() - tempsStart, (f_width - decalageX - 70, 10))
-        afficherVie(calque, joueur.vie, -decalageX)
+        afficherTemps(calque, time.time() - tempsStart, (f_width - decalageX - 70, 10 - decalageY))
+        afficherVie(calque, joueur.vie, -decalageX, -decalageY)
 
         #On insère le calque dans le fenêtre en fonction de decalageX
         fenetre.fill((0, 0, 0))
@@ -390,8 +390,8 @@ Affiche la vie du joueur en haut à gauche de l'écran
 @param  {int}               decalageX   Scroll du niveau en px
 @param  {int}               max
 '''
-def afficherVie(calque, vie, decalageX, max = 100) :
+def afficherVie(calque, vie, decalageX, decalageY, max = 100) :
 
-    pygame.draw.rect(calque, (255, 0, 0), (10 + decalageX, 10, 1.5 * max, 8), 1)
-    pygame.draw.rect(calque, (255, 0, 0), (10 + decalageX, 10, 1.5 * vie, 8))
+    pygame.draw.rect(calque, (255, 0, 0), (10 + decalageX, 10 + decalageY, 1.5 * max, 8), 1)
+    pygame.draw.rect(calque, (255, 0, 0), (10 + decalageX, 10 + decalageY, 1.5 * vie, 8))
 
