@@ -89,23 +89,29 @@ class Personnage(Entite):
     def calcul_Y(self, niveau) :
 
         #Calcul vitesse verticale due à la gravité
-        if self.vitesse_y == 0 :
-            self.vitesse_y = 1
-        else:
-            self.vitesse_y += 0.35 #PFD
+        if self.rect.bottom < niveau['height']:
+            if self.vitesse_y == 0 :
+                self.vitesse_y = 1
+            else:
+                self.vitesse_y += 0.35 #PFD
 
         #Si on touche le sol
-        if self.rect.bottom >= niveau['height'] :
-
+        #'''
+        if self.rect.bottom >= niveau['height']:
+                self.vitesse_y = self.vitesse_y/5 + 1 #on reduit pour faire comme si on coulait
+        if self.rect.bottom >= (niveau['height']+ 100):
+            self.blessure(1000)#l'entite meurt        
+        '''
+        if self.rect.bottom >= niveau['height']:
             if self.vitesse_y > 0 :   # on ne peut pas descendre plus bas
                 self.vitesse_y = 0
 
             #self.rect.y = niveau['height'] - self.rect.height #on force à ne pas dépasser le sol
             self.rect.bottom = niveau['height']
             self.contact_sol = True
-
+        #'''
         self.rect.y += self.vitesse_y
-
+            
         #si on touche quelque chose en chemin
         for collision in collisions(self, niveau) :
 
