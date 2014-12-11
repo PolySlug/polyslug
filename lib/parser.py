@@ -107,7 +107,6 @@ def construction(calque, tiles):
 
     for index, item in enumerate(calque['data']) :
 
-        print(type(item))
         if item != 0 and item in tiles:
 
             tile   = tiles[item]
@@ -118,12 +117,13 @@ def construction(calque, tiles):
             j = index // layerHeight
 
             print(groupe, classe)
+
             if groupe in niveau :
 
                 if groupe in dynamiques :
-                    instance = importClass(groupe, classe)((i,j), tile['image'], tile['rect'])
-                else :
                     instance = importClass(groupe, classe)((i,j))
+                else :
+                    instance = importClass(groupe, classe)((i,j), tile['image'], tile['rect'])
 
                 print(item)
                 niveau[groupe].append(item)
