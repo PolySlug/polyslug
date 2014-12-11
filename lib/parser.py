@@ -14,7 +14,7 @@ groupes  = {
     'boss'        : ['Boss']
 }
 
-dynamiques = ['ennemis', 'checkpoints', 'joueur', 'checkpoints']
+dynamiques = ['ennemis', 'checkpoints', 'joueur','boss', 'checkpoints']
 
 
 def groupe(classe) :
@@ -90,7 +90,7 @@ def recupererCalquePrincipal(data) :
 
 def importClass(groupe, classe):
 
-    if groupe not in ['ennemis', 'obstacles', 'murs', 'joueur'] :
+    if groupe not in ['ennemis', 'obstacles','boss', 'murs', 'joueur'] :
         module = importlib.import_module(classe.lower())
     else :
         module = importlib.import_module('entites.' + classe.lower())
@@ -134,6 +134,8 @@ def construction(calque, tiles, tileWidth, tileHeight):
                     instance = (i,j)
                 elif classe == "Portail" :
                     instance = importClass(groupe, classe)((i,j), tile['suivant'])
+                elif classe == "boss" :
+                    instance =  (i,j)
                 elif groupe in dynamiques :
                     instance = importClass(groupe, classe)((i,j))
                 else :
