@@ -1,4 +1,4 @@
-#-*- codind: utf-8 -*-
+#-*- coding: utf-8 -*-
 
 import json
 import importlib
@@ -49,8 +49,6 @@ def constructionTiles(data) :
 
                 i = int(t) % gridWidth
                 j = int(t) // gridHeight
-
-                print(t, i, j)
 
                 if 'class' in val :
                     classe = val['class']
@@ -127,8 +125,6 @@ def construction(calque, tiles, tileWidth, tileHeight):
             i = (index % layerWidth) * tileWidth
             j = (index // layerHeight) * tileHeight
 
-            print(groupe, classe)
-
             if groupe in niveau :
 
                 if classe == "Joueur" :
@@ -140,7 +136,6 @@ def construction(calque, tiles, tileWidth, tileHeight):
                 else :
                     instance = importClass(groupe, classe)((i,j), tile['image'], tile['rect'])
 
-                print(item)
                 niveau[groupe].append(instance)
 
     return niveau
@@ -148,14 +143,18 @@ def construction(calque, tiles, tileWidth, tileHeight):
 
 def genererNiveau(fichier) :
 
+    print("Construction niveau :")
+
     contenu = open(fichier, 'r' ).read()
 
     data = json.loads(contenu)
 
+    print("- les éléments")
     tiles = constructionTiles(data)
     tileWidth  = data['tilewidth']
     tileHeight = data['tileheight']
 
+    print("- les positions")
     principal = recupererCalquePrincipal(data)
 
     width  = data['width'] * tileWidth
@@ -165,6 +164,7 @@ def genererNiveau(fichier) :
         print("Pas de calque principal")
         return None
     else :
+        print("- instanciation")
         niveau           = construction(principal, tiles, tileWidth, tileHeight)
         niveau['width']  = width
         niveau['height'] = height
@@ -172,4 +172,3 @@ def genererNiveau(fichier) :
         return niveau
 
 
-#genererNiveau('lib/test.json')
