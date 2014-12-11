@@ -72,7 +72,7 @@ class Ennemi(Personnage):
             self.arme.direction(directionJoueur)
 
             #tirer
-            projectiles = self.arme.tirer(self.position(), directionJoueur)
+            projectiles = self.arme.tirer(self.positionMain(), directionJoueur)
             for projectile in projectiles :
                 projectilesEnnemis.add(projectile)
 
