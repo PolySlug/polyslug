@@ -3,7 +3,7 @@
         {
          "data":[0, 0, 0, 5, 69, 0, 41, 41, 0],
          "height":3,
-         "name":"Calque de Tile 1",
+         "name":"principal",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
