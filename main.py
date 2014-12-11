@@ -11,10 +11,17 @@ from lib.inspect import recupererSousModules
 
 from niveaux.niveau import construireNiveau
 
+
 lesNiveaux = ['niveau1']
 
 #Notre DB de scores (veiller à ce que le fichier existe, même vide)
 scores = Scores('scores.json')
+
+pygame.init()
+pygame.font.init()
+font = pygame.font.Font(None, 28) #defaut
+
+f_width, f_height = 800, 600
 
 '''
 lancerJeu
@@ -24,14 +31,43 @@ Lance un niveau
 @param  {Module}    niveau
 @param  {String}    nomNiveau   Le nom de niveau pour l'enregistrement du score
 '''
-def lancerJeu(niveau, nomNiveau) :
+def lancerJeu(niveau, temps = 0) :
 
-    pygame.init()
-    fenetre = pygame.display.set_mode((800, 600))
+    nomNiveau = niveau['nom']
 
-    score, suivant = gestionJeu(fenetre, niveau)
+    print("Niveau : " + nomNiveau)
 
-    enregisterScore(score, nomNiveau)
+    fenetre = pygame.display.set_mode((f_width, f_height))
+
+    score, suivant = gestionJeu(fenetre, niveau, temps)
+
+    if suivant :
+
+        ecranChargement(fenetre)
+
+        print("Niveau suivant : " + suivant)
+        niveau = construireNiveau('niveaux/' + suivant)
+        niveau['nom'] = suivant
+
+        lancerJeu(niveau, score)
+
+    else :
+        enregisterScore(temps + score, nomNiveau)
+
+
+'''
+ecranChargement
+'''
+def ecranChargement(fenetre) :
+
+    fenetre.fill((20, 40, 60))
+
+    #FIXME : pas de texte à l'écran. Why ? cf. jeu.py où tout ce passe bien
+    label = font.render("Chargement", 1, (255, 255, 255), (255, 0, 0))
+    label.blit(fenetre, (0, 0))
+
+    pygame.display.flip()
+
 
 
 '''
@@ -97,6 +133,9 @@ Différentes options :
 '''
 def main() :
 
+    fenetre = pygame.display.set_mode((f_width, f_height))
+    ecranChargement(fenetre)
+
     if 'scores' in argv : #l'utilisateur veut simplement consulter les scores
         lireScores()
 
@@ -120,6 +159,8 @@ def main() :
 
         if n :
             niveau = construireNiveau('niveaux/' + n)
-            lancerJeu(niveau, n)
+            niveau['nom'] = n
+
+            lancerJeu(niveau)
 
 main()
