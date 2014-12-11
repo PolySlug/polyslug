@@ -106,6 +106,8 @@ def gestionJeu(fenetre, niveau, tempsStart = time.time()): #TODO : update doc
         if joueur.rect.y < -decalageY + f_height / 2 :
             decalageY = f_height / 2 - joueur.rect.y
 
+        decalageY = 0 if decalageY > 0 else decalageY
+
         #Si le joueur est mort, on le ressuscite au dernier checkpoint validé
         if joueur.vie <= 0 :
             joueur = Joueur(dernierCheckPoint)
