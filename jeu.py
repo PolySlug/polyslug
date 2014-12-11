@@ -360,6 +360,7 @@ def testCheckpoints(etat) :
     check = pygame.sprite.spritecollide(etat['joueur'], etat['checkpoints'], False)
     if len(check) > 0 :
         for point in check :
+            son.sonCheckpoint()
             point.check = True
             return point.position()
     else :
