@@ -343,7 +343,7 @@ def testCollision(etat):
     #collision des projectiles joueur vers ennemis
     projectilesContactE = pygame.sprite.groupcollide(etat.get('projectilesJoueur'), etat.get('ennemis'), True, False)
     for projectile in projectilesContactE: #récup des ennemis touchés et soustraction PV
-        ennemisTouches = projectilesContactE(projectile)
+        ennemisTouches = projectilesContactE.get(projectile)
         for ennemi in ennemisTouches :
             ennemi.blessure(projectile.dommage)
 
