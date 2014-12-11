@@ -9,7 +9,7 @@ class Boss(Ennemi):
 
     sprites = Sprites('img/p2_spritesheet.png')
 
-    arme = Arme1()
+    arme = ArmeBoss()
 
     vie = 80
 
