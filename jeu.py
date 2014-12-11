@@ -69,6 +69,7 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
 
     done              = False
     decalageX         = 0
+    decalageY         = 0
     dernierCheckPoint = niveau['joueur']  #la position du dernier checkpoint validé
     tempsStart        = time.time() #timestamp
 
@@ -86,6 +87,12 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
 
         #Le scroll horizontal du niveau
         decalageX = -joueur.rect.x + f_width / 2 if joueur.rect.x > f_width / 2 else 0
+
+        #Scroll vertical
+        decalageY = -1 * (niveau['height'] - f_height)
+
+        if joueur.rect.y < f_height / 2 :
+            decalageY += f_height / 2 - joueur.rect.y
 
         #un nouveau calque tout beau tout propre
         calque.fill((0, 20, 50))
@@ -240,7 +247,7 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
 
         #On insère le calque dans le fenêtre en fonction de decalageX
         fenetre.fill((0, 0, 0))
-        fenetre.blit(calque, (decalageX, 0)) #on multiplie par 3, on a pas que ça à faire
+        fenetre.blit(calque, (decalageX, decalageY)) #on multiplie par 3, on a pas que ça à faire
 
         pygame.display.flip()
 
