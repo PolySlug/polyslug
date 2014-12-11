@@ -78,9 +78,9 @@ class Boss(Ennemi):
 
         #On récupère la position de la main des entitées de base pour la modifier pour le boss
         def positionMain(self) :
-
+            
             main = super(Boss, self).positionMain()
 
             main[1] += 100
-            
+
             return main
