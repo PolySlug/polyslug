@@ -1,4 +1,4 @@
- 
+
 import pygame
 
 from arme           import Arme
@@ -11,8 +11,10 @@ class ArmeSinus(Arme) :
 
     def __init__(self):
 
-        self.sprites = Sprites('img/tiles_spritesheet.png')
-        self.imageDefaut = self.sprites.sprite((432,0), (72, 72))
+        self.sprites = Sprites('img/raygunPurple.png')
+        self.image = self.imageDefaut = self.sprites.sprite((0,12), (56, 56))
+
+        super(ArmeSinus, self).__init__()
 
     def tirer(self, position, vecteur) :
 
