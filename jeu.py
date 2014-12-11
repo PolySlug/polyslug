@@ -33,9 +33,12 @@ gestionJeu
 
 @return {int}                                           Le score de la partie (timestamp)
 '''
-def gestionJeu(fenetre, niveau): #TODO : update doc
+def gestionJeu(fenetre, niveau, tempsStart = time.time()): #TODO : update doc
 
     f_width, f_height = fenetre.get_width(), fenetre.get_height() #racourcis dimension fenêtre
+
+    #le fond
+    fond = pygame.image.load('img/' + niveau['nom'] + '.png')
 
     #creation des bords
     bords = creationBords(f_width, niveau['height'])
@@ -55,23 +58,29 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
     groupeObstacles             = creationGroupe(niveau['obstacles'])
     groupeEnnemis               = creationGroupe(niveau['ennemis'])
     groupeCheckpoints           = creationGroupe(niveau['checkpoints'])
+    groupePortails              = creationGroupe(niveau['portails'])
     groupeProjectilesJoueur     = pygame.sprite.Group() #les projectiles envoyés par le joueur
     groupeProjectilesEnnemis    = pygame.sprite.Group() #les projectiles envoyés par les ennemis
     groupeArmes                 = creationGroupeArmes(niveau, joueur) #toutes les armes
     groupeBords                 = creationGroupe(bords) #les bords de l'écran
 
-    groupeJeu                   = creationGroupe(niveau['murs'] + niveau['plateformes'] \
-                                  + niveau['obstacles'] + niveau['ennemis'] + niveau['checkpoints']\
-                                   + [joueur])
+    groupeJeu                   = creationGroupe(niveau['obstacles'] + niveau['ennemis'] \
+                                    + niveau['checkpoints']\
+                                    + [joueur])
 
     #Création d'un calque dans lequel on va dessiner tout le niveau
-    calque = pygame.Surface((niveau['width'], niveau['height']))
+    calquePropre = pygame.Surface((niveau['width'], niveau['height']))
+    calquePropre.blit(fond, (0,0))
+
+    groupeMurs.draw(calquePropre)
+    groupePlateformes.draw(calquePropre)
+    groupePortails.draw(calquePropre)
+
 
     done              = False
     decalageX         = 0
     decalageY         = 0
-    dernierCheckPoint = niveau['joueur']  #la position du dernier checkpoint validé
-    tempsStart        = time.time() #timestamp
+    dernierCheckPoint = niveau['joueur'][0]  #la position du dernier checkpoint validé
 
     viseur = Viseur()
 
@@ -85,22 +94,25 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
     #Boucle principale
     while not done :
 
+        #un nouveau calque tout beau tout propre
+        calque = calquePropre.copy()
+
         #Le scroll horizontal du niveau
         decalageX = -joueur.rect.x + f_width / 2 if joueur.rect.x > f_width / 2 else 0
 
         #Scroll vertical
-        decalageY = -1 * (niveau['height'] - f_height)
+        decalageY = -1 * (niveau.get('height') - f_height)
 
         if joueur.rect.y < -decalageY + f_height / 2 :
             decalageY = f_height / 2 - joueur.rect.y
 
-        #un nouveau calque tout beau tout propre
-        calque.fill((0, 20, 50))
+        decalageY = 0 if decalageY > 0 else decalageY
 
         #Si le joueur est mort, on le ressuscite au dernier checkpoint validé
         if joueur.vie <= 0 :
             joueur = Joueur(dernierCheckPoint)
             groupeJeu.add(joueur)
+            groupeArmes.add(joueur.arme)
 
         #Si le boss est mort, c'est fini
         if boss and boss.vie <= 0 :
@@ -197,6 +209,7 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
             'obstacles':            groupeObstacles,
             'ennemis':              groupeEnnemis,
             'checkpoints':          groupeCheckpoints,
+            'portails':             groupePortails,
             'joueur':               joueur,
 
             #Projectiles
@@ -207,8 +220,8 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
             'armes' :               groupeArmes,
 
             #taille niveau
-            'width':                niveau['width'],
-            'height':               niveau['height'],
+            'width':                niveau.get('width'),
+            'height':               niveau.get('height'),
 
             #taille fenêtre
             'f_width':              f_width,
@@ -229,11 +242,18 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
 
         #Test des collisions
         testCollision(etat)
+
+        #les checkpoints
         check = testCheckpoints(etat)
         if check :
-            #ne changer le checkpoint sauvegardé que si le nouveau est plus avancé
+                #ne changer le checkpoint sauvegardé que si le nouveau est plus avancé
             if dernierCheckPoint[0] < check[0] :
                 dernierCheckPoint = check
+
+        #les portails
+        suivant = testPortails(etat)
+        if suivant :
+            done = True
 
         #On dessine dans le calque
         groupeJeu.draw(calque)
@@ -255,7 +275,7 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
 
         clock.tick(60)
 
-    return time.time() - tempsStart
+    return (time.time() - tempsStart, suivant)
 
 '''
 creationGroupe
@@ -320,32 +340,32 @@ testCollision
 def testCollision(etat):
 
     #collision des projectiles ennemis vers joueur
-    projectilesContactJ = pygame.sprite.spritecollide(etat['joueur'], etat['projectilesEnnemis'], True)
+    projectilesContactJ = pygame.sprite.spritecollide(etat.get('joueur'), etat.get('projectilesEnnemis'), True)
     for projectile in projectilesContactJ :
-        etat['joueur'].blessure(projectile.dommage) #on prend en compte les dommages
+        etat.get('joueur').blessure(projectile.dommage) #on prend en compte les dommages
 
     #collsion des projectiles joueur vers obstacles
-    projectilesContactO = pygame.sprite.groupcollide(etat['projectilesJoueur'], etat['obstacles'], True, False)
+    projectilesContactO = pygame.sprite.groupcollide(etat.get('projectilesJoueur'), etat.get('obstacles'), True, False)
     for projectile in projectilesContactO: #On récupère les obstacles touchés et soustraction PV
-        obstaclesTouches = projectilesContactO[projectile]
+        obstaclesTouches = projectilesContactO.get(projectile)
         for obstacle in obstaclesTouches :
             obstacle.blessure(projectile.dommage)
 
     #collision des projectiles joueur vers ennemis
-    projectilesContactE = pygame.sprite.groupcollide(etat['projectilesJoueur'], etat['ennemis'], True, False)
+    projectilesContactE = pygame.sprite.groupcollide(etat.get('projectilesJoueur'), etat.get('ennemis'), True, False)
     for projectile in projectilesContactE: #récup des ennemis touchés et soustraction PV
-        ennemisTouches = projectilesContactE[projectile]
+        ennemisTouches = projectilesContactE.get(projectile)
         for ennemi in ennemisTouches :
             ennemi.blessure(projectile.dommage)
 
     #destruction des projectiles du joueur et des ennemis en contact avec les bords
     #le jeu est trop facile sinon
-    pygame.sprite.groupcollide(etat['projectilesJoueur'], etat['bords'], True, False)
-    pygame.sprite.groupcollide(etat['projectilesEnnemis'], etat['bords'], True, False)
+    pygame.sprite.groupcollide(etat.get('projectilesJoueur'), etat.get('bords'), True, False)
+    pygame.sprite.groupcollide(etat.get('projectilesEnnemis'), etat.get('bords'), True, False)
 
     #destruction des projectiles du joueur et des ennemis en contact avec les murs
-    pygame.sprite.groupcollide(etat['projectilesJoueur'], etat['murs'], True, False)
-    pygame.sprite.groupcollide(etat['projectilesEnnemis'], etat['murs'], True, False)
+    pygame.sprite.groupcollide(etat.get('projectilesJoueur'), etat.get('murs'), True, False)
+    pygame.sprite.groupcollide(etat.get('projectilesEnnemis'), etat.get('murs'), True, False)
 
     return
 
@@ -357,13 +377,28 @@ Test si le joueur est sur un checkpoint
 @return {tuple | None}  Position du checkpoint ou None
 '''
 def testCheckpoints(etat) :
-    check = pygame.sprite.spritecollide(etat['joueur'], etat['checkpoints'], False)
+    check = pygame.sprite.spritecollide(etat.get('joueur'), etat.get('checkpoints'), False)
     if len(check) > 0 :
         for point in check :
              if point.check == False:
                    son.sonCheckpoint()
              point.check = True
              return point.position()
+    else :
+        return None
+
+'''
+testPortails
+
+Test si le joueur est sur un portail
+
+@return {tuple | None}  Position du portail ou None
+'''
+def testPortails(etat) :
+    contact = pygame.sprite.spritecollide(etat.get('joueur'), etat.get('portails'), False)
+    if len(contact) > 0 :
+        for point in contact:
+            return point.suivant
     else :
         return None
 
