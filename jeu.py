@@ -94,6 +94,7 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
     #Boucle principale
     while not done :
 
+        #un nouveau calque tout beau tout propre
         calque = calquePropre.copy()
 
         #Le scroll horizontal du niveau
@@ -104,8 +105,6 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
 
         if joueur.rect.y < -decalageY + f_height / 2 :
             decalageY = f_height / 2 - joueur.rect.y
-
-        #un nouveau calque tout beau tout propre
 
         #Si le joueur est mort, on le ressuscite au dernier checkpoint validé
         if joueur.vie <= 0 :
