@@ -39,6 +39,9 @@ def constructionTiles(data) :
         tileHeight = tileset['tileheight']
         tileWidth  = tileset['tilewidth']
 
+        margin  = tileset['margin']
+        spacing = tileset['spacing']
+
         gridWidth  = tileset['imagewidth'] / tileWidth
         gridHeight = tileset['imageheight'] / tileHeight
         grid       = gridWidth * gridHeight
@@ -48,7 +51,7 @@ def constructionTiles(data) :
                 id = setId + int(t)
 
                 i = int(t) % gridWidth
-                j = int(t) // gridHeight
+                j = int(t) // gridWidth
 
                 if 'class' in val :
                     classe = val['class']
@@ -63,8 +66,8 @@ def constructionTiles(data) :
                 tiles[id] = {
                     'image' : image,
                     'rect'  : {
-                        'x'     : j * tileWidth,
-                        'y'     : i * tileHeight,
+                        'x'     : margin + i * tileWidth + spacing * i,
+                        'y'     : margin + j * tileHeight + spacing * j,
                         'width' : tileWidth,
                         'height': tileHeight
                         },
