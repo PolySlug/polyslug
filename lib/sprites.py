@@ -20,11 +20,11 @@ class Sprites(object):
 
     @param {Tupple}     ref         Le point haut gauche
     @param {Tupple}     taille      width et height de l'image à récupérer
-    @param {dic}        rect        Remplace ref et taille par rect.x, rect.y, rect.width, rect.height
     @param {Boolean}    flipX       Miroir vertical ? Defaut : False
     @param {Boolean}    flipY       Miroir horizontal ? Defaut : False
+    @param {dic}        rect        Remplace ref et taille par rect.x, rect.y, rect.width, rect.height
     '''
-    def sprite(self, ref = None, taille = None, rect = None, flipX = False, flipY = False) :
+    def sprite(self, ref = None, taille = None, flipX = False, flipY = False, rect = None) :
 
         if rect :
             ref    = (rect['x'], rect['y'])
