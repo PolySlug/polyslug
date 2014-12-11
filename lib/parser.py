@@ -97,7 +97,7 @@ def importClass(groupe, classe):
     return getattr(module, classe)
 
 
-def construction(calque, tiles):
+def construction(calque, tiles, tileWidth, tileHeight):
 
     niveau = {
         'murs':        [],
@@ -106,14 +106,15 @@ def construction(calque, tiles):
         'ennemis':     [],
         'boss':        [],
         'checkpoints': [],
-        'portails':    []
+        'portails':    [],
         'joueur':      [],
-        'width':       0   #longueur du niveau en px
+        'width':       0,  #longueur du niveau en px
         'height':      0   #hauteur du niveau en px
     }
 
     layerWidth  = calque['width']
     layerHeight = calque['height']
+
 
     for index, item in enumerate(calque['data']) :
 
@@ -123,8 +124,8 @@ def construction(calque, tiles):
             groupe = tile['groupe']
             classe = tile['classe']
 
-            i = index % layerWidth
-            j = index // layerHeight
+            i = (index % layerWidth) * tileWidth
+            j = (index // layerHeight) * tileHeight
 
             print(groupe, classe)
 
@@ -150,16 +151,19 @@ def genererNiveau(fichier) :
     data = json.loads(contenu)
 
     tiles = constructionTiles(data)
+    tileWidth  = data['tilewidth']
+    tileHeight = data['tileheight']
+
     principal = recupererCalquePrincipal(data)
 
-    width  = data['width'] * data['tilewidth']
-    height = data['height'] * data['tileheight']
+    width  = data['width'] * tileWidth
+    height = data['height'] * tileHeight
 
     if not principal :
         print("Pas de calque principal")
         return None
     else :
-        niveau           = construction(principal, tiles)
+        niveau           = construction(principal, tiles, tileWidth, tileHeight)
         niveau['width']  = width
         niveau['height'] = height
 
