@@ -35,8 +35,6 @@ gestionJeu
 '''
 def gestionJeu(fenetre, niveau): #TODO : update doc
 
-    print(niveau)
-
     f_width, f_height = fenetre.get_width(), fenetre.get_height() #racourcis dimension fenêtre
 
     #creation des bords
