@@ -38,7 +38,7 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
     f_width, f_height = fenetre.get_width(), fenetre.get_height() #racourcis dimension fenêtre
 
     #creation des bords
-    bords = creationBords(f_width, f_height)
+    bords = creationBords(f_width, niveau['height'])
 
     #le joueur
     joueur = Joueur(niveau['joueur'][0])
