@@ -37,7 +37,7 @@ class Joueur(Personnage):
     @return {Liste}             Liste de projectiles renvoyés par l'arme
     '''
     def tirer(self, vecteur) :
-        return self.arme.tirer(self.position(), vecteur)
+        return self.arme.tirer(self.positionMain(), vecteur)
 
     def bougerArme(self, direction) :
         self.arme.direction(direction)
