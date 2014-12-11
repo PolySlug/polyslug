@@ -33,7 +33,7 @@ gestionJeu
 
 @return {int}                                           Le score de la partie (timestamp)
 '''
-def gestionJeu(fenetre, niveau, tempsStart = time.time()): #TODO : update doc
+def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
 
     f_width, f_height = fenetre.get_width(), fenetre.get_height() #racourcis dimension fenêtre
 
@@ -48,7 +48,7 @@ def gestionJeu(fenetre, niveau, tempsStart = time.time()): #TODO : update doc
 
     boss = None
     if len(niveau['boss']) > 0 :
-        boss = niveau['boss'][0]
+        boss = niveau['boss']
 
     niveau['ennemi'] = niveau['ennemis'] + niveau['boss']
 
@@ -81,6 +81,7 @@ def gestionJeu(fenetre, niveau, tempsStart = time.time()): #TODO : update doc
     decalageX         = 0
     decalageY         = 0
     dernierCheckPoint = niveau['joueur'][0]  #la position du dernier checkpoint validé
+    tempsStart        = time.time()
 
     viseur = Viseur()
 
@@ -380,10 +381,8 @@ def testCheckpoints(etat) :
     check = pygame.sprite.spritecollide(etat.get('joueur'), etat.get('checkpoints'), False)
     if len(check) > 0 :
         for point in check :
-             if point.check == False:
-                   son.sonCheckpoint()
-             point.check = True
-             return point.position()
+            point.check = True
+            return point.position()
     else :
         return None
 
