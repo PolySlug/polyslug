@@ -206,7 +206,7 @@ def gestionJeu(fenetre, niveau): #TODO : update doc
 
             #taille niveau
             'width':                niveau['width'],
-            'height':               f_height,
+            'height':               niveau['height'],
 
             #taille fenêtre
             'f_width':              f_width,
