@@ -10,6 +10,7 @@ groupes  = {
     'obstacles'   : ['Obstacles'],
     'checkpoints' : ['Checkpoint'],
     'joueur'      : ['Joueur'],
+    'boss'        : ['Boss']
 }
 
 dynamiques = ['ennemis', 'checkpoints', 'joueur', 'checkpoints']
@@ -120,13 +121,15 @@ def construction(calque, tiles):
 
             if groupe in niveau :
 
-                if groupe in dynamiques :
+                if classe == "Joueur" :
+                    instance = (i,j)
+                elif groupe in dynamiques :
                     instance = importClass(groupe, classe)((i,j))
                 else :
                     instance = importClass(groupe, classe)((i,j), tile['image'], tile['rect'])
 
                 print(item)
-                niveau[groupe].append(item)
+                niveau[groupe].append(instance)
 
     return niveau
 
@@ -138,14 +141,20 @@ def genererNiveau(fichier) :
     data = json.loads(contenu)
 
     tiles = constructionTiles(data)
-
     principal = recupererCalquePrincipal(data)
+
+    width  = data['width'] * data['tilewidth']
+    height = data['height'] * data['tileheight']
 
     if not principal :
         print("Pas de calque principal")
+        return None
     else :
-        niveau = construction(principal, tiles)
-        print niveau
+        niveau           = construction(principal, tiles)
+        niveau['width']  = width
+        niveau['height'] = height
+
+        return niveau
 
 
 #genererNiveau('lib/test.json')
