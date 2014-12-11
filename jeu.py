@@ -99,8 +99,9 @@ def gestionJeu(fenetre, niveau):
         #Calcul de la direction du tir
         positionJoueur = (joueur.rect.x, joueur.rect.y)
         positionSouris = ecouteSouris()
-        vecteur = (positionSouris[0] - decalageX - positionJoueur[0], \
-                positionSouris[1] - positionJoueur[1])
+        positionmain = joueur.positionMain() 
+        vecteur = (positionSouris[0] - decalageX - positionmain[0], \
+                positionSouris[1] - positionmain[1])
 
         joueur.bougerArme(vecteur)
 
