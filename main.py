@@ -7,7 +7,6 @@ from   sys      import argv
 
 from jeu         import gestionJeu
 from lib.scores  import Scores
-from lib.inspect import recupererSousModules
 
 from niveaux.niveau import construireNiveau
 
@@ -133,9 +132,6 @@ Différentes options :
 '''
 def main() :
 
-    fenetre = pygame.display.set_mode((f_width, f_height))
-    ecranChargement(fenetre)
-
     if 'scores' in argv : #l'utilisateur veut simplement consulter les scores
         lireScores()
 
@@ -143,10 +139,13 @@ def main() :
 
         print("NIVEAUX")
 
-        for n in recupererSousModules(niveaux):
+        for n in lesNiveaux:
             print("- " + n)
 
     else : #l'utilisateur veut jouer
+
+        fenetre = pygame.display.set_mode((f_width, f_height))
+        ecranChargement(fenetre)
 
         if len(argv) > 1 :              #on veut un niveau en particulier
             if argv[1] in lesNiveaux :
