@@ -74,13 +74,16 @@ class Boss(Ennemi):
             redim = pygame.transform.scale(self.imageAccroupiNonDim[j], (tailleA[0]*2, tailleA[1]*2))
             self.imageAccroupi.append(redim)
             j = j+1
-
-
-        #On récupère la position de la main des entitées de base pour la modifier pour le boss
-        def positionMain(self) :
             
-            main = super(Boss, self).positionMain()
+    def positionMain(self) :
+      
+        position = self.position()
 
-            main[1] += 100
 
-            return main
+        main = [0, 0]
+        main[0], main[1] = position[0], position[1]
+        main[1] += 150
+        main[0] += 12
+
+        return main
+
