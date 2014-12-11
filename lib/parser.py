@@ -9,6 +9,7 @@ groupes  = {
     'murs'        : ['Mur', 'Plateforme'],
     'obstacles'   : ['Obstacles'],
     'checkpoints' : ['Checkpoint'],
+    'portails'    : ['Portail'],
     'joueur'      : ['Joueur'],
     'boss'        : ['Boss']
 }
@@ -56,6 +57,11 @@ def constructionTiles(data) :
                 else :
                     classe = None
 
+                if 'suivant' in val :
+                    suivant = val['suivant']
+                else:
+                    suivant = None
+
                 tiles[id] = {
                     'image' : image,
                     'rect'  : {
@@ -64,12 +70,13 @@ def constructionTiles(data) :
                         'width' : tileWidth,
                         'height': tileHeight
                         },
-                    'classe' : classe,
-                    'groupe' : groupe(classe)
+                    'classe'  : classe,
+                    'groupe'  : groupe(classe),
+                    'suivant' : suivant
                 }
 
-    with open('lib/data.json', 'w') as outfile:
-        json.dump(tiles, outfile)
+    #with open('lib/data.json', 'w') as outfile:
+        #json.dump(tiles, outfile)
 
     return tiles
 
@@ -99,8 +106,10 @@ def construction(calque, tiles):
         'ennemis':     [],
         'boss':        [],
         'checkpoints': [],
+        'portails':    []
         'joueur':      [],
-        'taille':      0   #longueur du niveau en px
+        'width':       0   #longueur du niveau en px
+        'height':      0   #hauteur du niveau en px
     }
 
     layerWidth  = calque['width']
