@@ -3,7 +3,7 @@
 import pygame
 from projectileSinus import ProjectileSinus
 
-#projectile allant en ligne droite
+#projectile suivant une courbe sinusoidale
 
 class ProjectileSinusVert(ProjectileSinus):
 
