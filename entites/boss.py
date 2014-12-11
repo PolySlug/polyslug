@@ -3,13 +3,13 @@ import pygame
 
 from ennemi      import Ennemi
 from lib.sprites import Sprites
-from armes.arme1 import Arme1
+from armes.armeboss import ArmeBoss
 
 class Boss(Ennemi):
 
     sprites = Sprites('img/p2_spritesheet.png')
 
-    arme = Arme1()
+    arme = ArmeBoss()
 
     vie = 80
 
@@ -33,6 +33,7 @@ class Boss(Ennemi):
             [(284, 95), (70, 94)],
         ]
 
+        #REDIMENSIONNEMENT DES FRAMES DU BOSS
         # Idee : recuperer taille et mult par ce qu'on veut, ici par 2
         j = 0
 
@@ -56,8 +57,8 @@ class Boss(Ennemi):
 
 
         self.imageNonDim = self.imageReposNonDim = self.sprites.sprite((0, 190), (66, 92))
-        tailleImage = self.imageNonDim.get_size()
-        self.image = self.imageRepos = pygame.transform.scale(self.imageNonDim, (tailleImage[0]*2, tailleImage[1]*2))
+        tailleimage = self.imageNonDim.get_size()
+        self.image = self.imageRepos = pygame.transform.scale(self.imageNonDim, (tailleimage[0]*2, tailleimage[1]*2))
 
         self.imageAccroupiNonDim = [
             self.sprites.sprite((355, 95), (67, 72)),
@@ -73,4 +74,16 @@ class Boss(Ennemi):
             redim = pygame.transform.scale(self.imageAccroupiNonDim[j], (tailleA[0]*2, tailleA[1]*2))
             self.imageAccroupi.append(redim)
             j = j+1
+            
+    def positionMain(self) :
+      
+        position = self.position()
+
+
+        main = [0, 0]
+        main[0], main[1] = position[0], position[1]
+        main[1] += 150
+        main[0] += 24
+
+        return main
 

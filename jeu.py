@@ -97,10 +97,10 @@ def gestionJeu(fenetre, niveau):
             done = True
 
         #Calcul de la direction du tir
-        positionJoueur = (joueur.rect.x, joueur.rect.y)
         positionSouris = ecouteSouris()
-        vecteur = (positionSouris[0] - decalageX - positionJoueur[0], \
-                positionSouris[1] - positionJoueur[1])
+        positionmain = joueur.positionMain()
+        vecteur = (positionSouris[0] - decalageX - positionmain[0]-15, \
+                positionSouris[1] - positionmain[1]+10) #-15 et +10 viennent du fait que l'on a décalé les projectiles (de +15 et -10) à leur création pour qu'ils sortent de l'arme
 
         joueur.bougerArme(vecteur)
 
