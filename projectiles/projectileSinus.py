@@ -4,7 +4,7 @@ import pygame
 from projectile import Projectile
 import math
 
-#projectile allant en ligne droite
+#projectile suivant une courbe sinusoidale
 
 class ProjectileSinus(Projectile):
 
@@ -18,7 +18,7 @@ class ProjectileSinus(Projectile):
     def update(self, *args) :
       
         self.posx += self.vitesse[0] * self.multi
-        self.posy += self.vitesse[1] * self.multi + 2*math.sin(0.005*pygame.time.get_ticks())
+        self.posy += self.vitesse[1] * self.multi + 2*math.sin(0.005*pygame.time.get_ticks()) #depend du temps
 	
         self.rect.x = int(self.posx)
         self.rect.y = int(self.posy)
