@@ -43,11 +43,11 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"..\/Kenney\/Platformer Pack\/sprites pour polymetal\/builbing.png",
+         "image":"..\/Kenney\/Platformer Pack\/sprites pour polymetal\/building.png",
          "imageheight":490,
          "imagewidth":980,
          "margin":0,
-         "name":"builbing",
+         "name":"building",
          "properties":
             {
 
