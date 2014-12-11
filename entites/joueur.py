@@ -1,12 +1,13 @@
 #-*- coding: utf-8 -*-
 from personnage          import Personnage
 from armes.arme2         import Arme2
+from armes.armeSinus     import ArmeSinus
 from armes.fusilPompe    import FusilPompe
 from sons import son
 
 class Joueur(Personnage):
 
-    armes = [Arme2(), FusilPompe()]
+    armes = [Arme2(), FusilPompe(), ArmeSinus()]
     arme  = 0
 
     '''
