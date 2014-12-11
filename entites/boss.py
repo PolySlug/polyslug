@@ -56,8 +56,8 @@ class Boss(Ennemi):
 
 
         self.imageNonDim = self.imageReposNonDim = self.sprites.sprite((0, 190), (66, 92))
-        tailleImage = self.imageNonDim.get_size()
-        self.image = self.imageRepos = pygame.transform.scale(self.imageNonDim, (tailleImage[0]*2, tailleImage[1]*2))
+        tailleimage = self.imageNonDim.get_size()
+        self.image = self.imageRepos = pygame.transform.scale(self.imageNonDim, (tailleimage[0]*2, tailleimage[1]*2))
 
         self.imageAccroupiNonDim = [
             self.sprites.sprite((355, 95), (67, 72)),
