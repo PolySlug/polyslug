@@ -48,7 +48,7 @@ def gestionJeu(fenetre, niveau, tempsStart = time.time()): #TODO : update doc
 
     boss = None
     if len(niveau['boss']) > 0 :
-        boss = niveau['boss']
+        boss = niveau['boss'][0]
 
     niveau['ennemi'] = niveau['ennemis'] + niveau['boss']
 
@@ -380,8 +380,10 @@ def testCheckpoints(etat) :
     check = pygame.sprite.spritecollide(etat.get('joueur'), etat.get('checkpoints'), False)
     if len(check) > 0 :
         for point in check :
-            point.check = True
-            return point.position()
+             if point.check == False:
+                   son.sonCheckpoint()
+             point.check = True
+             return point.position()
     else :
         return None
 
