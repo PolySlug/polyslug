@@ -8,9 +8,12 @@ class Ennemi1(Ennemi):
 
     sprites = Sprites('img/p2_spritesheet.png')
 
-    arme = Arme1()
-
     vie = 20
+
+    def __init__(self, position) :
+
+        self.arme = Arme1()
+        super(Ennemi1, self).__init__(position)
 
     '''
     construireSprites

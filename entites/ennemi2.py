@@ -8,14 +8,18 @@ class Ennemi2(Ennemi):
 
     sprites = Sprites('img/p3_spritesheet.png')
 
-    arme = Arme1()
-
     vie = 20
+
+    def __init__(self, position) :
+
+        self.arme = Arme1()
+        super(Ennemi2, self).__init__(position)
 
     '''
     construireSprites
     '''
     def contruireSprites(self) :
+
 
         #images mouvement
         images = [
@@ -31,6 +35,7 @@ class Ennemi2(Ennemi):
             [(365, 0), (72, 97)],
             [(292, 98), (72, 97)],
         ]
+
 
         self.framesDroites = self.sprites.sprites(images)
         self.framesGauches = self.sprites.sprites(images, flipX = True)

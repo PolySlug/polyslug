@@ -1,4 +1,5 @@
 #-*- coding: utf-8 -*-
+
 from personnage          import Personnage
 from armes.arme2         import Arme2
 from armes.fusilPompe    import FusilPompe
@@ -6,18 +7,24 @@ from sons import son
 
 class Joueur(Personnage):
 
-    armes = [Arme2(), FusilPompe()]
-    arme  = 0
+    _armes = [Arme2(), FusilPompe()]
+    _arme  = 0
+    arme   = _armes[0]
 
     '''
     changerArme
     '''
     def changerArme(self) :
 
-        self.arme += 1
+        self.arme.kill()
 
-        if self.arme >= len(self.armes) :
-            self.arme = 0
+        self._arme += 1
+
+        if self._arme >= len(self._armes) :
+            self._arme = 0
+
+        self.arme = self._armes[self._arme]
+        return self.arme
 
     '''
     tirer
@@ -29,8 +36,17 @@ class Joueur(Personnage):
     @return {Liste}             Liste de projectiles renvoyés par l'arme
     '''
     def tirer(self, vecteur) :
-        return self.armes[self.arme].tirer(self.position(), vecteur)
-    
+        return self.arme.tirer(self.position(), vecteur)
+
+    def bougerArme(self, direction) :
+        self.arme.direction(direction)
+
+
+    '''
+    blessure
+
+    Aie
+    '''
     def blessure(self, vie):
         son.sonBlessureJoueur()
         super(Joueur, self).blessure(vie)

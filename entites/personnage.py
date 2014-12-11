@@ -120,7 +120,7 @@ class Personnage(Entite):
                     self.contact_sol = True
                     self.vitesse_y = 0 #on prend en compte la vitesse 0 pour calcul gravité
                 #sinon on ne prend pas en compte la collison du joueur avec la plateforme
-                    
+
 
             if self.vitesse_y < 0 : #si on se déplace vers le haut, on force le contact avec le bas
 
@@ -182,6 +182,17 @@ class Personnage(Entite):
             else :
                 self.image = self.imageRepos
 
+    def positionMain(self) :
+
+        position = self.position()
+
+        main = [0, 0]
+        main[0], main[1] = position[0], position[1]
+        main[1] += 70 if not self.accroupi else 50
+        main[0] += 6
+
+        return main
+
     '''
     update
 
@@ -193,6 +204,8 @@ class Personnage(Entite):
 
         self.calcul_X(niveau)
         self.calcul_Y(niveau)
+
+        self.arme.position(self.positionMain())
 
     '''
     deplacementX
@@ -244,10 +257,17 @@ class Personnage(Entite):
             self.contact_sol = False
             son.sonSaut()
 
+    '''
+    blessure
+
+    Supprimer l'arme des groupes auxquels elle appartient
+    Jouer son
+    Appeler super
+
+    @param {int}    vie
+    '''
     def blessure(self, vie):
         super(Personnage, self).blessure(vie)
-
         if self.vie <= 0 :
+            self.arme.kill()
             son.sonMort()
-
-
