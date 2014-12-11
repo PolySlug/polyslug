@@ -6,7 +6,7 @@ from lib.sprites import Sprites
 class Portail(pygame.sprite.Sprite) :
 
     sprite = Sprites("img/tiles_spritesheet.png")
-    image  = sprite.sprite((280, 280), (70, 70))
+    image  = sprite.sprite((292, 292), (70, 70))
 
     def __init__(self, position, suivant) :
 
