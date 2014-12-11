@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 
 import pygame
 from lib.sprites import Sprites

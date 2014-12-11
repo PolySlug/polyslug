@@ -14,7 +14,7 @@ class ArmeSinus(Arme) :
         self.sprites = Sprites('img/raygunPurple.png')
         self.image = self.imageDefaut = self.sprites.sprite((0,12), (56, 56))
 
-        super(Arme, self).__init__()
+        super(ArmeSinus, self).__init__()
 
     def tirer(self, position, vecteur) :
 
