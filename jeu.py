@@ -66,6 +66,7 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
 
     groupeJeu                   = creationGroupe(niveau['obstacles'] + niveau['ennemis'] \
                                     + niveau['checkpoints']\
+                                    + niveau['boss']
                                     + [joueur])
 
     #Création d'un calque dans lequel on va dessiner tout le niveau
@@ -101,6 +102,8 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
 
         #Le scroll horizontal du niveau
         decalageX = -joueur.rect.x + f_width / 2 if joueur.rect.x > f_width / 2 else 0
+
+        decalageX = 0 if decalageX > 0 else decalageX
 
         #Scroll vertical
         decalageY = -1 * (niveau.get('height') - f_height)
@@ -369,7 +372,6 @@ def testCollision(etat):
     pygame.sprite.groupcollide(etat.get('projectilesJoueur'), etat.get('murs'), True, False)
     pygame.sprite.groupcollide(etat.get('projectilesEnnemis'), etat.get('murs'), True, False)
 
-    #destruction des projectiles des ennemis en contact avec les obstacles
     pygame.sprite.groupcollide(etat.get('projectilesEnnemis'), etat.get('obstacles'), True, False)
 
     return

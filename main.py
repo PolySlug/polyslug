@@ -105,20 +105,9 @@ def lireScores() :
 
     print("SCORES")
 
-    tousScores = scores.lireScores()
+    tousScores = scores.lireScores(lesNiveaux)
 
-    for n in lesNiveaux :
-        scoresNiveau = [s for s in tousScores if s['niveau'] == n]
-
-        print('Niveau : ' + n)
-
-        if len(scoresNiveau) == 0 :
-            print("Pas de scores")
-        else :
-            for score in sorted(scoresNiveau, key = lambda score: score['temps']) : #On tri les scores
-                temps = datetime.datetime.fromtimestamp(score['temps']).strftime('%M:%S')
-                print(score['nom'] + ' : ' + temps)
-
+    print(tousScores)
 
 '''
 main
@@ -154,7 +143,7 @@ def main() :
                 print("Pas de niveau " + argv[1] + ". Essayer la commande `niveaux`")
                 n = None
         else : #defaut : premier niveau
-            n = 'menu' #TODO : temp
+            n = 'niveau1_6' #TODO : temp
 
         if n :
             niveau = construireNiveau('niveaux/' + n)
