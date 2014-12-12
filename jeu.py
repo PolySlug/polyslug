@@ -81,7 +81,8 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
     decalageX         = 0
     decalageY         = 0
     dernierCheckPoint = niveau['joueur'][0]  #la position du dernier checkpoint validé
-    tempsStart        = time.time()
+
+    tempsStart += time.time()
 
     viseur = Viseur()
 

@@ -48,7 +48,7 @@ def lancerJeu(niveau, temps = 0) :
         niveau = construireNiveau('niveaux/' + suivant)
         niveau['nom'] = suivant
 
-        lancerJeu(niveau, score)
+        lancerJeu(niveau, -score)
 
     else :
         enregisterScore(temps + score, nomNiveau)
