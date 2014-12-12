@@ -24,16 +24,19 @@ gestionJeu
 @param {Dictionnaire}   niveau
 @param {Liste}          niveau.murs                     Une liste d'instances de murs
 @param {Liste}          niveau.obstacles                Une liste d'instances d'obstacles
+@param {Liste}          niveau.plateformes              Une liste d'instances de plateformes
 @param {Liste}          niveau.ennemis                  Une liste d'instances d'ennemis
 @param {Ennemi}         niveau.boss                     Le boss (une instance d'ennemi).
                                                         Quand il meurt la partie est finie
 @param {Liste}          niveau.checkpoints              Une liste d'instances de checkpoints
+@param {Liste}          niveau.portails                 Une liste d'instances de portails
 @param {tuple}          niveau.joueur                   La position initiale du joueur
-@param {Int}            niveau.taille                   Longueur du niveau en px
+@param {Int}            niveau.width                    Longueur du niveau en px
+@param {Int}            niveau.height                   Hauteur du niveau en px
 
 @return {int}                                           Le score de la partie (timestamp)
 '''
-def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
+def gestionJeu(fenetre, niveau, tempsStart = 0):
 
     f_width, f_height = fenetre.get_width(), fenetre.get_height() #racourcis dimension fenêtre
 
@@ -66,10 +69,12 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
     groupeArmes                 = creationGroupeArmes(niveau, joueur) #toutes les armes
     groupeBords                 = creationGroupe(bords) #les bords de l'écran
 
-    groupeJeu                   = creationGroupe(niveau['obstacles'] + niveau['ennemis'] \
+    groupeJeu                   = creationGroupe(niveau['obstacles'] \
+                                    + niveau['ennemis'] \
                                     + niveau['checkpoints']\
-                                    + niveau['boss']
-                                    + [joueur])
+                                    + niveau['boss'] \
+                                    + [joueur] \
+                                )
 
     #Création d'un calque dans lequel on va dessiner tout le niveau
     calquePropre = pygame.Surface((niveau['width'], niveau['height']))
@@ -80,21 +85,21 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
     groupePortails.draw(calquePropre)
 
 
-    done              = False
+    done              = False                #si le niveau est terminé ou pas
+    dernierCheckPoint = niveau['joueur'][0]  #la position du dernier checkpoint validé
+    tempsStart += time.time()                #le temps au départ du niveau
+
+    #Gestion des scroll vertical et horizontal
     decalageX         = 0
     decalageY         = 0
-    dernierCheckPoint = niveau['joueur'][0]  #la position du dernier checkpoint validé
-
-    tempsStart += time.time()
 
     viseur = Viseur()
 
-    #Init du temps
+    #Init de la gestion du temps et des frames par pygame
     clock = pygame.time.Clock()
 
     #On récupère le système (Win/Mac/etc) pour les touches
     systeme = platform.system()
-
 
     #Boucle principale
     while not done :
@@ -107,7 +112,7 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
 
         decalageX = 0 if decalageX > 0 else decalageX
 
-        #Scroll vertical
+        #Le scroll vertical
         decalageY = -1 * (niveau.get('height') - f_height)
 
         if joueur.rect.y < -decalageY + f_height / 2 :
@@ -128,16 +133,18 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
 
         #Calcul de la direction du tir
         positionSouris = ecouteSouris()
-        positionmain = joueur.positionMain()
-        vecteur = (positionSouris[0] - decalageX - positionmain[0]-15, \
-                positionSouris[1] - decalageY - positionmain[1]+10)
+        positionmain   = joueur.positionMain()
+        vecteur = (
+            positionSouris[0] - decalageX - positionmain[0]-15,
+            positionSouris[1] - decalageY - positionmain[1]+10
+        )
+        #cf. arme/arme1.py
         #-15 et +10 viennent du fait que l'on a décalé les projectiles
         #(de +15 et -10) à leur création pour qu'ils sortent de l'arme
 
         joueur.bougerArme(vecteur)
 
         #Écoute des touches clavier
-
         for event in pygame.event.get() :
 
             #Fermeture fenêtre
@@ -236,7 +243,7 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
 
             #Bords de la fenêtre
             'bords':                bords
-            }
+        }
 
         #On update en passant les infos
         groupeJeu.update(etat)
@@ -250,14 +257,14 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
         #Test des collisions
         testCollision(etat)
 
-        #les checkpoints
+        #Les checkpoints pour sauvegarder la progression
         check = testCheckpoints(etat)
         if check :
-                #ne changer le checkpoint sauvegardé que si le nouveau est plus avancé
+            #ne changer le checkpoint sauvegardé que si le nouveau est plus avancé
             if dernierCheckPoint[0] < check[0] :
                 dernierCheckPoint = check
 
-        #les portails
+        #Les portails pour passer d'un niveau à un autre
         suivant = testPortails(etat)
         if suivant :
             done = True
@@ -274,7 +281,7 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
         afficherTemps(calque, time.time() - tempsStart, (f_width - decalageX - 70, 10 - decalageY))
         afficherVie(calque, joueur.vie, -decalageX, -decalageY)
 
-        #On insère le calque dans le fenêtre en fonction de decalageX
+        #On insère le calque dans le fenêtre en fonction de decalageX et decalageY
         fenetre.fill((0, 0, 0))
         fenetre.blit(calque, (decalageX, decalageY)) #on multiplie par 3, on a pas que ça à faire
 
@@ -283,6 +290,7 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
         clock.tick(30)
 
     return (time.time() - tempsStart, suivant)
+
 
 '''
 creationGroupe
@@ -320,9 +328,9 @@ def creationGroupeArmes(niveau, joueur) :
 '''
 creationBords
 
-@param  {int}   f_width
-@param  {int}   f_height
-@return {Liste}     Liste de bords en fonctin de la dimension de la fenêtre
+@param  {int}       f_width
+@param  {int}       f_height
+@return {Liste}     Liste de bords en fonction de la dimension de la fenêtre
 '''
 def creationBords(f_width, f_height) :
     return [
@@ -374,6 +382,7 @@ def testCollision(etat):
     pygame.sprite.groupcollide(etat.get('projectilesJoueur'), etat.get('murs'), True, False)
     pygame.sprite.groupcollide(etat.get('projectilesEnnemis'), etat.get('murs'), True, False)
 
+    #destruction des projectiles ennemis quand contact avec les obstacles
     pygame.sprite.groupcollide(etat.get('projectilesEnnemis'), etat.get('obstacles'), True, False)
 
     return
@@ -395,7 +404,6 @@ def testCheckpoints(etat) :
           return point.position()
     else :
       return None
-
 
 '''
 testPortails

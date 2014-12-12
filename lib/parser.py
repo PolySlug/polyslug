@@ -4,8 +4,17 @@ import json
 import importlib
 
 
+'''
+Parser
+
+Parse un export JSON de Tiled
+et couvertit les tiles qui ont des propriétés spéciales en entités du Jeu
+'''
+
+
+#Appartenance classe / groupe pour envoi final des données
 groupes  = {
-    'ennemis'     : ['Ennemi1', 'Ennemi2', 'Ennemi3', 'Ennemi4'], #  , 'Ennemi3', 'Ennemi4'],
+    'ennemis'     : ['Ennemi1', 'Ennemi2', 'Ennemi3', 'Ennemi4'],
     'murs'        : ['Mur', 'Plateforme'],
     'obstacles'   : ['Obstacle1', 'Obstacle2', 'Obstacle3'],
     'checkpoints' : ['Checkpoint'],
@@ -15,10 +24,16 @@ groupes  = {
 }
 
 
+#les entités de ces groupes sont dynamiques,
+#on ne leur passe pas d'image à découper
 dynamiques = ['ennemis', 'checkpoints', 'joueur', 'boss', 'obstacles']
 
 
+'''
+groupe
 
+@return {str|None}   le groupe de `classe` ou None
+'''
 def groupe(classe) :
 
     for k, v in groupes.items() :
@@ -28,10 +43,19 @@ def groupe(classe) :
     return None
 
 
+'''
+constructionTiles
+
+Pour chaque tile avec paramètres spéciaux,
+construire leur propriétés
+
+@param {dict}   data    L'export JSON de Tiled
+'''
 def constructionTiles(data) :
 
     tiles = {}
 
+    #Pour toutes les png
     for tileset in data['tilesets'] :
 
         setId = tileset['firstgid']
@@ -71,6 +95,7 @@ def constructionTiles(data) :
                     nom = None
 
 
+                #on en déduit les paramètres du tile
                 tiles[id] = {
                     'image' : image,
                     'rect'  : {
@@ -92,12 +117,25 @@ def constructionTiles(data) :
     return tiles
 
 
+'''
+recupererCalquePrincipal
+
+@param  {dict}   data    l'export de JSON de Tiled
+@return {dict}           l'extrait du JSON correpondant au calque 'principal'
+'''
 def recupererCalquePrincipal(data) :
 
     for l in data['layers'] :
         if l['name'] in ['Principal', 'principal'] :
             return l
 
+'''
+importClass
+
+@param  {str}   groupe  Le groupe de la sprite
+@param  {str}   classe  Le nom de la classe
+return  {Class}         Une classe issue des modules d'entités, checkpoint, etc.
+'''
 def importClass(groupe, classe):
 
     if groupe not in ['ennemis', 'obstacles', 'boss', 'murs', 'joueur'] :
@@ -108,8 +146,17 @@ def importClass(groupe, classe):
     return getattr(module, classe)
 
 
+'''
+construction
+
+@param  {dict}  calque      Le calque de travail (principal)
+@param  {dict}  tiles       Les infos sur les tiles construites par constructionTiles()
+@param  {int}   tileWidth
+@param  {int}   tileHeight
+'''
 def construction(calque, tiles, tileWidth, tileHeight):
 
+    #L'objet à retourner
     niveau = {
         'murs':        [],
         'obstacles':   [],
@@ -126,26 +173,27 @@ def construction(calque, tiles, tileWidth, tileHeight):
     layerWidth  = calque['width']
     layerHeight = calque['height']
 
-
+    #Pour chaque case de la grille
     for index, item in enumerate(calque['data']) :
 
+        #Si c'est un tile connu
         if item != 0 and item in tiles:
 
             tile   = tiles[item]
             groupe = tile['groupe']
             classe = tile['classe']
 
+            #On calcul la position du tile dans la grille
             i = (index % layerWidth) * tileWidth
             j = (index // layerWidth) * tileHeight
 
+            #On instancie les entités
             if groupe in niveau :
 
                 if classe == "Joueur" :
                     instance = (i,j)
                 elif classe == "Portail" :
                     instance = importClass(groupe, classe)((i,j), tile['suivant'], tile['nom'])
-                elif classe == "boss" :
-                    instance =  (i,j)
                 elif groupe in dynamiques :
                     instance = importClass(groupe, classe)((i,j))
                 else :
@@ -156,6 +204,14 @@ def construction(calque, tiles, tileWidth, tileHeight):
     return niveau
 
 
+'''
+genererNiveau
+
+Parse le fichier JSON exporté par Tiled
+
+@param  {str} fichier  Le fichier contenant le JSON
+@return {dict}         Une structure de niveau
+'''
 def genererNiveau(fichier) :
 
     print("Construction niveau :")

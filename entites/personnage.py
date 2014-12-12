@@ -54,7 +54,8 @@ class Personnage(Entite):
     '''
     def contruireSprites(self) :
 
-        #images mouvement
+        #images mouvement par défaut
+        #(images du joueur)
         images = [
             [(0, 0), (72, 97)],
             [(73, 0), (72, 97)],
@@ -95,38 +96,35 @@ class Personnage(Entite):
             else:
                 self.vitesse_y += 0.35 #PFD
 
-        #Si on touche le sol
-        #'''
-        if self.rect.bottom >= niveau['height']:
-                self.vitesse_y = self.vitesse_y/5 + 1 #on reduit pour faire comme si on coulait
-        if self.rect.bottom >= (niveau['height']+ 100):
-            self.blessure(1000)#l'entite meurt        
-        '''
-        if self.rect.bottom >= niveau['height']:
-            if self.vitesse_y > 0 :   # on ne peut pas descendre plus bas
-                self.vitesse_y = 0
+        #finalement, on ne stope pas le joueur au contact du bas de la fenêtre
+        #if self.rect.bottom >= niveau['height']:
+        #    if self.vitesse_y > 0 :   # on ne peut pas descendre plus bas
+        #        self.vitesse_y = 0
 
-            #self.rect.y = niveau['height'] - self.rect.height #on force à ne pas dépasser le sol
-            self.rect.bottom = niveau['height']
-            self.contact_sol = True
-        #'''
+        #    #self.rect.y = niveau['height'] - self.rect.height #on force à ne pas dépasser le sol
+        #    self.rect.bottom = niveau['height']
+        #    self.contact_sol = True
+
+        #Si on touche le bas de la fenêtre
+        if self.rect.bottom >= niveau['height']:
+            self.vitesse_y = self.vitesse_y/5 + 1 #on reduit pour faire comme si on coulait
+        if self.rect.bottom >= (niveau['height']+ 100):
+            self.blessure(1000)#l'entite meurt
+
         self.rect.y += self.vitesse_y
-            
+
         #si on touche quelque chose en chemin
         for collision in collisions(self, niveau) :
 
             if self.vitesse_y > 0 : #si on se déplace en bas, on force le contact avec le haut
-                if collision.plateforme == False:# pour les elements qui ne sont pas des plateformes
-                    self.rect.bottom = collision.rect.top
-                    self.contact_sol = True
-                    self.vitesse_y = 0 #on prend en compte la vitesse 0 pour calcul gravité
-                elif collision.plateforme == True and self.rect.bottom <= collision.rect.bottom:
-                    #pour les plateformes ou les pieds du joueur son au moins au dessus du bas de la plateforme
-                    self.rect.bottom = collision.rect.top
-                    self.contact_sol = True
-                    self.vitesse_y = 0 #on prend en compte la vitesse 0 pour calcul gravité
-                #sinon on ne prend pas en compte la collison du joueur avec la plateforme
 
+                #pour les elements qui ne sont pas des plateformes
+                #ou les plateformes si on est au dessus (on peut monter par dessous)
+                if (collision.plateforme == False
+                    or (collision.plateforme == True and self.rect.bottom <= collision.rect.bottom)) :
+                    self.rect.bottom = collision.rect.top
+                    self.contact_sol = True
+                    self.vitesse_y = 0 #on prend en compte la vitesse 0 pour calcul gravité
 
             if self.vitesse_y < 0 : #si on se déplace vers le haut, on force le contact avec le bas
 
@@ -188,6 +186,11 @@ class Personnage(Entite):
             else :
                 self.image = self.imageRepos
 
+    '''
+    positionMain
+
+    @return {tup}   La position de la main
+    '''
     def positionMain(self) :
 
         position = self.position()

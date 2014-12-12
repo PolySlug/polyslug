@@ -11,22 +11,41 @@ from lib.scores  import Scores
 from niveaux.niveau import construireNiveau
 
 
-lesNiveaux = ['niveau1']
+'''
+lesNiveaux
+
+Le jeu peut gérer plusieurs niveaux.
+Un niveau est découpé en sous-niveaux
+
+@example :
+    - niveau1
+        - niveau1
+        - niveau1_1
+        - niveau1_2
+
+Les sous-niveaux sont créés avec Tiled et exporté en json qu'on parse
+@see http://www.mapeditor.org/
+
+'''
+lesNiveaux = ['niveau1', 'scores', 'menu']
 
 #Notre DB de scores (veiller à ce que le fichier existe, même vide)
 scores = Scores('scores.json')
+
 
 pygame.init()
 pygame.font.init()
 font = pygame.font.Font(None, 28) #defaut
 
+
 f_width, f_height = 800, 600
 img_chargement = pygame.image.load('img/chargement.png')
+
 
 '''
 lancerJeu
 
-Lance un niveau
+Lance un sous-niveau
 
 @param  {Module}    niveau
 @param  {String}    nomNiveau   Le nom de niveau pour l'enregistrement du score
@@ -34,7 +53,8 @@ Lance un niveau
 '''
 def lancerJeu(niveau, nomNiveau = None, temps = 0) :
 
-    nomNiveau = niveau['nom']
+    if not nomNiveau :
+        nomNiveau = niveau['nom']
 
     print("Niveau : " + nomNiveau)
 
@@ -42,9 +62,8 @@ def lancerJeu(niveau, nomNiveau = None, temps = 0) :
 
     score, suivant = gestionJeu(fenetre, niveau, temps)
 
+    #Si il y a une suite au sous-niveau
     if suivant :
-
-        del niveau #FIXME : ça fait quelque chose ?
 
         ecranChargement(fenetre)
         print("Niveau suivant : " + suivant)
@@ -53,17 +72,19 @@ def lancerJeu(niveau, nomNiveau = None, temps = 0) :
 
         lancerJeu(niveau, nomNiveau, -score)
 
+    #Niveau fini
     else :
         enregisterScore(temps + score, nomNiveau)
 
 
 '''
 ecranChargement
+
+@param {pygame.Surface}  fenetre
 '''
 def ecranChargement(fenetre) :
 
     fenetre.blit(img_chargement, (0,0))
-
     pygame.display.flip()
 
 
@@ -106,20 +127,18 @@ def lireScores() :
     print("SCORES")
 
     tousScores = scores.lireScores(lesNiveaux)
-
     print(tousScores)
 
 '''
 main
 
 Différentes options :
-- scores : affiche les scores
-- niveaux : afficher les niveaux dispo
+- scores : affiche les scores dans la console
+- niveaux : afficher les niveaux dispo dans la console
 - [nomNiveau] ou vide : lance le niveau nomNiveau ou le premier niveau par défaut
 '''
 def main() :
 
-    pygame.mouse.set_visible(False)
 
     if 'scores' in argv : #l'utilisateur veut simplement consulter les scores
         lireScores()
@@ -133,22 +152,21 @@ def main() :
 
     else : #l'utilisateur veut jouer
 
+        pygame.mouse.set_visible(False)
         fenetre = pygame.display.set_mode((f_width, f_height))
         ecranChargement(fenetre)
 
-        if len(argv) > 1 :              #on veut un niveau en particulier
-            if argv[1] in lesNiveaux :
-                n = argv[1]
-            else : #on a pas ce niveau en stock
-                print("Pas de niveau " + argv[1] + ". Essayer la commande `niveaux`")
-                n = None
-        else : #defaut : premier niveau
-            n = 'menu' #TODO : temp
+        if len(argv) > 1 :  #on veut un niveau en particulier
+            n = argv[1]
+        else :              #defaut : menu
+            n = 'menu'
 
         if n :
             niveau = construireNiveau('niveaux/' + n)
-            niveau['nom'] = n
-
-            lancerJeu(niveau, n)
+            if niveau :
+                niveau['nom'] = n
+                lancerJeu(niveau, n)
+            else :
+                print("Erreur avec le niveau demandé")
 
 main()

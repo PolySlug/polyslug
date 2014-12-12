@@ -31,14 +31,14 @@ class Scores():
         texte.write(json.dumps(score, ensure_ascii=False)+'\n')
 
     '''
-    lireScores
+    lireLignes
 
     pour chaque ligne du fichier, parser le JSON (un JSON = un score)
     mettre tous les scores dans un joli tableau qu'on retourne
 
     @return  {liste}    liste de dictionnaires
     '''
-    def lireScores(self):
+    def lireLignes(self):
         texte = open(self.fichier, 'r' )
 
         result = []
@@ -46,4 +46,32 @@ class Scores():
             result.append(json.loads(line))
 
         texte.close()
+        return result
+
+
+    '''
+    lireScores
+
+    @param  {Liste}  lesNiveaux  Liste des niveaux
+    @return {dict}              les scores ordonnés par niveau et par temps
+    '''
+    def lireScores(self, lesNiveaux) :
+
+        tousScores = self.lireScores()
+
+        result = {}
+
+        for n in lesNiveaux :
+            scoresNiveau = [s for s in tousScores if s['niveau'] == n]
+
+            result['n'] = []
+
+            if len(scoresNiveau) == 0 :
+                print("Pas de scores")
+            else :
+                for score in sorted(scoresNiveau, key = lambda score: score['temps']) : #On tri les scores
+                    temps = datetime.datetime.fromtimestamp(score['temps']).strftime('%M:%S')
+
+                    result['n'].append(score['nom'] + ' : ' + temps)
+
         return result

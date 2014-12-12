@@ -1,6 +1,13 @@
-
+#-*- coding: utf-8 -*-
 import math
 
+'''
+angleVecteurs
+
+@param  {tup}   v1
+@param  {tup}   v2
+@return {float}     angle entre les deux vecteurs en degrés
+'''
 def angleVecteurs (v1, v2) :
 
     x1, y1 = v1
