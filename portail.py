@@ -5,10 +5,20 @@ from lib.sprites import Sprites
 
 class Portail(pygame.sprite.Sprite) :
 
-    sprite = Sprites("img/tiles_spritesheet.png")
-    image  = sprite.sprite((292, 292), (70, 70))
+    def __init__(self, position, suivant, nom) :
 
-    def __init__(self, position, suivant) :
+        if nom == "jouer" :
+            self.image  = pygame.image.load('img/portail_jouer.png')
+        elif nom == "score" :
+            self.image  = pygame.image.load('img/portail_score.png')
+        elif nom == "credit" :
+            self.image  = pygame.image.load('img/portail_credit.png')
+        elif nom == "exit" :
+            self.image  = pygame.image.load('img/signExit.png')
+        elif nom == "flecheDroite":
+            self.image  = pygame.image.load('img/signRight.png')
+        else:
+            self.image  = pygame.image.load('img/signLeft.png')
 
         pygame.sprite.Sprite.__init__(self)
 

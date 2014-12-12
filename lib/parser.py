@@ -65,6 +65,11 @@ def constructionTiles(data) :
                 else:
                     suivant = None
 
+                if 'nom' in val :
+                    nom = val['nom']
+                else:
+                    nom = None
+
 
                 tiles[id] = {
                     'image' : image,
@@ -76,7 +81,8 @@ def constructionTiles(data) :
                         },
                     'classe'  : classe,
                     'groupe'  : groupe(classe),
-                    'suivant' : suivant
+                    'suivant' : suivant,
+                    'nom'     : nom
                 }
 
 
@@ -137,7 +143,7 @@ def construction(calque, tiles, tileWidth, tileHeight):
                 if classe == "Joueur" :
                     instance = (i,j)
                 elif classe == "Portail" :
-                    instance = importClass(groupe, classe)((i,j), tile['suivant'])
+                    instance = importClass(groupe, classe)((i,j), tile['suivant'], tile['nom'])
                 elif classe == "boss" :
                     instance =  (i,j)
                 elif groupe in dynamiques :

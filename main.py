@@ -43,8 +43,9 @@ def lancerJeu(niveau, nomNiveau = None, temps = 0) :
     score, suivant = gestionJeu(fenetre, niveau, temps)
 
     if suivant :
-        
-        del niveau
+
+        del niveau #FIXME : ça fait quelque chose ?
+
         ecranChargement(fenetre)
         print("Niveau suivant : " + suivant)
         niveau = construireNiveau('niveaux/' + suivant)
