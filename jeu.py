@@ -102,6 +102,8 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
         #Le scroll horizontal du niveau
         decalageX = -joueur.rect.x + f_width / 2 if joueur.rect.x > f_width / 2 else 0
 
+        decalageX = 0 if decalageX > 0 else decalageX
+
         #Scroll vertical
         decalageY = -1 * (niveau.get('height') - f_height)
 
@@ -305,7 +307,7 @@ def creationGroupeArmes(niveau, joueur) :
 
     ent = niveau['ennemis'] + [joueur]
     if len(niveau['boss']) > 0 :
-        ent += niveau['boss']
+        ent += niveau['boss'][0]
 
     for item in ent :
         groupe.add(item.arme)
