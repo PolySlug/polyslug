@@ -369,6 +369,9 @@ def testCollision(etat):
     pygame.sprite.groupcollide(etat.get('projectilesJoueur'), etat.get('murs'), True, False)
     pygame.sprite.groupcollide(etat.get('projectilesEnnemis'), etat.get('murs'), True, False)
 
+    #destruction des projectiles des ennemis en contact avec les obstacles
+    pygame.sprite.groupcollide(etat.get('projectilesEnnemis'), etat.get('obstacles'), True, False)
+
     return
 
 '''
@@ -388,7 +391,7 @@ def testCheckpoints(etat) :
           return point.position()
     else :
       return None
-    
+
 
 '''
 testPortails
