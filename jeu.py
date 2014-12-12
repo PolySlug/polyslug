@@ -48,7 +48,7 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
 
     boss = None
     if len(niveau['boss']) > 0 :
-        boss = niveau['boss']
+        boss = niveau['boss'][0]
 
     niveau['ennemi'] = niveau['ennemis'] + niveau['boss']
 
