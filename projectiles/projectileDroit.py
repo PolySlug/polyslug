@@ -8,7 +8,7 @@ from projectile import Projectile
 class ProjectileDroit(Projectile):
 
     dommage = 3
-    multi   = 3
+    multi   = 8
 
     def __init__(self, position, vecteur):
         super(ProjectileDroit, self).__init__(position, vecteur)

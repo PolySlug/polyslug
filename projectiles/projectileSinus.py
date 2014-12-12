@@ -8,8 +8,8 @@ import math
 
 class ProjectileSinus(Projectile):
 
-    dommage = 1
-    multi   = 3
+    dommage = 3
+    multi   = 5
 
     def __init__(self, position, vecteur):
         super(ProjectileSinus, self).__init__(position, vecteur)

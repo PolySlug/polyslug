@@ -33,9 +33,9 @@ class Projectile(pygame.sprite.Sprite):
         norme = math.sqrt(vx*vx + vy*vy)
 
         if norme == 0 :
-          self.vitesse = [2, 2]
+            self.vitesse = [2, 2]
         else :
-          self.vitesse = [float(vx) / norme, float(vy) / norme]
+            self.vitesse = [float(vx) / norme, float(vy) / norme]
 
     '''
     update
