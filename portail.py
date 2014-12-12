@@ -7,8 +7,6 @@ class Portail(pygame.sprite.Sprite) :
 
     def __init__(self, position, suivant, nom) :
 
-        print(nom)
-
         if nom == "jouer" :
             self.image  = pygame.image.load('img/portail_jouer.png')
         elif nom == "score" :

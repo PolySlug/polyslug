@@ -107,6 +107,7 @@
              "0":
                 {
                  "class":"Portail",
+                 "nom":"jouer",
                  "suivant":"niveau1"
                 }
             },
@@ -130,6 +131,7 @@
              "0":
                 {
                  "class":"Portail",
+                 "nom":"score",
                  "suivant":"score"
                 }
             },
@@ -153,6 +155,7 @@
              "0":
                 {
                  "class":"Portail",
+                 "nom":"credit",
                  "suivant":"credit"
                 }
             },
