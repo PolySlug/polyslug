@@ -5,7 +5,7 @@ import importlib
 
 
 groupes  = {
-    'ennemis'     : ['Ennemi1', 'Ennemi2'], #  , 'Ennemi3', 'Ennemi4'],
+    'ennemis'     : ['Ennemi1', 'Ennemi2', 'Ennemi3', 'Ennemi4'], #  , 'Ennemi3', 'Ennemi4'],
     'murs'        : ['Mur', 'Plateforme'],
     'obstacles'   : ['Obstacle1', 'Obstacle2', 'Obstacle3'],
     'checkpoints' : ['Checkpoint'],
@@ -79,8 +79,6 @@ def constructionTiles(data) :
                     'suivant' : suivant
                 }
 
-                if classe == "Plateforme" :
-                    print(tiles[id])
 
     #with open('lib/data.json', 'w') as outfile:
         #json.dump(tiles, outfile)

@@ -4,16 +4,16 @@ from ennemi      import Ennemi
 from lib.sprites import Sprites
 from armes.armeSinus import ArmeSinus
 
-class Ennemi1(Ennemi):
+class Ennemi3(Ennemi):
 
-    sprites = Sprites('img/p2_spritesheet.png')
+    sprites = Sprites('img/p4_spritesheet.png')
 
     vie = 20
 
     def __init__(self, position) :
 
         self.arme = ArmeSinus()
-        super(Ennemi1, self).__init__(position)
+        super(Ennemi3, self).__init__(position)
 
     '''
     construireSprites
