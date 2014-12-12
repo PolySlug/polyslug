@@ -66,6 +66,7 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
 
     groupeJeu                   = creationGroupe(niveau['obstacles'] + niveau['ennemis'] \
                                     + niveau['checkpoints']\
+                                    + niveau['boss']
                                     + [joueur])
 
     #Création d'un calque dans lequel on va dessiner tout le niveau
@@ -307,7 +308,7 @@ def creationGroupeArmes(niveau, joueur) :
 
     ent = niveau['ennemis'] + [joueur]
     if len(niveau['boss']) > 0 :
-        ent += niveau['boss'][0]
+        ent += niveau['boss']
 
     for item in ent :
         groupe.add(item.arme)
@@ -371,7 +372,6 @@ def testCollision(etat):
     pygame.sprite.groupcollide(etat.get('projectilesJoueur'), etat.get('murs'), True, False)
     pygame.sprite.groupcollide(etat.get('projectilesEnnemis'), etat.get('murs'), True, False)
 
-    #destruction des projectiles des ennemis en contact avec les obstacles
     pygame.sprite.groupcollide(etat.get('projectilesEnnemis'), etat.get('obstacles'), True, False)
 
     return
