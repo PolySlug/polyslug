@@ -7,7 +7,7 @@ from projectiles.projectileSinusVert import ProjectileSinusVert
 
 class ArmeSinus(Arme) :
 
-    delai = 250
+    delai = 500
 
     def __init__(self):
 

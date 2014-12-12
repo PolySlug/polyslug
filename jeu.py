@@ -379,13 +379,16 @@ Test si le joueur est sur un checkpoint
 @return {tuple | None}  Position du checkpoint ou None
 '''
 def testCheckpoints(etat) :
-    check = pygame.sprite.spritecollide(etat.get('joueur'), etat.get('checkpoints'), False)
+    check = pygame.sprite.spritecollide(etat['joueur'], etat['checkpoints'], False)
     if len(check) > 0 :
-        for point in check :
-            point.check = True
-            return point.position()
+      for point in check :
+          if point.check == False:
+                 son.sonCheckpoint()
+          point.check = True
+          return point.position()
     else :
-        return None
+      return None
+    
 
 '''
 testPortails
