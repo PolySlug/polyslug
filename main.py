@@ -133,6 +133,8 @@ Différentes options :
 '''
 def main() :
 
+    pygame.mouse.set_visible(False)
+
     if 'scores' in argv : #l'utilisateur veut simplement consulter les scores
         lireScores()
 
