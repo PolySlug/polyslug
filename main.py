@@ -143,7 +143,7 @@ def main() :
                 print("Pas de niveau " + argv[1] + ". Essayer la commande `niveaux`")
                 n = None
         else : #defaut : premier niveau
-            n = 'niveau1_6' #TODO : temp
+            n = 'menu' #TODO : temp
 
         if n :
             niveau = construireNiveau('niveaux/' + n)
