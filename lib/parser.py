@@ -7,14 +7,16 @@ import importlib
 groupes  = {
     'ennemis'     : ['Ennemi1', 'Ennemi2'], #  , 'Ennemi3', 'Ennemi4'],
     'murs'        : ['Mur', 'Plateforme'],
-    'obstacles'   : ['Obstacles'],
+    'obstacles'   : ['Obstacle1', 'Obstacle2', 'Obstacle3'],
     'checkpoints' : ['Checkpoint'],
     'portails'    : ['Portail'],
     'joueur'      : ['Joueur'],
     'boss'        : ['Boss']
 }
 
-dynamiques = ['ennemis', 'checkpoints', 'joueur','boss']
+
+dynamiques = ['ennemis', 'checkpoints', 'joueur', 'boss', 'obstacles']
+
 
 
 def groupe(classe) :
@@ -63,6 +65,7 @@ def constructionTiles(data) :
                 else:
                     suivant = None
 
+
                 tiles[id] = {
                     'image' : image,
                     'rect'  : {
@@ -75,6 +78,9 @@ def constructionTiles(data) :
                     'groupe'  : groupe(classe),
                     'suivant' : suivant
                 }
+
+                if classe == "Plateforme" :
+                    print(tiles[id])
 
     #with open('lib/data.json', 'w') as outfile:
         #json.dump(tiles, outfile)
@@ -90,7 +96,7 @@ def recupererCalquePrincipal(data) :
 
 def importClass(groupe, classe):
 
-    if groupe not in ['ennemis', 'obstacles','boss', 'murs', 'joueur'] :
+    if groupe not in ['ennemis', 'obstacles', 'boss', 'murs', 'joueur'] :
         module = importlib.import_module(classe.lower())
     else :
         module = importlib.import_module('entites.' + classe.lower())
