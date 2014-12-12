@@ -21,6 +21,7 @@ pygame.font.init()
 font = pygame.font.Font(None, 28) #defaut
 
 f_width, f_height = 800, 600
+img_chargement = pygame.image.load('img/chargement.png')
 
 '''
 lancerJeu
@@ -54,21 +55,15 @@ def lancerJeu(niveau, nomNiveau = None, temps = 0) :
     else :
         enregisterScore(temps + score, nomNiveau)
 
-    
+
 '''
 ecranChargement
 '''
 def ecranChargement(fenetre) :
 
-    fenetre.fill((20, 40, 60))
-
-    #FIXME : pas de texte à l'écran. Why ? cf. jeu.py où tout ce passe bien
-    label = font.render("Chargement", 1, (255, 255, 255), (255, 0, 0))
-    label.blit(fenetre, (0, 0))
+    fenetre.blit(img_chargement, (0,0))
 
     pygame.display.flip()
-    
-    del label
 
 
 '''
