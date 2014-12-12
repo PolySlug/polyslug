@@ -70,7 +70,7 @@ class FusilPompe(Arme) :
             projectiles = []
 
             for direction in tirs :
-                projectiles.append(ProjectileDroitRouge(position, direction))
+                projectiles.append(ProjectileDroitRouge((position[0]+30*((2*self.angle)/(1+self.angle*self.angle)), position[1]+20+30*((1-self.angle*self.angle)/(1+self.angle*self.angle))), direction)) #cf arme1
 
             return projectiles
 
