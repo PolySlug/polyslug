@@ -12,7 +12,7 @@ class Ennemi1(Ennemi):
 
     def __init__(self, position) :
 
-        self.arme = Arme1()
+        self.arme = FusilPompe()
         super(Ennemi1, self).__init__(position)
 
     '''
