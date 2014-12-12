@@ -4,16 +4,16 @@ from ennemi      import Ennemi
 from lib.sprites import Sprites
 from armes.fusilPompe import FusilPompe
 
-class Ennemi1(Ennemi):
+class Ennemi4(Ennemi):
 
-    sprites = Sprites('img/p2_spritesheet.png')
+    sprites = Sprites('img/p5_spritesheet.png')
 
     vie = 20
 
     def __init__(self, position) :
 
-        self.arme = Arme1()
-        super(Ennemi1, self).__init__(position)
+        self.arme = FusilPompe()
+        super(Ennemi4, self).__init__(position)
 
     '''
     construireSprites
@@ -22,17 +22,17 @@ class Ennemi1(Ennemi):
 
         #images mouvement
         images = [
-            [(0, 0), (70, 94)],
-            [(71, 0), (70, 94)],
-            [(142, 0), (70, 94)],
-            [(0, 95), (70, 94)],
-            [(71, 95), (70, 94)],
-            [(142, 95), (70, 94)],
-            [(213, 0), (70, 94)],
-            [(284, 0), (70, 94)],
-            [(213, 95), (70, 94)],
-            [(355, 0), (70, 94)],
-            [(284, 95), (70, 94)],
+            [(0, 0), (72, 97)],
+            [(73, 0), (72, 97)],
+            [(146, 0), (72, 97)],
+            [(0, 98), (72, 97)],
+            [(73, 98), (72, 97)],
+            [(146, 98), (72, 97)],
+            [(219, 0), (72, 97)],
+            [(292, 0), (72, 97)],
+            [(219, 98), (72, 97)],
+            [(365, 0), (72, 97)],
+            [(292, 98), (72, 97)],
         ]
 
         self.framesDroites = self.sprites.sprites(images)
