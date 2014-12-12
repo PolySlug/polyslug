@@ -3,11 +3,14 @@
 from obstacle import Obstacle
 from lib.sprites import Sprites
 
-#test
-class ObstacleTest(Obstacle):
+class Obstacle2(Obstacle):
 
     sprites = Sprites('img/tiles_spritesheet.png')
-    image   = sprites.sprite((648, 144), (72, 72))
+
+    imageVie = sprites.sprite((504, 144), (72, 72))
+    imageDegats = sprites.sprite((648, 76), (72, 72))
+
+    image = imageVie
 
     '''
     update
@@ -16,6 +19,6 @@ class ObstacleTest(Obstacle):
     '''
     def update(self, *args):
         if self.vie > 5 :
-            self.image = self.sprites.sprite((504, 144), (72, 72))
+            self.image = self.imageVie
         else :
-            self.image = self.sprites.sprite((648, 144), (72, 72))
+            self.image = self.imageDegats

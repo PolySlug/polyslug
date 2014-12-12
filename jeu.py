@@ -48,7 +48,7 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
 
     boss = None
     if len(niveau['boss']) > 0 :
-        boss = niveau['boss']
+        boss = niveau['boss'][0]
 
     niveau['ennemi'] = niveau['ennemis'] + niveau['boss']
 
@@ -81,7 +81,8 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
     decalageX         = 0
     decalageY         = 0
     dernierCheckPoint = niveau['joueur'][0]  #la position du dernier checkpoint validé
-    tempsStart        = time.time()
+
+    tempsStart += time.time()
 
     viseur = Viseur()
 
@@ -274,7 +275,7 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
 
         pygame.display.flip()
 
-        clock.tick(60)
+        clock.tick(30)
 
     return (time.time() - tempsStart, suivant)
 

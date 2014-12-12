@@ -29,7 +29,7 @@ class Personnage(Entite):
     courir    = False   #True si le joueur cours
     accroupi  = False
 
-    multiCourse = 3     #vitesse de deplacementX (marcher/courir)
+    multiCourse = 10     #vitesse de deplacementX (marcher/courir)
 
     contact_sol = False #utile pour savoir si on peut sauter ou pas
 
@@ -233,7 +233,7 @@ class Personnage(Entite):
     def vitesseCourse(self, courir) :
 
         self.courir = courir
-        self.multiCourse = 3 if not self.courir else 6
+        self.multiCourse = 6 if not self.courir else 12
 
     '''
     seBaisser

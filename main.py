@@ -29,8 +29,9 @@ Lance un niveau
 
 @param  {Module}    niveau
 @param  {String}    nomNiveau   Le nom de niveau pour l'enregistrement du score
+@param  {foat}      temps       timestamp. Score du sous-niveau précédent
 '''
-def lancerJeu(niveau, temps = 0) :
+def lancerJeu(niveau, nomNiveau = None, temps = 0) :
 
     nomNiveau = niveau['nom']
 
@@ -41,19 +42,19 @@ def lancerJeu(niveau, temps = 0) :
     score, suivant = gestionJeu(fenetre, niveau, temps)
 
     if suivant :
-
+        
+        del niveau
         ecranChargement(fenetre)
-
         print("Niveau suivant : " + suivant)
         niveau = construireNiveau('niveaux/' + suivant)
         niveau['nom'] = suivant
 
-        lancerJeu(niveau, score)
+        lancerJeu(niveau, nomNiveau, -score)
 
     else :
         enregisterScore(temps + score, nomNiveau)
 
-
+    
 '''
 ecranChargement
 '''
@@ -66,7 +67,8 @@ def ecranChargement(fenetre) :
     label.blit(fenetre, (0, 0))
 
     pygame.display.flip()
-
+    
+    del label
 
 
 '''
@@ -154,12 +156,12 @@ def main() :
                 print("Pas de niveau " + argv[1] + ". Essayer la commande `niveaux`")
                 n = None
         else : #defaut : premier niveau
-            n = 'niveau1' #TODO : temp
+            n = 'menu' #TODO : temp
 
         if n :
             niveau = construireNiveau('niveaux/' + n)
             niveau['nom'] = n
 
-            lancerJeu(niveau)
+            lancerJeu(niveau, n)
 
 main()
