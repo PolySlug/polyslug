@@ -4,7 +4,7 @@ from obstacle import Obstacle
 from lib.sprites import Sprites
 
 #test
-class ObstacleTest(Obstacle):
+class Obstacle1(Obstacle):
 
     sprites = Sprites('img/tiles_spritesheet.png')
 

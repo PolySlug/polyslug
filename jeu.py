@@ -275,7 +275,7 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
 
         pygame.display.flip()
 
-        clock.tick(60)
+        clock.tick(30)
 
     return (time.time() - tempsStart, suivant)
 

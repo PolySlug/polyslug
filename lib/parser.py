@@ -14,7 +14,9 @@ groupes  = {
     'boss'        : ['Boss']
 }
 
-dynamiques = ['ennemis', 'checkpoints', 'joueur', 'boss', 'checkpoints', 'obstacles']
+
+dynamiques = ['ennemis', 'checkpoints', 'joueur', 'boss', 'obstacles']
+
 
 
 def groupe(classe) :
