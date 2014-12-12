@@ -46,11 +46,13 @@ def gestionJeu(fenetre, niveau, tempsStart = 0): #TODO : update doc
     #le joueur
     joueur = Joueur(niveau['joueur'][0])
 
+    #le boss
+    #il y a un boss que dans le dernier niveau
     boss = None
     if len(niveau['boss']) > 0 :
         boss = niveau['boss'][0]
 
-    niveau['ennemi'] = niveau['ennemis'] + niveau['boss']
+    niveau['ennemis'] = niveau['ennemis'] + niveau['boss']
 
     #Création des groupes de sprites
     groupeMurs                  = creationGroupe(niveau['murs'])
